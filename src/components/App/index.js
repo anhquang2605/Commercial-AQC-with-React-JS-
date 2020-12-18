@@ -1,6 +1,6 @@
 import React from 'react';
-
-class App extends Components {
+import Header from '../Header';
+class App extends React.Component {
     constructor(props){
         super(props);
     }
@@ -8,7 +8,10 @@ class App extends Components {
         return(
             <div>
                 <h1>Commercial website</h1>
+                <Header/>
             </div>
         )
     }
 } 
+
+export default App;
