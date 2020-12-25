@@ -3,9 +3,12 @@ import NavBar from '../NavBar';
 import SearchBar from '../SearchBar';
 import Logo from '../Logo';
 import * as ROUTES from '../../Constants/Routes'
-class Header extends React.Component{
+class Navigator extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            routes: ROUTES
+        }
     }
     render() {
         return(
@@ -17,4 +20,4 @@ class Header extends React.Component{
         )
     }
 }
-export default Header;
+export default Navigator;

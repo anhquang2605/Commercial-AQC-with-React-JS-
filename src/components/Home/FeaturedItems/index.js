@@ -1,5 +1,5 @@
 import React from 'react';
-import OrderWidget from '../OrderWidget';
+import OrderWidget from '../../OrderWidget';
 class FeaturedItems extends React.Component{
     constructor(props){
         super(props);
