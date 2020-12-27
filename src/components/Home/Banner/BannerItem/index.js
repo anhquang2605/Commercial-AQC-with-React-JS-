@@ -10,6 +10,7 @@ class BannerItem extends React.Component{
             type: this.props.type,
             specification: this.props.specification,
             discount: this.props.discount ,
+            width: this.props.width,
             queueString: 
             ROUTES.SEARCH_RESULT + "?" 
             + "type=" + this.props.type + "&"
@@ -19,7 +20,7 @@ class BannerItem extends React.Component{
     }
     render(){
         return(
-            <div className="banner-item">
+            <div className="banner-item" style={{width: this.state.width + "px"}}>
                 <Link to={ this.state.queueString}>
                 <img src={require('../../../../images/Banners/' + this.state.imageRef)} alt={this.state.name} ></img>
             </Link>
