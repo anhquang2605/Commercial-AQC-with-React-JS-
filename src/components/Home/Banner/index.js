@@ -1,9 +1,9 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import BannerBox from './BannerBox';
 import Controller from './Controller';
 import BANNERLIST from '../../../model/BannerList';
-
+import Pagination from './Pagination';
 import './Banner.css';
 import $ from 'jquery';
 //Data of Banner items 
@@ -17,7 +17,9 @@ class Banner extends React.Component{
             bannerItemsNo: NoOfItems,
             current: null,
             next: null,
-            prev: null
+            prev: null,
+            fist: null,
+            last: null
         }
     }
 
@@ -26,10 +28,16 @@ class Banner extends React.Component{
         $(function(){
             var $window = $(window);// window object does not need ''
             var $body = $('body');
+            //set bannerWidth for individual width of each banner Item
             let bodyWidth = $body.width();
+            let windowHeight = $window.height();
+            //set height for banner
+            $(".Banner").height((windowHeight * 50)/100);
             that.setState({
                 bannerWidth: bodyWidth
             })
+            //banner Box width is the total width of the containers of all the banner items,
+            //this container is hidden by the banner div that only show exactly one banner item at a time 
             that.setState({
                 bannerBoxWidth: bodyWidth*NoOfItems
             })
@@ -42,17 +50,132 @@ class Banner extends React.Component{
                 that.setState({
                     bannerBoxWidth: bodyWidth*NoOfItems
                 })
+                let windowHeight = $window.height();
+                $(".Banner").height((windowHeight * 60)/100);
+                //$moveTo(that.getCurrent().index);
             });
+            let $bannerBox = $(".banner-box");
             //controllers code
+            //Animation handlers
+            let $moveRight = () =>{
+                $(".banner-box").animate({right: "+=" + that.state.bannerWidth},500);
+            };
+            let $moveLeft = () =>{
+                $(".banner-box").animate({right: "-=" + that.state.bannerWidth},500);
+            };
+            let $moveTo = (id) =>{
+                let parsedID = parseInt(id);
+                let current = that.getCurrent();
+                let currentID = current.index;
+                let idDifference = currentID - parsedID;
+                //calculating how far the box will be translated
+                let moveByTheWidthOf = Math.abs(idDifference) * that.state.bannerWidth;
+                //check if the destination is greater than or less comparing to the current id
+                //if greater, move to left, else to the right
+                if(idDifference > 0){
+                        $(".banner-box").animate({right: "-=" + moveByTheWidthOf},500); 
+                } else {
+                    $(".banner-box").animate({right: "+=" + moveByTheWidthOf},500)
+                }
+                //Setting state for the banner items, current, prev and next
+                that.setCurrent(BANNERLIST[parsedID]);
+                if (parsedID == 0){//if the destination is first
+                    that.setPrev(that.getLast());
+                    that.setNext(BANNERLIST[parsedID + 1]);
+                } else if (parsedID == that.state.bannerItemsNo - 1){//if the destination is last
+                    that.setPrev(BANNERLIST[parsedID - 1]);
+                    that.setNext(that.getFirst());
+                } else {//the default ways for prev and next items
+                    that.setPrev(BANNERLIST[parsedID - 1]);
+                    that.setNext(BANNERLIST[parsedID+ 1]);
+                }
+                $(".current").removeClass("current");
+                $(".Pagination").find("[index='"+ parsedID + "']").addClass("current");
+                return;
+            };
+            //Initiallize orders for banner lists 
+            that.setCurrent(BANNERLIST[0]);
+            that.setNext(BANNERLIST[1]);
+            that.setPrev(BANNERLIST[that.state.bannerItemsNo - 1]);
+            that.setFirst(BANNERLIST[0]);
+            that.setLast(BANNERLIST[that.state.bannerItemsNo - 1]);
+            //cache of first and last items along with the left and right controllers
+            let firstItem = that.getFirst();
+            let lastItem = that.getLast();
             let $left = $('.left-controller-banner');
             let $right = $('.right-controller-banner');
-            //
+            //Left controller codes
+            $left.on("click", function(e){
+                e.preventDefault();
+                let cur = that.getCurrent();
+                let prev = that.getPrev();
+                let prevIndex = prev.index;
+                let curIndex = cur.index; 
+                let newPrevIndex = prevIndex - 1;
+                //check if it has to move to the very end of the list
+                if(prevIndex == lastItem.index){
+                    $moveTo(lastItem.index);
+                } else {
+                    $moveLeft();
+                }
+                that.setCurrent(prev);
+                that.setNext(cur);
+                //Let Pagination components know to move to corresponding dot
+                $(".current").removeClass("current");
+                $(".Pagination").find("[index='"+ prev.index + "']").addClass("current");
+                //check if it has to move to the very front of the list
+                if (newPrevIndex < 0) {
+                    that.setPrev(lastItem);
+                    return;
+                } 
+                that.setPrev(BANNERLIST[newPrevIndex]);
+
+
+
+            });
+            //Right controller codes
+            $right.on("click", function(e){
+                e.preventDefault();
+                let cur = that.getCurrent();
+                let next = that.getNext();
+                let nextIndex = next.index;
+                let curIndex = cur.index; 
+                let newNextIndex = nextIndex + 1;
+                if(nextIndex == firstItem.index){
+                    $moveTo(firstItem.index);
+                    return;
+                } else {
+                    $moveRight();
+                }
+                that.setCurrent(next);
+                that.setPrev(cur);
+                //Let Pagination components know to move to corresponding dot
+                $(".current").removeClass("current");
+                $(".Pagination").find("[index='"+ next.index + "']").addClass("current");
+                if (newNextIndex > that.state.last.index) {
+                    that.setNext(firstItem);      
+                    return;
+                } 
+                that.setNext(BANNERLIST[newNextIndex]);
+            })
+            //Pagination codes
+                $(".page-dot").on("click",function(e){
+                    e.preventDefault();
+                    let $this = $(e.target);
+                    $(".current").removeClass("current");
+                    $this.addClass('current');
+                    $moveTo($this.attr("index"));
+                });
         })
-        //setting width for banner when winwdow is reloaded or first loaded
-        
     }
     componentDidMount = () => {
         this.JQUERY();
+    }
+    componentWillUnmount() {
+        // fix Warning: Can't perform a React state update on an unmounted component
+        this.setState = (state,callback)=>{
+            return;
+        };
     }
     getCurrent = () => {
         return this.state.current;
@@ -64,12 +187,18 @@ class Banner extends React.Component{
         return this.state.prev;
     }
     getNoOfItems = () =>{
-        return this.state.NoOfItems;
+        return this.state.bannerItemsNo
     }
     setCurrent = (obj) => {
         this.setState({
             current: obj
         });
+    }
+    getFirst = () => {
+        return this.state.first;
+    }
+    getLast = () =>{
+        return this.state.last;
     }
     setNext = (obj) => {
         this.setState({
@@ -78,16 +207,29 @@ class Banner extends React.Component{
     }
     setPrev = (obj) => {
         this.setState({
-            current: obj
+            prev: obj
         });
+    }
+    setFirst = (obj) => {
+        this.setState({
+            first: obj
+        })
+    }
+    setLast = (obj) => {
+        this.setState({
+            last: obj
+        })
     }
     render() {
         return(
+            <Fragment>
             <div className="Banner">
                 <Controller></Controller>
                 {/*key is needed for the Banner Box to update the passing props from Banner*/}
                 <BannerBox key={this.state.bannerBoxWidth} bannerBoxWidth={this.state.bannerBoxWidth} width={this.state.bannerWidth}></BannerBox>              
             </div>
+            <Pagination NoOfItems={this.getNoOfItems()}></Pagination>
+            </Fragment>
         );
     }
 }

@@ -20,7 +20,7 @@ class BannerItem extends React.Component{
     }
     render(){
         return(
-            <div className="banner-item" style={{width: this.state.width + "px"}}>
+            <div id={this.state.imageRef} className="banner-item" style={{width: this.state.width + "px"}}>
                 <Link to={ this.state.queueString}>
                 <img src={require('../../../../images/Banners/' + this.state.imageRef)} alt={this.state.name} ></img>
             </Link>
