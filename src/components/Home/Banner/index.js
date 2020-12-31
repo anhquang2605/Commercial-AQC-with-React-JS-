@@ -107,6 +107,7 @@ class Banner extends React.Component{
             //Left controller codes
             $left.on("click", function(e){
                 e.preventDefault();
+                e.stopPropagation();
                 let cur = that.getCurrent();
                 let prev = that.getPrev();
                 let prevIndex = prev.index;
@@ -136,6 +137,7 @@ class Banner extends React.Component{
             //Right controller codes
             $right.on("click", function(e){
                 e.preventDefault();
+                e.stopPropagation();
                 let cur = that.getCurrent();
                 let next = that.getNext();
                 let nextIndex = next.index;
@@ -161,7 +163,8 @@ class Banner extends React.Component{
             //Pagination codes
                 $(".page-dot").on("click",function(e){
                     e.preventDefault();
-                    let $this = $(e.target);
+                    e.stopPropagation();
+                    let $this = $(this);
                     $(".current").removeClass("current");
                     $this.addClass('current');
                     $moveTo($this.attr("index"));
