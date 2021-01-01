@@ -19,7 +19,7 @@ class Banner extends React.Component{
             next: null,
             prev: null,
             fist: null,
-            last: null
+            last: null,
         }
     }
 
@@ -41,20 +41,6 @@ class Banner extends React.Component{
             that.setState({
                 bannerBoxWidth: bodyWidth*NoOfItems
             })
-            //get width when started the app or resizing a window for banner
-            $window.on("resize load", function(){
-                let bodyWidth = $body.width();
-                that.setState({
-                    bannerWidth: bodyWidth
-                })
-                that.setState({
-                    bannerBoxWidth: bodyWidth*NoOfItems
-                })
-                let windowHeight = $window.height();
-                $(".Banner").height((windowHeight * 60)/100);
-                //$moveTo(that.getCurrent().index);
-            });
-            let $bannerBox = $(".banner-box");
             //controllers code
             //Animation handlers
             let $moveRight = () =>{
@@ -63,7 +49,7 @@ class Banner extends React.Component{
             let $moveLeft = () =>{
                 $(".banner-box").animate({right: "-=" + that.state.bannerWidth},500);
             };
-            let $moveTo = (id) =>{
+            let $moveTo = (id,animated = true)  =>{
                 let parsedID = parseInt(id);
                 let current = that.getCurrent();
                 let currentID = current.index;
@@ -72,11 +58,27 @@ class Banner extends React.Component{
                 let moveByTheWidthOf = Math.abs(idDifference) * that.state.bannerWidth;
                 //check if the destination is greater than or less comparing to the current id
                 //if greater, move to left, else to the right
-                if(idDifference > 0){
-                        $(".banner-box").animate({right: "-=" + moveByTheWidthOf},500); 
+                if (animated){
+                    let $BannerBox = $(".banner-box");
+                    if(idDifference > 0){
+                        $BannerBox.animate({right: "-=" + moveByTheWidthOf},500); 
+                    } else {
+                        $BannerBox.animate({right: "+=" + moveByTheWidthOf},500)
+                    }
                 } else {
-                    $(".banner-box").animate({right: "+=" + moveByTheWidthOf},500)
+                    let $BannerBox = $(".banner-box");
+                    let $BannerBoxRight = parseInt($BannerBox.css("right").replace("px",""));
+                    if(idDifference > 0){
+                        $BannerBox.css({
+                            "right": $BannerBoxRight - moveByTheWidthOf + "px"
+                        })
+                    } else {
+                        $BannerBox.css({
+                            "right": $BannerBoxRight + moveByTheWidthOf + "px"
+                        })
+                    }
                 }
+                
                 //Setting state for the banner items, current, prev and next
                 that.setCurrent(BANNERLIST[parsedID]);
                 if (parsedID == 0){//if the destination is first
@@ -93,6 +95,27 @@ class Banner extends React.Component{
                 $(".Pagination").find("[index='"+ parsedID + "']").addClass("current");
                 return;
             };
+            //get width when started the app or resizing a window for banner
+            $window.on("resize", function(){
+                let currentSlide = that.getCurrent();
+                let curIndex = currentSlide.index;
+                let bodyWidth = $body.width();
+                let bannerBoxWidth = bodyWidth*NoOfItems;
+                that.setState({
+                    bannerWidth: bodyWidth
+                })
+                that.setState({
+                    bannerBoxWidth: bannerBoxWidth
+                })
+                //Height of Banner
+                let windowHeight = $window.height();
+                $(".Banner").height((windowHeight * 60)/100);
+                //return to its last position after reload
+                $(".banner-box").css({"right": curIndex * bodyWidth + "px"});
+                $(".current").removeClass("current");
+                $(".Pagination").find("[index='"+ curIndex +"']").addClass("current");
+                
+            });
             //Initiallize orders for banner lists 
             that.setCurrent(BANNERLIST[0]);
             that.setNext(BANNERLIST[1]);
@@ -130,9 +153,6 @@ class Banner extends React.Component{
                     return;
                 } 
                 that.setPrev(BANNERLIST[newPrevIndex]);
-
-
-
             });
             //Right controller codes
             $right.on("click", function(e){
@@ -161,6 +181,7 @@ class Banner extends React.Component{
                 that.setNext(BANNERLIST[newNextIndex]);
             })
             //Pagination codes
+                $(".page-dot").first().addClass("current");
                 $(".page-dot").on("click",function(e){
                     e.preventDefault();
                     e.stopPropagation();

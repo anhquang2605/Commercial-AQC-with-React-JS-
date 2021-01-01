@@ -3,7 +3,7 @@ import './Pagination.css';
 import {BsFillCircleFill as Circle} from 'react-icons/bs';
 function Pagedot(props) {
     return(
-        <a href="#" className={"page-dot" + (props.index == 0? " current" : "")} index={props.index}>
+        <a href="#" className="page-dot" index={props.index}>
             <Circle></Circle>
         </a>
     )
