@@ -1,5 +1,6 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom';
+import * as ROUTES from '../../Constants/Routes';
 class SearchBar extends React.Component{
     constructor(props){
         super(props);
@@ -7,14 +8,7 @@ class SearchBar extends React.Component{
             searchQueue: '',
             valid: false
         }
-        this.handleOnSubmit = this.handleOnSubmit.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
-    }
-    handleOnSubmit(event){
-        event.prevenDefault();
-        this.setState(()=>({
-            searchQueue: event.target.value
-        }))
     }
     handleOnChange(event){
         this.setState(()=>({
@@ -23,10 +17,10 @@ class SearchBar extends React.Component{
     }
     render() {
         return(
-            <form type="submit">
+            <div id="search_bar">
                 <input type="text" value={this.state.searchQueue} onChange={this.handleOnChange}></input>
-                <button type="submit" onClick={this.handleOnSubmit}>Search</button>
-            </form>
+                <Link to={ROUTES.SEARCH_RESULT + "/" + this.state.searchQueue}>Search</Link>
+            </div>
         )
     }
 }

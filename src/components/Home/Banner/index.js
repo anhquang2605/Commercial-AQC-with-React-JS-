@@ -32,7 +32,7 @@ class Banner extends React.Component{
             let bodyWidth = $body.width();
             let windowHeight = $window.height();
             //set height for banner
-            $(".Banner").height((windowHeight * 50)/100);
+            $(".Banner").height((windowHeight * 60)/100);
             that.setState({
                 bannerWidth: bodyWidth
             })

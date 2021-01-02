@@ -2,6 +2,7 @@ let BANNERLIST = [
     {
         index: 0,
         name: "Christmas upto 20%",
+        alias: "christmas_upto_20",
         type: "holiday",
         specification: "Christmas",
         discount: [0,20],
@@ -9,6 +10,7 @@ let BANNERLIST = [
     }, {
         index: 1,
         name: "Thansk giving",
+        alias: "thanks_giving",
         type: "holiday",
         specification: "Thanksgiving",
         discount: [20,50],
@@ -16,6 +18,7 @@ let BANNERLIST = [
     }, {
         index: 2,
         name: "Haloween",
+        alias: "haloween",
         type: "holiday",
         specification: "Haloween",
         discount: [10,30],
@@ -23,6 +26,7 @@ let BANNERLIST = [
     }, {
         index: 3,
         name: "Valentine Madness",
+        alias: "haloween",
         type: "holiday",
         specification: "Valentine",
         discount: [40,60],

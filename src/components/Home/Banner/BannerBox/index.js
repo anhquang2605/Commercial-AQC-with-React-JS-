@@ -20,6 +20,7 @@ class BannerBox extends React.Component{
             width= {this.state.width} 
             value={item.name} 
             name={item.name}
+            alias={item.alias}
             specification={item.specification}
             type={item.type}
             imageRef={item.imageRef}

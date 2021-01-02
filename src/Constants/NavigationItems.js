@@ -1,6 +1,6 @@
 export let ITEMS = [
     { name: "Home",
-      route: "/home"
+      route: "/"
     },{ 
       name: "Account",
       route: "/account"

@@ -4,6 +4,7 @@ import Home from '../Home';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
 import * as NAVITEMS from "../../Constants/NavigationItems";
+import SearchResult from '../SearchResult';
 /*const PageComponents = {
     Home: Home,
     Order: Order,
@@ -31,6 +32,7 @@ class App extends React.Component {
                 <h1>Commercial website</h1>
                 <Navigator></Navigator>
                 <Route exact path = {ROUTES.HOME} component = {Home}/>
+                <Route path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
             </div>
         </Router>
         )

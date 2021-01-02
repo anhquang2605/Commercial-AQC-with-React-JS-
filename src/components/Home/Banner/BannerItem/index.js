@@ -6,16 +6,18 @@ class BannerItem extends React.Component{
         super(props);
         this.state = {
             name: this.props.name,
+            alias: this.props.alias,
             imageRef: this.props.imageRef,
             type: this.props.type,
             specification: this.props.specification,
             discount: this.props.discount ,
             width: this.props.width,
             queueString: 
-            ROUTES.SEARCH_RESULT + "?" 
-            + "type=" + this.props.type + "&"
-            + "spec=" + this.props.specification + "&"
-            + "dis=" + this.props.discount[0] + "-" + this.props.discount[1]
+            ROUTES.SEARCH_RESULT  
+            + "/" + this.props.alias 
+            + "/" + this.props.type 
+            + "/" + this.props.specification 
+            + "/" + this.props.discount[0] + "-" + this.props.discount[1]
         }
     }
     render(){
