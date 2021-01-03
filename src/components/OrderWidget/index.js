@@ -1,5 +1,7 @@
 import React from 'react';
 import silver from './../../images/silver.png';
+import {Link} from 'react-router-dom';
+import * as ROUTES from '../../Constants/Routes';
 let imgs = "./silver.png";
 class OrderWidget extends React.Component {
     constructor(props){
@@ -10,6 +12,7 @@ class OrderWidget extends React.Component {
             quantity: this.props.quantity,
             inStock: this.props.quantity > 0,
             types: this.props.types,
+            price: this.props.price,
         }
     }
     imageGetter(id) {
@@ -17,11 +20,16 @@ class OrderWidget extends React.Component {
     }
     render(){
         return(
-            <a className="Widget" disabled={this.state.inStock} href={"/Order/" + this.state.id}>
-                <div className="OutOfStock" hidden={this.state.inStock}>Out of stock</div>
-                <img alt={this.state.name} className="WidgetImage" src={require('./../../images/' + this.imageGetter(this.state.id))}></img>
-                <span className="ProductNameWidget">{this.state.name}</span>
-            </a>
+            <div className="widget" disabled={this.state.inStock} href={"/Order/" + this.state.id}>
+                <div className="out-of-stock" hidden={this.state.inStock}>Out of stock</div>
+                <Link to={ROUTES.ORDERS + "/" + this.state.id}>
+                    <img alt={this.state.name} className="widget-image" src={require('./../../images/' + this.imageGetter(this.state.id))}></img>
+                </Link>
+                <div className="widget-info">
+                    <span className="widget-item-name">{this.state.name}</span><br></br>
+                    <span className="price-tag">$ {this.state.price}</span>
+                </div>
+            </div>
         )
     }
 }

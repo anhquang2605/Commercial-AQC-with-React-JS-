@@ -13,7 +13,7 @@ class FeaturedItems extends React.Component{
         let daList = this.state.list;
         let daListComponent = daList.map(ele => {
             return (
-                <OrderWidget key={ele.id} value={ele.name} id={ele.id} name={ele.name} quantity={ele.quantity} types={ele.types}></OrderWidget>
+                <OrderWidget key={ele.id} value={ele.name} id={ele.id} name={ele.name} quantity={ele.quantity} types={ele.types} price={ele.price}></OrderWidget>
             )
         })
         return daListComponent;

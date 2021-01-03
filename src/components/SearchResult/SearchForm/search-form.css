@@ -1,0 +1,34 @@
+#search_form{
+    float:left;
+    width: 20%;
+    border: 1px solid black;
+    padding: 10px;
+    overflow: auto;
+}
+
+#search_form input{
+    margin-bottom: 10px;
+}
+
+#search_form input[type="text"]{
+    width: auto;
+    box-sizing: border-box;
+}
+
+#search_form span{
+    padding: 2px;
+    display: block;
+}
+span{
+    height: auto;
+}
+
+svg{
+    fill:crimson;
+    width: 15px;
+    height: 15px;
+}
+
+#search_form input.not-valid{
+    border-color: crimson;
+}

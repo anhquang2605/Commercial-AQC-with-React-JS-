@@ -26,7 +26,7 @@ class SearchResult extends React.Component{
         return(
             <div id="search_result">
                 
-                <SearchForm type={this.state.type} spec={this.state.spec} min={this.state.min} max={this.state.max}></SearchForm>
+                <SearchForm name={this.state.name} type={this.state.type} spec={this.state.spec} min={this.state.min} max={this.state.max}></SearchForm>
                 <Sorter></Sorter>
                 <ResultDisplay></ResultDisplay>
             </div>
