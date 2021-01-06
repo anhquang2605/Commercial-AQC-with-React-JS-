@@ -15,12 +15,15 @@ class SearchResult extends React.Component{
         }
     }
     static getDerivedStateFromProps(props,state){//To process props and prepair state for component before mounting for the first time
-        const disRange = props.match.params.dis.split("-");
+        if(props.match.params.dis){
+            const disRange = props.match.params.dis.split("-");
 
-       return({
-            max: parseInt(disRange[1]),
-            min: parseInt(disRange[0])
-        });
+            return({
+                max: parseInt(disRange[1]),
+                min: parseInt(disRange[0])
+             });
+        }
+        return null;
     }
     render(){
         return(

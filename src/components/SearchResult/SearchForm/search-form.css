@@ -32,3 +32,10 @@ svg{
 #search_form input.not-valid{
     border-color: crimson;
 }
+
+@media only screen and (max-width: 768px){
+    /*For mobile devices*/
+    #search_form{
+        width: 30%;
+    }
+}
