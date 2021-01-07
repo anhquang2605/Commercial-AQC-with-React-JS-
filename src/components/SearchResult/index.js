@@ -12,7 +12,9 @@ class SearchResult extends React.Component{
             dis: this.props.match.params.dis,
             max: 0,
             min: 0,
+            inStock: true,
         }
+        this.onSubmitSearch = this.onSubmitSearch.bind(this);
     }
     static getDerivedStateFromProps(props,state){//To process props and prepair state for component before mounting for the first time
         if(props.match.params.dis){
@@ -25,13 +27,21 @@ class SearchResult extends React.Component{
         }
         return null;
     }
+    onSubmitSearch(name = "", min = 0, max = 0, inStock = true)  {
+        this.setState({
+            name: name,
+            min: min,
+            max: max,
+            inStock: inStock
+        });
+    }
     render(){
         return(
             <div id="search_result">
                 
-                <SearchForm name={this.state.name} type={this.state.type} spec={this.state.spec} min={this.state.min} max={this.state.max}></SearchForm>
+                <SearchForm onSubmitSearch={this.onSubmitSearch} name={this.state.name} type={this.state.type} spec={this.state.spec} min={this.state.min} max={this.state.max}></SearchForm>
                 <Sorter></Sorter>
-                <ResultDisplay></ResultDisplay>
+                <ResultDisplay name={this.state.name} minPrice={this.state.min} maxPrice={this.state.max} inStock={this.state.inStock}></ResultDisplay>
             </div>
         );
     }

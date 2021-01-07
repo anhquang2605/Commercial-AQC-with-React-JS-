@@ -1,8 +1,7 @@
 import React from 'react';
-import silver from './../../images/silver.png';
 import {Link} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
-let imgs = "./silver.png";
+import './order-widget.css';
 class OrderWidget extends React.Component {
     constructor(props){
         super(props);

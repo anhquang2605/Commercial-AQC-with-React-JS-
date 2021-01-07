@@ -81,10 +81,10 @@ class Banner extends React.Component{
                 
                 //Setting state for the banner items, current, prev and next
                 that.setCurrent(BANNERLIST[parsedID]);
-                if (parsedID == 0){//if the destination is first
+                if (parsedID === 0){//if the destination is first
                     that.setPrev(that.getLast());
                     that.setNext(BANNERLIST[parsedID + 1]);
-                } else if (parsedID == that.state.bannerItemsNo - 1){//if the destination is last
+                } else if (parsedID === that.state.bannerItemsNo - 1){//if the destination is last
                     that.setPrev(BANNERLIST[parsedID - 1]);
                     that.setNext(that.getFirst());
                 } else {//the default ways for prev and next items
@@ -134,10 +134,9 @@ class Banner extends React.Component{
                 let cur = that.getCurrent();
                 let prev = that.getPrev();
                 let prevIndex = prev.index;
-                let curIndex = cur.index; 
                 let newPrevIndex = prevIndex - 1;
                 //check if it has to move to the very end of the list
-                if(prevIndex == lastItem.index){
+                if(prevIndex === lastItem.index){
                     $moveTo(lastItem.index);
                 } else {
                     $moveLeft();
@@ -161,9 +160,8 @@ class Banner extends React.Component{
                 let cur = that.getCurrent();
                 let next = that.getNext();
                 let nextIndex = next.index;
-                let curIndex = cur.index; 
                 let newNextIndex = nextIndex + 1;
-                if(nextIndex == firstItem.index){
+                if(nextIndex === firstItem.index){
                     $moveTo(firstItem.index);
                     return;
                 } else {

@@ -9,7 +9,6 @@ class FeaturedItems extends React.Component{
         this.generateItems = this.generateItems.bind(this);
     }
     generateItems(){
-        let size = this.state.list.length;
         let daList = this.state.list;
         let daListComponent = daList.map(ele => {
             return (

@@ -16,7 +16,6 @@ class SearchForm extends Component {
         this.onChangeMaxPrice = this.onChangeMaxPrice.bind(this);
         this.onChangeMinPrice = this.onChangeMinPrice.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
-        this.searchResult = this.searchResult.bind(this);
     }
     onChangeName = (event) => {
         let val = event.target.value;
@@ -45,14 +44,10 @@ class SearchForm extends Component {
             minPrice: event.target.value
         })
     }
-    searchResult = () => {
-        return 0;
-    }
     render() {
         return (
             <div id="search_form">
-                <form>
-                    <label for="name">Name</label>
+                    <label htmlFor="name">Name</label>
                     <br></br>
                     <span className="input container">
                     <input className={this.state.validName? "" : "not-valid"} type="text" id="name" name="name" value={this.state.name} onChange={this.onChangeName}></input>
@@ -61,23 +56,24 @@ class SearchForm extends Component {
                     }
                     </span>
                     <br></br>
-                    <label for="maxPrice">Max Price</label>
+                    <label htmlFor="maxPrice">Max Price</label>
                     <br></br>
                     <span className="input container">
                     <input  type="number" id="max_price" name="maxPrice" value={this.state.maxPrice} onChange={this.onChangeMaxPrice}></input>
                     </span>
                     <br></br>
-                    <label for="minPrice">Min Price</label>
+                    <label htmlFor="minPrice">Min Price</label>
                     <br></br>
                     <span className="input container">
                     <input type="number" id="min_price" name="minPrice" value={this.state.minPrice} onChange={this.onChangeMinPrice}></input>
                     </span>
                     <br></br>
-                    <label for="inStock">In stock?</label>
-                    <input type="checkbox"></input>
+                    <label htmlFor="inStock">In stock?</label>
+                    <input type="checkbox" value={this.state.avail}></input>
                     <br></br>
-                    <button onClick={this.searchResult} disabled={!this.state.validName}>Search</button>
-                </form>
+                    <button onClick={ (e) => {e.preventDefault(); this.props.onSubmitSearch(this.state.name, this.state.minPrice, this.state.minPrice, this.state.avail)}} disabled={!this.state.validName}>Search</button>
+                    {/*to add function reference instead of calling the function directly, 
+                    otherwise the setState will be called infinitely within the render methods which might cause loop and max exceed error*/}
             </div>
         );
     }

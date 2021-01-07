@@ -3,8 +3,8 @@ import Navigator from '../Navigator';
 import Home from '../Home';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
-import * as NAVITEMS from "../../Constants/NavigationItems";
 import SearchResult from '../SearchResult';
+
 /*const PageComponents = {
     Home: Home,
     Order: Order,
@@ -22,9 +22,6 @@ import SearchResult from '../SearchResult';
 }
 );*/
 class App extends React.Component {
-    constructor(props){
-        super(props);
-    }
     render(){
         return(
         <Router>
