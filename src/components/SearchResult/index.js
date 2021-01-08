@@ -12,7 +12,7 @@ class SearchResult extends React.Component{
             dis: this.props.match.params.dis,
             max: 0,
             min: 0,
-            inStock: true,
+            inStock: false,
         }
         this.onSubmitSearch = this.onSubmitSearch.bind(this);
     }
@@ -27,7 +27,7 @@ class SearchResult extends React.Component{
         }
         return null;
     }
-    onSubmitSearch(name = "", min = 0, max = 0, inStock = true)  {
+    onSubmitSearch(name = "", min = 0, max = 0, inStock = false)  {
         this.setState({
             name: name,
             min: min,

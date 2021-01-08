@@ -12,10 +12,13 @@ class SearchForm extends Component {
             avail: true,
             valid: false,
             validName: true,
+            validPrice: true,
         }
         this.onChangeMaxPrice = this.onChangeMaxPrice.bind(this);
         this.onChangeMinPrice = this.onChangeMinPrice.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
+        this.checkPriceRange = this.checkPriceRange.bind(this);
+        this.handleInStockCheck = this.handleInStockCheck.bind(this);
     }
     onChangeName = (event) => {
         let val = event.target.value;
@@ -33,16 +36,37 @@ class SearchForm extends Component {
         }));
     }
     onChangeMaxPrice = (event) => {
-        let val = event.target.value;
+        let val = parseInt(event.target.value);
+        
         this.setState({
-            maxPrice: event.target.value
+            maxPrice: val
         })
     }
     onChangeMinPrice = (event) => {
-        let val = event.target.value;
+        let val = parseInt(event.target.value);
         this.setState({
-            minPrice: event.target.value
+            minPrice: val
         })
+    }
+    checkPriceRange = (event) => { 
+        event.stopPropagation();
+        let minPrice = parseInt(this.state.minPrice);
+        let maxPrice = parseInt(this.state.maxPrice);
+        if ( maxPrice === 0 ){
+            this.setState({
+                validPrice: true,
+            })     
+        } else {
+            this.setState({
+                validPrice: maxPrice > minPrice,
+            })
+        }
+       
+    }
+    handleInStockCheck = (event) => {
+        this.setState({
+            avail: event.target.checked
+        });
     }
     render() {
         return (
@@ -59,19 +83,24 @@ class SearchForm extends Component {
                     <label htmlFor="maxPrice">Max Price</label>
                     <br></br>
                     <span className="input container">
-                    <input  type="number" id="max_price" name="maxPrice" value={this.state.maxPrice} onChange={this.onChangeMaxPrice}></input>
+                    {!this.state.validPrice && <span className="not-valid-price" >Price must be 0 or greater than the minimum price</span>}
+                    <input className={this.state.validPrice? "" : "not-valid"}  type="number" id="max_price" name="maxPrice" value={this.state.maxPrice} onChange={this.onChangeMaxPrice} onKeyUp={this.checkPriceRange}></input>
+                    {   !this.state.validPrice &&
+                        <BiX></BiX>
+                    }
                     </span>
                     <br></br>
                     <label htmlFor="minPrice">Min Price</label>
                     <br></br>
                     <span className="input container">
-                    <input type="number" id="min_price" name="minPrice" value={this.state.minPrice} onChange={this.onChangeMinPrice}></input>
+                    <input type="number" id="min_price" name="minPrice" value={this.state.minPrice} onChange={this.onChangeMinPrice} onKeyUp={this.checkPriceRange}></input>
                     </span>
                     <br></br>
                     <label htmlFor="inStock">In stock?</label>
-                    <input type="checkbox" value={this.state.avail}></input>
+                    <input type="checkbox" value={this.state.avail} onChange={this.handleInStockCheck}></input>
                     <br></br>
-                    <button onClick={ (e) => {e.preventDefault(); this.props.onSubmitSearch(this.state.name, this.state.minPrice, this.state.minPrice, this.state.avail)}} disabled={!this.state.validName}>Search</button>
+                    <button onClick={ (e) => {e.preventDefault(); this.props.onSubmitSearch(this.state.name, this.state.minPrice, this.state.maxPrice, this.state.avail)}} 
+                    disabled={!this.state.validName || !this.state.validPrice}>Search</button>
                     {/*to add function reference instead of calling the function directly, 
                     otherwise the setState will be called infinitely within the render methods which might cause loop and max exceed error*/}
             </div>

@@ -35,19 +35,33 @@ class ResultDisplay extends React.Component{
     getItemBasedOnSearchResult(){
         let list = this.state.list;
         let newList = [];
-        let listLength = list.length;
+        let result = [];
         let nameResult = this.state.name;
-        let maxPriceResult = this.state.maxPrice;
-        let minPriceResult = this.state.minPrice;
+        let maxPriceResult = parseInt(this.state.maxPrice);
+        let minPriceResult = parseInt(this.state.minPrice);
         let getInStockResult = this.state.getInStock;
-        var i = 0;
-        list.forEach((item) =>{
-            var nameMatchResult = item.name.toLowerCase().search(nameResult);
-            if (nameMatchResult != -1){
-                newList.push(item);
-            } 
-        });
-        return newList;
+        if(getInStockResult){
+            list.forEach((item) =>{
+                var nameMatchResult = item.name.toLowerCase().search(nameResult);
+                if (nameMatchResult != -1 && item.quantity > 0){
+                    newList.push(item);
+                } 
+            });
+        } else {
+            list.forEach((item) =>{
+                var nameMatchResult = item.name.toLowerCase().search(nameResult);
+                if (nameMatchResult != -1){
+                    newList.push(item);
+                } 
+            });
+        }
+        
+        if (maxPriceResult === 0){
+           result = newList.filter(item => (parseInt(item.price) >= minPriceResult));
+        }else {
+           result = newList.filter(item => (parseInt(item.price) >= minPriceResult && parseInt(item.price) <= maxPriceResult));
+        }
+        return result;
     }
     render(){
         const dalist = this.getItemBasedOnSearchResult();

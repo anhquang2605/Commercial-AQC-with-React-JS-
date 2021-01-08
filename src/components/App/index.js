@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Navigator from '../Navigator';
 import Home from '../Home';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import NavBar from '../NavBar';
+import SearchBar from '../SearchBar';
+import Logo from '../Logo';
+import {BrowserRouter as Router, Route, Switch, useLocation} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
 import SearchResult from '../SearchResult';
 
@@ -21,19 +24,27 @@ import SearchResult from '../SearchResult';
     }
 }
 );*/
-class App extends React.Component {
-    render(){
+const App = () =>  {
+        const [pageName, setPageName] = useState('');
+        const location = useLocation();
+        useEffect(() => {
+            setPageName(location.pathname)
+        });
         return(
-        <Router>
             <div className="commercial-AQC">
                 <h1>Commercial website</h1>
-                <Navigator></Navigator>
-                <Route exact path = {ROUTES.HOME} component = {Home}/>
-                <Route path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
+                <Navigator>
+                    <Logo href={ROUTES.HOME}></Logo>
+                    <NavBar></NavBar>
+                    {(pageName.search("/result")) != 0  && <SearchBar></SearchBar>}
+                </Navigator>
+                <Switch>
+                    <Route  exact path = {ROUTES.HOME} component = {Home}/>
+                    <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
+                </Switch>
             </div>
-        </Router>
         )
-    }
+
 } 
 
 export default App;

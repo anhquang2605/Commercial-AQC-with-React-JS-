@@ -1,13 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import * as ITEMS from '../../Constants/NavigationItems';
-const ListItems = ITEMS.ITEMS.map((item)=>{
-    return (
-        <li key={item.name} value={item.route}>
-        <Link to={item.route} >{item.name}</Link> 
-        </li>
-    )
-})
 class NavBar extends React.Component{
     constructor(props){
         super(props);
@@ -19,7 +12,13 @@ class NavBar extends React.Component{
     render() {
         return (
             <ul>
-                {ListItems}
+                {ITEMS.ITEMS.map((item)=>{
+                    return (
+                        <li key={item.name} value={item.route}>
+                            <Link to={item.route} >{item.name} </Link> 
+                        </li>
+                    )
+                })}
             </ul>
         )
     }

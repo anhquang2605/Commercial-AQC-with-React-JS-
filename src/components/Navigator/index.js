@@ -1,7 +1,4 @@
 import React from 'react';
-import NavBar from '../NavBar';
-import SearchBar from '../SearchBar';
-import Logo from '../Logo';
 import * as ROUTES from '../../Constants/Routes'
 class Navigator extends React.Component{
     constructor(props){
@@ -13,9 +10,7 @@ class Navigator extends React.Component{
     render() {
         return(
             <div className="header">
-                <Logo href={ROUTES.HOME}></Logo>
-                <NavBar></NavBar>
-                <SearchBar></SearchBar>
+                {this.props.children}
             </div>
         )
     }
