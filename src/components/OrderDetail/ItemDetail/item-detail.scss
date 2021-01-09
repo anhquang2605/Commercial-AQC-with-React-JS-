@@ -1,0 +1,21 @@
+#item_detail{
+    float:right;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 5px;
+    span{
+        display:block;
+    }
+    .product-price{
+        color: coral;
+        font: {
+            weight: bold;
+        }
+    }
+    .product-name{
+        font: {
+            size: 3em;
+            style: bold;
+        }
+    }
+}

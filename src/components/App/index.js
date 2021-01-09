@@ -7,7 +7,7 @@ import Logo from '../Logo';
 import {BrowserRouter as Router, Route, Switch, useLocation} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
 import SearchResult from '../SearchResult';
-
+import OrderDetail from '../OrderDetail';
 /*const PageComponents = {
     Home: Home,
     Order: Order,
@@ -41,6 +41,7 @@ const App = () =>  {
                 <Switch>
                     <Route  exact path = {ROUTES.HOME} component = {Home}/>
                     <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
+                    <Route path = {ROUTES.ORDERS + "/:id"} component={OrderDetail}></Route>
                 </Switch>
             </div>
         )

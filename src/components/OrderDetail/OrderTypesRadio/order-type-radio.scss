@@ -1,0 +1,19 @@
+span.select-type{
+    display:block;
+    width: auto;
+}
+.radio-input-container{
+    span.radio-color-type-display{
+        width: 15px;
+        height: 15px;
+        display: block;
+        border-radius: 20px;
+    }
+    input{
+        width: auto; 
+        margin: 0;
+        margin-left:1px;
+    }
+    float: left;
+    margin-left: 10px;
+}
