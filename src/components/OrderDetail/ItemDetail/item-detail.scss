@@ -15,7 +15,14 @@
     .product-name{
         font: {
             size: 3em;
-            style: bold;
+            weight: bold;
         }
+    }
+    span.item-in-stock{
+        color:seagreen;
+        font-weight: bold;
+    }
+    span.item-quantity{
+        color:sienna;
     }
 }

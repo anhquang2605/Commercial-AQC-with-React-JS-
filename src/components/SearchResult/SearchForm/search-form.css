@@ -23,7 +23,7 @@ span{
     height: auto;
 }
 
-svg{
+#search_form svg{
     fill:crimson;
     width: 15px;
     height: 15px;

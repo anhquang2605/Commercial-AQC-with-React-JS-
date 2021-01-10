@@ -8,6 +8,8 @@ import {BrowserRouter as Router, Route, Switch, useLocation} from 'react-router-
 import * as ROUTES from '../../Constants/Routes';
 import SearchResult from '../SearchResult';
 import OrderDetail from '../OrderDetail';
+import ShoppingCart from '../ShoppingCart';
+import './app.scss';
 /*const PageComponents = {
     Home: Home,
     Order: Order,
@@ -24,12 +26,27 @@ import OrderDetail from '../OrderDetail';
     }
 }
 );*/
-const App = () =>  {
+const App = (props) =>  {
         const [pageName, setPageName] = useState('');
+        const [,setState] = useState();
         const location = useLocation();
+        const [cartList, setCartList] = useState([]);
+        let addToCartList = (item) => {
+            cartList.push(item);
+        }
+        let handleRerendering = () =>{
+            setState({});
+        }
+        let removeFromCartList = (itemIndex) => {
+            let newList = cartList.slice(0,itemIndex).concat(cartList.slice(itemIndex + 1, cartList.length));
+            setCartList(newList);
+        }
         useEffect(() => {
             setPageName(location.pathname)
         });
+        useEffect(()=>{
+           
+        },[cartList])
         return(
             <div className="commercial-AQC">
                 <h1>Commercial website</h1>
@@ -38,10 +55,11 @@ const App = () =>  {
                     <NavBar></NavBar>
                     {(pageName.search("/result")) != 0  && <SearchBar></SearchBar>}
                 </Navigator>
+                <ShoppingCart key={cartList} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>
                 <Switch>
                     <Route  exact path = {ROUTES.HOME} component = {Home}/>
                     <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
-                    <Route path = {ROUTES.ORDERS + "/:id"} component={OrderDetail}></Route>
+                    <Route path = {ROUTES.ORDERS + "/:id"} render={(props) => (<OrderDetail {...props} addItem={addToCartList} reRendering={handleRerendering}></OrderDetail>)}></Route>
                 </Switch>
             </div>
         )

@@ -1,9 +1,9 @@
 import {React, useEffect, useState} from 'react';
-import ImageList from './ImageList';
 import ImageView from './ImageView';
 import ItemDetail from './ItemDetail';
 import OrderTypeRadio from './OrderTypesRadio/OrderTypeRadio';
 import ORDERS from '../../model/Orders';
+import './order-detail.scss';
 const OrderDetail = (props) => {
     let idFromParams = props.match.params.id - 1;
     let theOrder = ORDERS[idFromParams];
@@ -30,6 +30,21 @@ const OrderDetail = (props) => {
             <ImageView key={curImg} imgSrc={curImg} imgName={curType + " " + order.name.toLowerCase()} ></ImageView>
             <ItemDetail daOrder={order}></ItemDetail>
             <OrderTypeRadio upDateCurType={upDateCurType} types={order.types}></OrderTypeRadio>
+            <div className="payment-proceed-btn-group">
+                <button onClick={()=>{
+                    props.addItem({
+                        name: order.name,
+                        quantity: 1,
+                        id: order.id,
+                        price: order.price,
+                        type: curType,
+                    })
+                    props.reRendering();
+                }} disabled={order.quantity <= 0}>Add to Cart</button>
+                <button disabled={order.quantity <= 0}>
+                    Buy Now
+                </button>
+            </div>
         </div>
     );
 }

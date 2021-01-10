@@ -7,6 +7,16 @@ const ItemDetail = (props) => {
             <span className="product-name">{order.name}</span>
             <span className="product-price">Price: $ {order.price}</span>
             <p className="product-description">{order.description}</p>
+            <span className="product-availability">
+                {order.quantity<0?(
+                    "Out of stock"
+                ):(
+                    <span>
+                        <span className="item-in-stock">In Stock</span>
+                        <span className="item-quantity">{order.quantity} left</span>
+                    </span>
+                )}
+            </span>
         </div>
     );
 }
