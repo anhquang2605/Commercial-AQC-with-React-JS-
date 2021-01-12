@@ -5,6 +5,7 @@ import $ from 'jquery';
 import './shopping-cart.scss';
 const ShoppingCart = (props) => {
     const [list,setList] = useState(props.cartList);
+    let [,setState] = useState();
     let JQueryCode = () => {
         let $closeBtn = $('.close-btn');
         let $shoppingCartMini = $('#shopping_cart_mini');
@@ -41,6 +42,9 @@ const ShoppingCart = (props) => {
     useEffect(()=>{
         JQueryCode();
     },[])
+    useEffect(()=>{
+        setList(props.cartList);
+    },[props.cartList]);
     return (
         <div id="shopping_cart_container">
              <div id="shopping_cart_mini">
@@ -73,7 +77,8 @@ const ShoppingCart = (props) => {
                             <td>{item.quantity}</td>
                             <td><button alt="remove item" onClick={()=>{
                                 props.removeItem(index)
-                                props.reRendering();                                
+                                console.log(props.cartList);
+                                //props.reRendering();                                
                             }}><BiX></BiX></button></td>
                         </tr>
                         )
