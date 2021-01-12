@@ -55,7 +55,7 @@ const App = (props) =>  {
                     <NavBar></NavBar>
                     {(pageName.search("/result")) != 0  && <SearchBar></SearchBar>}
                 </Navigator>
-                <ShoppingCart key={cartList} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>
+                <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>
                 <Switch>
                     <Route  exact path = {ROUTES.HOME} component = {Home}/>
                     <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
@@ -63,7 +63,6 @@ const App = (props) =>  {
                 </Switch>
             </div>
         )
-
 } 
 
 export default App;

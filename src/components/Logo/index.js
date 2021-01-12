@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './logo.scss';
 class Logo extends React.Component{
     constructor(props){
         super(props);
@@ -10,7 +10,7 @@ class Logo extends React.Component{
     }
     render(){
         return(
-            <a href={this.state.href}>
+            <a id="company_logo" href={this.state.href}>
                 <img alt="AQC comercial" src= {this.state.imgSrc}/>
             </a>
         )

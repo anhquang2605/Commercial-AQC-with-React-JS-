@@ -11,18 +11,32 @@ const ShoppingCart = (props) => {
         let $shoppingCartContainer = $('#shopping_cart_container');
         let $shoppingCartContainerWidth = $shoppingCartContainer.outerWidth(true);
         let $shoppingCartContainerOffSet = $shoppingCartContainer.offset().left;
+        let $window = $(window);
         $closeBtn.on("click", (e) => {
+            e.stopPropagation();
             $shoppingCartContainer.animate({left: $shoppingCartContainerOffSet += (($shoppingCartContainerWidth*105)/100)}
             ,500
             ,"swing"
             ,()=>{
                 $shoppingCartMini.show();
+                $shoppingCartContainer.removeAttr("style");
             });
         });
         $shoppingCartMini.on("click", (e) => {
+            e.stopPropagation();
             $shoppingCartContainer.animate({left: $shoppingCartContainerOffSet -= (($shoppingCartContainerWidth*105)/100)},500);
             $shoppingCartMini.hide();
         });
+        $window.on("resize",function(){
+            $shoppingCartContainerWidth = $shoppingCartContainer.outerWidth(true);
+            $shoppingCartContainerOffSet = $shoppingCartContainer.position().left;
+            if(!$shoppingCartMini.is(":visible")){
+                $shoppingCartContainer.removeAttr("style");
+                $shoppingCartContainer.css({
+                    "right": "0" 
+                 });
+            };
+        })
     }
     useEffect(()=>{
         JQueryCode();
@@ -38,7 +52,7 @@ const ShoppingCart = (props) => {
             </div>
             <div id="shopping_cart">
                 { list.length > 0? (
-                <table>
+                <table key={props.cartList}>
                     <colgroup>
                         <col span={1}></col>
                         <col span={1} style={{width: "50%"}}></col>
@@ -53,12 +67,13 @@ const ShoppingCart = (props) => {
                     </tr>
                     {list.map((item,index) => {
                         return(
-                        <tr key={item.id}>
+                        <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item.type + " " + item.name}</td>
                             <td>{item.quantity}</td>
                             <td><button alt="remove item" onClick={()=>{
                                 props.removeItem(index)
+                                props.reRendering();                                
                             }}><BiX></BiX></button></td>
                         </tr>
                         )

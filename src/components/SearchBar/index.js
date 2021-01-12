@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
+import './search-bar.scss';
+import {BsSearch} from 'react-icons/bs';
 class SearchBar extends React.Component{
     constructor(props){
         super(props);
@@ -28,7 +30,7 @@ class SearchBar extends React.Component{
         return(
             <div id="search_bar">
                 <input type="text" value={this.state.searchQueue} onChange={this.handleOnChange}></input>
-                <Link to={ROUTES.SEARCH_RESULT + "/" + this.state.searchQueue} onClick={this.emptyField}>Search</Link>
+                <Link alt="Search" to={ROUTES.SEARCH_RESULT + "/" + this.state.searchQueue} onClick={this.emptyField}><BsSearch></BsSearch></Link>
             </div>
         )
     }

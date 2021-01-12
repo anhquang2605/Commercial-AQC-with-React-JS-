@@ -1,0 +1,23 @@
+#nav_bar{
+    li{
+        display: inline-block;
+        padding: 5px;
+        border: 1px solid cornflowerblue;
+        border-radius: 2px;
+        margin-left: 5px;
+        a{
+            text-decoration: none !important;
+            color: black;
+        }
+        &:hover{
+            background-color:cornflowerblue;
+            font-weight: bold;
+        }
+        & a:hover{
+            color: white;
+        }
+
+    }
+    margin:0;
+    float: left;
+}

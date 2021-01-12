@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import * as ITEMS from '../../Constants/NavigationItems';
+import './nav-bar.scss';
 class NavBar extends React.Component{
     constructor(props){
         super(props);
@@ -11,7 +12,7 @@ class NavBar extends React.Component{
     };
     render() {
         return (
-            <ul>
+            <ul id="nav_bar">
                 {ITEMS.ITEMS.map((item)=>{
                     return (
                         <li key={item.name} value={item.route}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import * as ROUTES from '../../Constants/Routes'
+import './navigator.scss';
 class Navigator extends React.Component{
     constructor(props){
         super(props);
