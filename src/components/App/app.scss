@@ -1,3 +1,21 @@
+//override css attr
 body{
     overflow-x: hidden;
+    button{
+        background-color: white;
+        border: 1px solid purple;
+        margin-right: 5px;
+        text-align: center;
+        transition: color .2s, background-color .2s;
+        border-radius: 2px;
+    }
+    button:hover{
+        background-color: purple;
+        color: white;
+    }
+    button:focus{
+        border-radius: 0;
+        outline: none;
+    }
 }
+

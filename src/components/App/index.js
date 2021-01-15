@@ -9,6 +9,7 @@ import * as ROUTES from '../../Constants/Routes';
 import SearchResult from '../SearchResult';
 import OrderDetail from '../OrderDetail';
 import ShoppingCart from '../ShoppingCart';
+import KartDetail from '../KartDetail';
 import './app.scss';
 /*const PageComponents = {
     Home: Home,
@@ -41,6 +42,13 @@ const App = (props) =>  {
             let newList = cartList.slice(0,itemIndex).concat(cartList.slice(itemIndex + 1, cartList.length));
             setCartList(newList);
         }
+        let handleChangeOfQuantity = (index,number) =>{
+            if (number == 0){
+                this.removeFromtCartList(index);
+                return;
+            }
+            cartList[index].quantity = number;
+        }
         useEffect(() => {
             setPageName(location.pathname)
         });
@@ -55,11 +63,12 @@ const App = (props) =>  {
                     <NavBar></NavBar>
                     {(pageName.search("/result")) != 0  && <SearchBar></SearchBar>}
                 </Navigator>
-                <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>
+                {pageName.search("/kart-detail") != 0 && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
                 <Switch>
                     <Route  exact path = {ROUTES.HOME} component = {Home}/>
                     <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
                     <Route path = {ROUTES.ORDERS + "/:id"} render={(props) => (<OrderDetail {...props} addItem={addToCartList} reRendering={handleRerendering}></OrderDetail>)}></Route>
+                    <Route path = {ROUTES.KART_DETAIL} render={(props) => (<KartDetail {...props} list={cartList} removeItem={removeFromCartList} changeQuantity={handleChangeOfQuantity}></KartDetail>)}></Route>
                 </Switch>
             </div>
         )

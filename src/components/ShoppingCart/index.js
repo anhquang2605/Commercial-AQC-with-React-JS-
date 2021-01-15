@@ -76,15 +76,15 @@ const ShoppingCart = (props) => {
                             <td>{item.type + " " + item.name}</td>
                             <td>{item.quantity}</td>
                             <td><button alt="remove item" onClick={()=>{
-                                props.removeItem(index)
-                                console.log(props.cartList);
-                                //props.reRendering();                                
+                                props.removeItem(index)                               
                             }}><BiX></BiX></button></td>
                         </tr>
                         )
                     })}
-                </table>) : "No item" }
+                </table>
+                ) : "No item" }
             </div>
+            {(list.length>0) && <button className="cart-check-out-btn" onClick={()=>{}}>Check out</button>}
         </div>
     );
 }

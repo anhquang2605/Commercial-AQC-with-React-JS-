@@ -67,6 +67,7 @@ class ResultDisplay extends React.Component{
         const dalist = this.getItemBasedOnSearchResult();
         return(
             <div id="result_display">
+                    <h4>Results: ({dalist.length})</h4>
                     { dalist.length >0 ? (dalist.map((item)=>(
                          <OrderWidget key={item.id} id={item.id} name={item.name} quantity={item.quantity} inStock={item.inStock} price={item.price} types={item.types}>
 
