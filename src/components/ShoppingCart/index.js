@@ -39,6 +39,13 @@ const ShoppingCart = (props) => {
             };
         })
     }
+    let getTotalQuantity = () => {
+        var quantity = 0;
+        list.forEach((item) => {
+            quantity += parseInt(item.quantity);
+        })
+        return quantity
+    }
     useEffect(()=>{
         JQueryCode();
     },[])
@@ -49,7 +56,7 @@ const ShoppingCart = (props) => {
         <div id="shopping_cart_container">
              <div id="shopping_cart_mini">
                 <BsFillBagFill></BsFillBagFill>
-                <span className="item-no-mini-cart">{list.length}</span>        
+                <span className="item-no-mini-cart">{getTotalQuantity()}</span>        
              </div>
              <div className="close-btn">
                 <BiX></BiX>

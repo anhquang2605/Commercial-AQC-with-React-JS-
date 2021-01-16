@@ -9,7 +9,7 @@ const OrderTypeRadio = (props) => {
     },[]);
     
     return (
-        <form>
+        <form id="type_form">
             <span className="select-type">Select types:</span>
             { types.map((daType) => {
                 return(
@@ -17,6 +17,7 @@ const OrderTypeRadio = (props) => {
                     <span className="radio-color-type-display" style={{backgroundColor: daType}}></span>
                     <input onClick={()=>{
                         props.upDateCurType(daType);
+                        props.resetQInput();
                     }} type="radio" id={daType} name="type" value={daType} defaultChecked={daType === curType}/>
                 </div>
             )

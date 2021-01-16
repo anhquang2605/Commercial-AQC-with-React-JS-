@@ -13,9 +13,18 @@ const OrderDetail = (props) => {
     const [order, setOrder] = useState(theOrder);
     const [curType, setCurType] = useState(order.types[0]);
     const [curImg, setCurImg] = useState(getImgSrcFromType(order.types[0]));
+    let [quantityInput,setQuantityInput] = useState(1);
     //handler to send to order type radio so that it can update the current type for order detail component
     let upDateCurType = (daType) =>{
         setCurType(daType);
+    }
+    //update Quanity Input to add to cart
+    let handleQuantityInput = (e) =>{
+        setQuantityInput(parseInt(e.target.value));
+    }
+    //reset quantity when switch between types
+    let resetQInput = () => {
+        setQuantityInput(1);
     }
     //watch for curtype change then update img src 
     useEffect(()=>{
@@ -28,22 +37,28 @@ const OrderDetail = (props) => {
     return (
         <div id="order_detail">
             <ImageView key={curImg} imgSrc={curImg} imgName={curType + " " + order.name.toLowerCase()} ></ImageView>
-            <ItemDetail daOrder={order}></ItemDetail>
-            <OrderTypeRadio upDateCurType={upDateCurType} types={order.types}></OrderTypeRadio>
-            <div className="payment-proceed-btn-group">
-                <button onClick={()=>{
-                    props.addItem({
-                        name: order.name,
-                        quantity: 1,
-                        id: order.id,
-                        price: order.price,
-                        type: curType,
-                    })
-                    props.reRendering();
-                }} disabled={order.quantity <= 0}>Add to Cart</button>
-                <button disabled={order.quantity <= 0}>
-                    Buy Now
-                </button>
+            <div className="detail-container">
+                <ItemDetail daOrder={order}></ItemDetail>
+                <OrderTypeRadio resetQInput={resetQInput} upDateCurType={upDateCurType} types={order.types}></OrderTypeRadio>
+                <span className="quantity-selector-group">
+                    <label htmlFor="quantity">Quantity</label>
+                    <input type="number" value={quantityInput} min={1} max={order.quantity} onChange={handleQuantityInput}></input>
+                </span>
+                <div className="payment-proceed-btn-group">
+                    <button onClick={()=>{
+                        props.addItem({
+                            name: order.name,
+                            quantity: parseInt(quantityInput),
+                            id: order.id,
+                            price: order.price,
+                            type: curType,
+                        })
+                        props.reRendering();
+                    }} disabled={order.quantity <= 0}>Add to Cart</button>
+                    <button disabled={order.quantity <= 0}>
+                        Buy Now
+                    </button>
+                </div>
             </div>
         </div>
     );

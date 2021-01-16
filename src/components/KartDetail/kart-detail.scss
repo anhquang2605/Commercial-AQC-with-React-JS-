@@ -1,0 +1,30 @@
+#kart_detail{
+    h4{
+        text-align: center;
+    }
+    table{
+        margin: auto;
+        border: 1px solid purple;
+        border-radius: 5px;
+        padding: 10px;
+        td{
+            text-align: center;
+        }
+        input{
+            width: 100%;
+        }
+    }
+    .check-out-btn{
+        margin: 10px auto;
+        display: flex;
+    }
+    .empty-kart-detail{
+        display: block;
+        width: 100%;
+        text-align: center;
+        font: {
+            size: 2em;
+            weight: bold;
+        }
+    }
+}
