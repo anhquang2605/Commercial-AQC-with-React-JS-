@@ -1,6 +1,6 @@
 import React from 'react';
-import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
-import OrderWidget from '../../OrderWidget';
+import Pagination from './../../Pagination';
+
 import './result-display.css';
 class ResultDisplay extends React.Component{
     constructor(props){
@@ -11,6 +11,7 @@ class ResultDisplay extends React.Component{
             minPrice: 0,
             getInStock: false,
             list: [],
+            foundList: []
         }
         this.fetchItems = this.fetchItems.bind(this);
     }
@@ -28,9 +29,6 @@ class ResultDisplay extends React.Component{
                 list: result
             })
        })
-    }
-    componentDidMount(){
-        this.fetchItems();
     }
     getItemBasedOnSearchResult(){
         let list = this.state.list;
@@ -63,16 +61,24 @@ class ResultDisplay extends React.Component{
         }
         return result;
     }
+    componentDidMount(){
+        this.fetchItems();
+    }
+    componentDidUpdate(){
+        var foundItems = this.getItemBasedOnSearchResult();
+        this.setState({
+            foundList: foundItems
+        });
+    }
+    componentWillUnmount(){
+        this.setState({});
+    }
     render(){
-        const dalist = this.getItemBasedOnSearchResult();
+        console.log(this.state.foundList);
         return(
             <div id="result_display">
-                    <h4>Results: ({dalist.length})</h4>
-                    { dalist.length >0 ? (dalist.map((item)=>(
-                         <OrderWidget key={item.id} id={item.id} name={item.name} quantity={item.quantity} inStock={item.inStock} price={item.price} types={item.types}>
-
-                         </OrderWidget>
-                    ))) : <div>Not found</div> }   
+                    <h4>Results: ({this.state.foundList.length})</h4>
+                    { this.state.foundList.length >0 ? (<Pagination key={this.state.list} list={this.state.list}></Pagination>) : ( <div>Not found</div>) }   
             </div>
         );
     }
