@@ -23,13 +23,6 @@ class ResultDisplay extends React.Component{
             getInStock: props.inStock
         });
     }
-    fetchItems(){
-       fetch("../ORDERS.json").then(res => res.json()).then((result)=>{
-            this.setState({
-                list: result
-            })
-       })
-    }
     getItemBasedOnSearchResult(){
         let list = this.state.list;
         let newList = [];
@@ -61,24 +54,22 @@ class ResultDisplay extends React.Component{
         }
         return result;
     }
+    fetchItems(){
+        fetch("../ORDERS.json").then(res => res.json()).then((result)=>{
+             this.setState({
+                 list: result,
+             });
+        })
+     }
     componentDidMount(){
         this.fetchItems();
     }
-    componentDidUpdate(){
-        var foundItems = this.getItemBasedOnSearchResult();
-        this.setState({
-            foundList: foundItems
-        });
-    }
-    componentWillUnmount(){
-        this.setState({});
-    }
     render(){
-        console.log(this.state.foundList);
+        const foundList = this.getItemBasedOnSearchResult();
         return(
             <div id="result_display">
-                    <h4>Results: ({this.state.foundList.length})</h4>
-                    { this.state.foundList.length >0 ? (<Pagination key={this.state.list} list={this.state.list}></Pagination>) : ( <div>Not found</div>) }   
+                    <h4>Results: ({foundList.length})</h4>
+                    { foundList.length >0 ? (<Pagination  dalist={foundList}></Pagination>) : ( <div>Not found</div>) }   
             </div>
         );
     }

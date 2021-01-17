@@ -3,7 +3,7 @@ import './pagination-controller.scss';
 const PaginationController = (props) => {
     const listOfPage = [];
     let i = 0;
-    let length = props.pageNO;
+    let length = props.pageNo;
     for (i; i < length; i+=1){
         listOfPage.push((<span onClick={()=>{
             props.handlePageChange(i);
