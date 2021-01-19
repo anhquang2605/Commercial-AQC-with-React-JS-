@@ -16,12 +16,26 @@ const Pagination = (props) => {
     let handlePageChange = (indexFromController) => {
        setCurPage(indexFromController);
     }
+    let nextPage = () => {
+        let next = curPage + 1;
+        setCurPage(next);
+    }
+    let prevPage = () => {
+        let prev = curPage - 1;
+        setCurPage(prev);
+    }
+    let firstPage = () =>{
+        setCurPage(0);
+    }
+    let lastPage = () =>{
+        setCurPage(getTotalPageNumbers() - 1);
+    }
     const [itemPerPage, setItemPerPage] = useState(9); 
     var items = getItemsForPage(0);
    // const [itemWidth, setItemWidth] = useState(30); //percentage width of items
     const [curList, setCurList] = useState(items);
     const [pageNumber, setPageNumber] = useState(getTotalPageNumbers());
-   // const [curPage, setCurPage] = useState(1);//deduct one to get the start index
+    const [curPage, setCurPage] = useState(0);//deduct one to get the start index
     const [paginified,setPaginified] = useState(pageNumber>0);
     //props.dalist got update from search result
 
@@ -32,11 +46,16 @@ const Pagination = (props) => {
         setPageNumber(totalPages);
     },[props.dalist]);
     
+    useEffect(()=>{
+        var items = getItemsForPage(curPage*itemPerPage);
+        setCurList(items);
+    },[curPage]);
     return (
         <div className="pagination">
+            <PaginationController prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
             <PaginationView list={curList}></PaginationView>
             { paginified &&
-            <PaginationController pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
+            <PaginationController prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
             }
         </div>
     );

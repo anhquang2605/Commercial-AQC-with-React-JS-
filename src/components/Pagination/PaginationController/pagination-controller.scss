@@ -1,0 +1,26 @@
+.pagination-controller{
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+    &~&{
+        margin-top: 10px;
+    }
+    span:not(.pages-number){
+        padding: 5px;
+        border: 1px solid purple;
+        width: auto;
+        float: left;
+        transition: background-color 0.2s, color 0.2s;
+        &:hover{
+            cursor: pointer;
+            background-color: purple;
+            color: white;
+        }
+    }
+    span.pages-number{
+        border: none;
+    }
+    .cur-page-btn{
+        background-color: yellow;
+    }
+}
