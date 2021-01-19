@@ -30,7 +30,7 @@ const Pagination = (props) => {
     let lastPage = () =>{
         setCurPage(getTotalPageNumbers() - 1);
     }
-    const [itemPerPage, setItemPerPage] = useState(9); 
+    const [itemPerPage, setItemPerPage] = useState(6);//how many item to display
     var items = getItemsForPage(0);
    // const [itemWidth, setItemWidth] = useState(30); //percentage width of items
     const [curList, setCurList] = useState(items);
@@ -44,6 +44,7 @@ const Pagination = (props) => {
         var totalPages = getTotalPageNumbers();
         setCurList(items);
         setPageNumber(totalPages);
+        setPaginified(totalPages >= 2);
     },[props.dalist]);
     
     useEffect(()=>{
@@ -52,7 +53,8 @@ const Pagination = (props) => {
     },[curPage]);
     return (
         <div className="pagination">
-            <PaginationController prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
+            {paginified && <PaginationController prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
+            }
             <PaginationView list={curList}></PaginationView>
             { paginified &&
             <PaginationController prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
