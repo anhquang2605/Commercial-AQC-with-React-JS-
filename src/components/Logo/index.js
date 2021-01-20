@@ -11,7 +11,7 @@ class Logo extends React.Component{
     render(){
         return(
             <a id="company_logo" href={this.state.href}>
-                <img alt="AQC comercial" src= {this.state.imgSrc}/>
+                <img alt="AQC comercial" src= {require("./../../images/" + this.state.imgSrc)}/>
             </a>
         )
     }

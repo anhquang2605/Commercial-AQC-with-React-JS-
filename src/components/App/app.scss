@@ -1,6 +1,7 @@
 //override css attr
 body{
     overflow-x: hidden;
+    font-family: 'Montserrat', sans-serif !important;
     button{
         background-color: white;
         border: 1px solid purple;
@@ -8,6 +9,7 @@ body{
         text-align: center;
         transition: color .2s, background-color .2s;
         border-radius: 2px;
+        font-family: 'Montserrat', sans-serif !important;
     }
     button:hover{
         background-color: purple;
@@ -17,5 +19,6 @@ body{
         border-radius: 0;
         outline: none;
     }
+
 }
 

@@ -30,7 +30,7 @@ const Pagination = (props) => {
     let lastPage = () =>{
         setCurPage(getTotalPageNumbers() - 1);
     }
-    const [itemPerPage, setItemPerPage] = useState(6);//how many item to display
+    const [itemPerPage, setItemPerPage] = useState(8);//how many item to display
     var items = getItemsForPage(0);
    // const [itemWidth, setItemWidth] = useState(30); //percentage width of items
     const [curList, setCurList] = useState(items);

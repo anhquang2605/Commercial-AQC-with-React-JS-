@@ -71,7 +71,7 @@ const App = (props) =>  {
             <div className="commercial-AQC">
                 <h1>Commercial website</h1>
                 <Navigator>
-                    <Logo href={ROUTES.HOME}></Logo>
+                    <Logo href={ROUTES.HOME} src={'logo.png'}></Logo>
                     <NavBar></NavBar>
                     {(pageName.search("/result")) != 0  && <SearchBar></SearchBar>}
                 </Navigator>
