@@ -38,7 +38,7 @@ const KartDetail = (props) => {
                     </tr>
                     {list.map((item,index)=>{
                         return(
-                        <tr key={item.name + item.type}>
+                        <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item.type + " " + item.name}</td>
                             <td><input max={ORDERS[item.id-1].quantity}  type="number" value={item.quantity} onChange={ (e) => {handleQuantityChange(e,index)}}

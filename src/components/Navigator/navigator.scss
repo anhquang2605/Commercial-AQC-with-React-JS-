@@ -1,8 +1,16 @@
-.header{
+#header{
     width: 100%;
     clear: both;
     float: left;
     margin-bottom: 10px;
     height: auto;
-    padding: 5px;
+    padding: 10px;
+    background: khaki;
+    z-index: 8000;
+    box-sizing: border-box;
+}
+.sticky{
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
