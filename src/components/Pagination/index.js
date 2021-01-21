@@ -53,11 +53,11 @@ const Pagination = (props) => {
     },[curPage]);
     return (
         <div className="pagination">
-            {paginified && <PaginationController prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
+            {paginified && <PaginationController list={props.dalist} prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
             }
             <PaginationView list={curList}></PaginationView>
             { paginified &&
-            <PaginationController prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
+            <PaginationController list={props.dalist} prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
             }
         </div>
     );

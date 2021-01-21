@@ -70,12 +70,15 @@ const ShoppingCart = (props) => {
                         <col span={1}></col>
                         <col span={1}></col>
                     </colgroup>
-                    <tr>
-                        <th>#</th>
-                        <th >Name</th>
-                        <th>No</th>
-                        <th></th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th >Name</th>
+                            <th>No</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     {list.map((item,index) => {
                         return(
                         <tr key={index}>
@@ -88,6 +91,7 @@ const ShoppingCart = (props) => {
                         </tr>
                         )
                     })}
+                    </tbody>
                 </table>
                 ) : "No item" }
             </div>

@@ -1,7 +1,9 @@
+import { checkPropTypes } from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import './pagination-controller.scss';
 const PaginationController = (props) => {
     const [curPage, setCurPage] = useState(props.cur);
+    const [,setState] = useState();
     const [lastPage, setLastPage] = useState(props.lastP);
     const listOfPage = [];
     let i = 0;
@@ -15,11 +17,17 @@ const PaginationController = (props) => {
         i+=1;
     }
     useEffect(()=>{
+        //if the current page number is updated
         setCurPage(props.cur);
-    },[props.cur])
+    },[props.cur]);
+    useEffect(()=>{
+        //if the list changed
+        props.handlePageChange(0);//tells the parents to update to page 1
+
+    },[props.list]);
     return (
         <div className="pagination-controller">
-            <span className="first-btn" onClick={(e)=>{
+            <span hidden={curPage == 0} className="first-btn" onClick={(e)=>{
                 e.stopPropagation();
                 props.first();
             }}>First</span>
@@ -27,14 +35,14 @@ const PaginationController = (props) => {
                 e.stopPropagation();
                 props.prev();
             }}>Prev</span>
-            <span className="pages-number">
+            <span key={curPage} className="pages-number">
                 {listOfPage}
             </span>
             <span hidden={curPage == props.lastP } className="next-btn"onClick={(e)=>{
                 e.stopPropagation();
                 props.next();
             }}>Next</span>
-            <span className="last-btn"onClick={(e)=>{
+            <span hidden={curPage == props.lastP } className="last-btn"onClick={(e)=>{
                 e.stopPropagation();
                 props.last();
             }}>Last</span>

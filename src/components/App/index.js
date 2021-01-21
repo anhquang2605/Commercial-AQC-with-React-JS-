@@ -69,7 +69,7 @@ const App = (props) =>  {
 
         return(
             <div className="commercial-AQC">
-                <h1>Commercial website</h1>
+                <h1>Commercial website AQC</h1>
                 <Navigator>
                     <Logo href={ROUTES.HOME} src={'logo.png'}></Logo>
                     <NavBar></NavBar>

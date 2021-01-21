@@ -9,7 +9,6 @@ ORDERS.forEach(ele => {
        LISTOFFEATURED.push(ele);
     }
 });
-console.log(JSON.stringify(ORDERS))
 class Home extends React.Component{
     render(){
         return(
