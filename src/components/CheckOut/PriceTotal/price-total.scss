@@ -1,0 +1,31 @@
+.total-price{
+    border: 1px solid purple;
+    border-radius: 5px;
+    padding: 10px;
+    span{
+        display:block;
+        &.price-row{
+            width: 100%;
+            & *{
+                display: inline-block;
+                margin-bottom: 5px;
+            }
+            .item-label{
+                font-weight: bold;
+                color: purple;
+                &.final + span{
+                    font-size: 1.5em;
+                }
+            }
+            .item-value{
+                margin-left: 5px;
+            }
+        }
+    }
+    .order-place-btn{
+        color: black;
+        padding: 10px;
+        background: khaki;
+        font-weight: medium;
+    }
+}

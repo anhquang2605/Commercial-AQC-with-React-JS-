@@ -9,6 +9,9 @@
         padding: 10px;
         td{
             text-align: center;
+            img{
+                width: 200px;
+            }
         }
         input{
             width: 100%;
@@ -16,7 +19,8 @@
     }
     .check-out-btn{
         margin: 10px auto;
-        display: flex;
+        width: 10%;
+        text-align: center;
     }
     .empty-kart-detail{
         display: block;

@@ -1,4 +1,5 @@
 import {React, useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import ORDERS from '../../model/Orders';
 import './kart-detail.scss';
 const KartDetail = (props) => {
@@ -27,9 +28,11 @@ const KartDetail = (props) => {
                         <col span="1"></col>
                         <col span="1"></col>
                         <col span="1"></col>
+                        <col span="1"></col>
                     </colgroup>
                     <tr>
                         <th width="5%">No</th>
+                        <th width="10%"></th>
                         <th width="35%">Name</th>
                         <th width="5%">Quantity</th>
                         <th width="15%">Price Ea</th>
@@ -40,6 +43,7 @@ const KartDetail = (props) => {
                         return(
                         <tr key={index}>
                             <td>{index + 1}</td>
+                            <td><img src={require("./../../images/" + item.id + "-" +item.type+ ".jpg")}></img></td>
                             <td>{item.type + " " + item.name}</td>
                             <td><input max={ORDERS[item.id-1].quantity}  type="number" value={item.quantity} onChange={ (e) => {handleQuantityChange(e,index)}}
                             ></input></td>
@@ -52,7 +56,7 @@ const KartDetail = (props) => {
                     })}
                 </table>
             ) : <span className="empty-kart-detail">No item</span>}
-            {list.length > 0 && <button className="check-out-btn">Check out</button>}
+            {list.length > 0 && <Link className="check-out-btn btn" to="/checkout">Check out</Link>}
         </div>
     );
 }

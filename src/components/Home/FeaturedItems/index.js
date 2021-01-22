@@ -1,5 +1,6 @@
 import React from 'react';
 import OrderWidget from '../../OrderWidget';
+import './feature-items.scss';
 class FeaturedItems extends React.Component{
     constructor(props){
         super(props);
@@ -21,7 +22,9 @@ class FeaturedItems extends React.Component{
         return (
             <div className="FeaturedItems">
                 <h3>Featured Items</h3>
-                {this.generateItems()}
+                <div className="flex-container">
+                    {this.generateItems()}
+                </div>
             </div>
         )
     }

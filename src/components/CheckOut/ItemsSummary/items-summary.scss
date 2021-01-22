@@ -1,0 +1,14 @@
+#items-summary{
+    width: 100%;
+    padding: 5px;
+    table{
+        width: 70%;
+        float: left;
+        td,th{
+            text-align: center;
+        }
+        td img{
+            width: 100px;
+        }
+    }
+}

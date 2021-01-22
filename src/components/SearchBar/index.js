@@ -94,7 +94,7 @@ class SearchBar extends React.Component{
         inputSearchField.value = "";
     }
     componentDidMount = () => {
-        if(this.state.fullList === []){
+        if(this.state.fullList === null || []){
             this.fetchItems();
         }
     }
