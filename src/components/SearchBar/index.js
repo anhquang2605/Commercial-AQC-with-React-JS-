@@ -2,6 +2,7 @@ import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
 import './search-bar.scss';
+import ORDERS from '../../model/Orders';
 import {BsSearch} from 'react-icons/bs';
 import { BiBody } from 'react-icons/bi';
 class SearchBar extends React.Component{
@@ -25,7 +26,7 @@ class SearchBar extends React.Component{
         this.handleMouseLeave = this.handleMouseLeave.bind(this);
     }
     fetchItems = () => {//get list of items here
-        fetch("ORDERS.json").then( res => res.text() ).then((res)=>{
+        /* fetch("ORDERS.json").then( res => res.text() ).then((res)=>{
             var res = JSON.parse(res);
             let newList = res.map((item) => {//only take their names
                 return item.name.toLowerCase();
@@ -33,7 +34,14 @@ class SearchBar extends React.Component{
             this.setState({
                 fullList: newList
             })
-        });
+        }); */ // somehow json error input keeps on popping up, might check to solve this later
+        //Using direct ORDERS FROM models
+        let newList = ORDERS.map((item) => {//only take their names
+            return item.name.toLowerCase();
+        })
+        this.setState({
+            fullList: newList
+        })
     }
     handleOnChange(event){
         this.setState(()=>({
@@ -94,7 +102,7 @@ class SearchBar extends React.Component{
         inputSearchField.value = "";
     }
     componentDidMount = () => {
-        if(this.state.fullList === null || []){
+        if(this.state.fullList.length === 0 ){
             this.fetchItems();
         }
     }

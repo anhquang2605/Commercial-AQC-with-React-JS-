@@ -43,18 +43,16 @@ const Payment = (props) => {
                                     <th>Card Name</th>
                                     <th>Ammount / %</th>
                                     <th>Name of Card</th>
-
                                 </tr>
                             </thead>
                             <tbody>
                                 {GIFTCARDS.length > 0 && GIFTCARDS.map((card)=>{
                                     return(
                                         <tr key={card.id}>
-                                            <td className="radio-value"><input type="radio" name="card" value={card.id}></input></td>
+                                            <td className="radio-value"><input type="radio" name="giftCard" value={card.id}></input></td>
                                             <td className="card-name">{card.name} {" " + card.type} </td>
                                             <td className="card-dis">{card.type == "debit" ? "$ " + card.ammount : card.dis + " %"}</td>
                                             <td className="card-owner">{card.nameOnCard}</td>
-                                        
                                         </tr>
                                     );
                                 })}

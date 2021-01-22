@@ -76,6 +76,7 @@
         margin: 0 auto;
         margin-top: 10px;
         text-align: center;
-        display: flex;//important to make box display in the middle of container
+        max-width: 150px;
+        min-width: auto;
     }
 }

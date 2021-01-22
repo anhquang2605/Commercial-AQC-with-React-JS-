@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import {BiX} from 'react-icons/bi';
 import {BsFillBagFill} from 'react-icons/bs';
+import {Link} from 'react-router-dom';
 import $ from 'jquery';
 import './shopping-cart.scss';
 const ShoppingCart = (props) => {
@@ -95,7 +96,7 @@ const ShoppingCart = (props) => {
                 </table>
                 ) : "No item" }
             </div>
-            {(list.length>0) && <button className="cart-check-out-btn" onClick={()=>{}}>Check out</button>}
+            {(list.length>0) && <Link className="cart-check-out-btn btn" to="/checkout" onClick={()=>{}}>Check out</Link>}
         </div>
     );
 }
