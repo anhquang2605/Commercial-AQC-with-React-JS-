@@ -24,6 +24,12 @@ body{
         text-decoration: none;
         width: auto;
     }
-
+    .switch-wrapper {
+        position: relative;
+      }
+       
+    .switch-wrapper > div {
+        position: absolute;
+    }
 }
 

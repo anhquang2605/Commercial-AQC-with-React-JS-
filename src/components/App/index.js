@@ -4,7 +4,8 @@ import Home from '../Home';
 import NavBar from '../NavBar';
 import SearchBar from '../SearchBar';
 import Logo from '../Logo';
-import {BrowserRouter as Router, Route, Switch, useLocation} from 'react-router-dom';
+import { Route, Switch, useLocation} from 'react-router-dom';
+import {CSSTransition} from 'react-transition-group';
 import * as ROUTES from '../../Constants/Routes';
 import SearchResult from '../SearchResult';
 import OrderDetail from '../OrderDetail';
@@ -77,13 +78,17 @@ const App = (props) =>  {
                     {(pageName.search("/result")) != 0  && <SearchBar></SearchBar>}
                 </Navigator>
                 {((pageName.search("/kart-detail")!= 0) && (pageName.search("/checkout")!= 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
-                <Switch>
-                    <Route  exact path = {ROUTES.HOME} component = {Home}/>
-                    <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
-                    <Route path = {ROUTES.ORDERS + "/:id"} render={(props) => (<OrderDetail {...props} addItem={addToCartList} reRendering={handleRerendering}></OrderDetail>)}></Route>
-                    <Route path = {ROUTES.KART_DETAIL} render={(props) => (<KartDetail {...props} list={cartList} removeItem={removeFromCartList} changeQuantity={handleChangeOfQuantity} rerenderer={handleRerendering}></KartDetail>)}></Route>
-                    <Route path = {ROUTES.CHECK_OUT} render = {(props) => (<CheckOut {...props} list={cartList}></CheckOut>)}></Route>
-                </Switch>
+                  
+                
+
+                            <Switch location={location}>
+                                <Route  exact path = {ROUTES.HOME} component = {Home}/>
+                                <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
+                                <Route path = {ROUTES.ORDERS + "/:id"} render={(props) => (<OrderDetail {...props} addItem={addToCartList} reRendering={handleRerendering}></OrderDetail>)}></Route>
+                                <Route path = {ROUTES.KART_DETAIL} render={(props) => (<KartDetail {...props} list={cartList} removeItem={removeFromCartList} changeQuantity={handleChangeOfQuantity} rerenderer={handleRerendering}></KartDetail>)}></Route>
+                                <Route path = {ROUTES.CHECK_OUT} render = {(props) => (<CheckOut {...props} list={cartList}></CheckOut>)}></Route>
+                            </Switch>
+                       
             </div>
         )
 } 

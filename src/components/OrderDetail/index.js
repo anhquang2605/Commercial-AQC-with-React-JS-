@@ -1,10 +1,12 @@
 import {React, useEffect, useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import ImageView from './ImageView';
 import ItemDetail from './ItemDetail';
 import OrderTypeRadio from './OrderTypesRadio/OrderTypeRadio';
 import ORDERS from '../../model/Orders';
 import './order-detail.scss';
 const OrderDetail = (props) => {
+    const history = useHistory();
     let idFromParams = props.match.params.id - 1;
     let theOrder = ORDERS[idFromParams];
     let getImgSrcFromType = (type) =>{
@@ -25,6 +27,16 @@ const OrderDetail = (props) => {
     //reset quantity when switch between types
     let resetQInput = () => {
         setQuantityInput(1);
+    }
+    //Add Item to cart then trigger route change to check out
+    let handleBuyNow = (obj) => {
+       var promise = new Promise(resolve => {
+        props.addItem(obj);
+        resolve();
+       }) 
+        promise.then(()=>{
+            history.push("/checkout");
+        })
     }
     //watch for curtype change then update img src 
     useEffect(()=>{
@@ -55,7 +67,15 @@ const OrderDetail = (props) => {
                         })
                         props.reRendering();
                     }} disabled={order.quantity <= 0}>Add to Cart</button>
-                    <button disabled={order.quantity <= 0}>
+                    <button onClick={()=> {
+                        handleBuyNow({
+                            name: order.name,
+                            quantity: parseInt(quantityInput),
+                            id: order.id,
+                            price: order.price,
+                            type: curType,
+                        })}
+                        } disabled={order.quantity <= 0}>
                         Buy Now
                     </button>
                 </div>

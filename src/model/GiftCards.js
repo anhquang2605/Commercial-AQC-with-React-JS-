@@ -6,6 +6,7 @@ const GIFTCARDS = [
         type: "debit",
         ammount: 47,
         dis: 0,
+        imgSrc: "gc_icon.png",
     },
     {
         id: 1,
@@ -14,6 +15,7 @@ const GIFTCARDS = [
         type: "discount",
         ammount: 0,
         dis: 15,
+        imgSrc: "gc_xmas.jpg"
     }
 ]
 

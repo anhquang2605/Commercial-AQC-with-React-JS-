@@ -35,6 +35,7 @@ class SearchBar extends React.Component{
                 fullList: newList
             })
         }); */ // somehow json error input keeps on popping up, might check to solve this later
+        
         //Using direct ORDERS FROM models
         let newList = ORDERS.map((item) => {//only take their names
             return item.name.toLowerCase();

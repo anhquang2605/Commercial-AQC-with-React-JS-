@@ -12,4 +12,17 @@
             text-align: left;
         }
     }
+    #chosen-card{
+        transition: height 0.3;
+        img{
+            width: 50px;
+        }
+    }
+    #change-card-field{
+        transition: height 0.2;
+    }
+    .display-none{
+        height: 0;
+        overflow: hidden;
+    }
 }
