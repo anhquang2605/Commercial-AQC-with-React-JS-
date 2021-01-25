@@ -2,19 +2,20 @@
     li{
         display: inline-block;
         padding: 5px;
-        border: 1px solid cornflowerblue;
+        border: 1px solid purple;
         border-radius: 2px;
         margin-left: 5px;
+        transition: background-color .2s;
         a{
             text-decoration: none !important;
             color: black;
+            transition:  background-color .2s;
         }
         &:hover{
-            background-color:cornflowerblue;
-            font-weight: bold;
+            background-color: khaki;
         }
         & a:hover{
-            color: white;
+            color: black;
         }
 
     }

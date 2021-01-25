@@ -8,9 +8,24 @@ class Navigator extends React.Component{
             routes: ROUTES
         }
     }
+    componentDidMount = () => {
+        window.addEventListener("scroll", this.handleStickyScroll);
+    }
+    componentWillUnmount = () => {
+        window.removeEventListener("scroll", this.handleStickyScroll);
+    }
+    handleStickyScroll = () => {
+        var header = document.getElementById("header");
+        var headerOffSet = header.offsetTop;
+        if(window.pageYOffset > headerOffSet){
+            header.classList.add("sticky");
+        } else {
+            header.classList.remove("sticky");
+        }
+    }
     render() {
         return(
-            <div className="header">
+            <div id="header">
                 {this.props.children}
             </div>
         )

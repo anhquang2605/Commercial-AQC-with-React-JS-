@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import {BiX} from 'react-icons/bi';
 import {BsFillBagFill} from 'react-icons/bs';
+import {Link} from 'react-router-dom';
 import $ from 'jquery';
 import './shopping-cart.scss';
 const ShoppingCart = (props) => {
@@ -39,6 +40,13 @@ const ShoppingCart = (props) => {
             };
         })
     }
+    let getTotalQuantity = () => {
+        var quantity = 0;
+        list.forEach((item) => {
+            quantity += parseInt(item.quantity);
+        })
+        return quantity
+    }
     useEffect(()=>{
         JQueryCode();
     },[])
@@ -49,7 +57,7 @@ const ShoppingCart = (props) => {
         <div id="shopping_cart_container">
              <div id="shopping_cart_mini">
                 <BsFillBagFill></BsFillBagFill>
-                <span className="item-no-mini-cart">{list.length}</span>        
+                <span className="item-no-mini-cart">{getTotalQuantity()}</span>        
              </div>
              <div className="close-btn">
                 <BiX></BiX>
@@ -63,12 +71,15 @@ const ShoppingCart = (props) => {
                         <col span={1}></col>
                         <col span={1}></col>
                     </colgroup>
-                    <tr>
-                        <th>#</th>
-                        <th >Name</th>
-                        <th>No</th>
-                        <th></th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th >Name</th>
+                            <th>No</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     {list.map((item,index) => {
                         return(
                         <tr key={index}>
@@ -76,15 +87,16 @@ const ShoppingCart = (props) => {
                             <td>{item.type + " " + item.name}</td>
                             <td>{item.quantity}</td>
                             <td><button alt="remove item" onClick={()=>{
-                                props.removeItem(index)
-                                console.log(props.cartList);
-                                //props.reRendering();                                
+                                props.removeItem(index)                               
                             }}><BiX></BiX></button></td>
                         </tr>
                         )
                     })}
-                </table>) : "No item" }
+                    </tbody>
+                </table>
+                ) : "No item" }
             </div>
+            {(list.length>0) && <Link className="cart-check-out-btn btn" to="/checkout" onClick={()=>{}}>Check out</Link>}
         </div>
     );
 }

@@ -9,7 +9,7 @@ class SearchForm extends Component {
             maxPrice: 0,
             minPrice: 0,
             types: '',
-            avail: true,
+            avail: false,
             valid: false,
             validName: true,
             validPrice: true,

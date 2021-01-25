@@ -1,3 +1,35 @@
+//override css attr
 body{
     overflow-x: hidden;
+    font-family: 'Montserrat', sans-serif !important;
+    button, a.btn{
+        background-color: white;
+        border: 1px solid purple;
+        margin-right: 5px;
+        text-align: center;
+        transition: color .2s, background-color .2s;
+        border-radius: 2px;
+        font-family: 'Montserrat', sans-serif !important;
+        &:hover{
+            background-color: purple;
+            color: white;
+        }
+        &:focus{
+            border-radius: 0;
+            outline: none;
+        }
+    }
+    a.btn{
+        display:block;
+        text-decoration: none;
+        width: auto;
+    }
+    .switch-wrapper {
+        position: relative;
+      }
+       
+    .switch-wrapper > div {
+        position: absolute;
+    }
 }
+

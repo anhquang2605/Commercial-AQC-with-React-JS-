@@ -1,5 +1,7 @@
 #search_bar{
     float: right;
+    position: relative;
+    height: auto;
     input{
         float: left;
         height: 20px;
@@ -14,5 +16,28 @@
     a:hover{
         background-color: violet;
         color: white;
+    }
+    .hints{
+        position: absolute;
+        top:30px;
+        width: 100%;
+        z-index: 9000;
+        background: white;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 300px;
+        padding: 10px;
+        box-sizing: border-box;
+        span{
+            width: 100%;
+            display: flex;
+            margin-bottom: 5px;
+            transition: background-color 0.2s;
+            &:hover{
+                cursor: pointer;
+                background-color:  purple;
+                color: white;
+            }
+        }
     }
 }

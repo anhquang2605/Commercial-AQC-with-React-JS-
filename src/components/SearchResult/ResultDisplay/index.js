@@ -1,6 +1,6 @@
 import React from 'react';
-import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
-import OrderWidget from '../../OrderWidget';
+import Pagination from './../../Pagination';
+
 import './result-display.css';
 class ResultDisplay extends React.Component{
     constructor(props){
@@ -11,6 +11,7 @@ class ResultDisplay extends React.Component{
             minPrice: 0,
             getInStock: false,
             list: [],
+            foundList: []
         }
         this.fetchItems = this.fetchItems.bind(this);
     }
@@ -21,16 +22,6 @@ class ResultDisplay extends React.Component{
             minPrice: props.minPrice,
             getInStock: props.inStock
         });
-    }
-    fetchItems(){
-       fetch("../ORDERS.json").then(res => res.json()).then((result)=>{
-            this.setState({
-                list: result
-            })
-       })
-    }
-    componentDidMount(){
-        this.fetchItems();
     }
     getItemBasedOnSearchResult(){
         let list = this.state.list;
@@ -63,15 +54,22 @@ class ResultDisplay extends React.Component{
         }
         return result;
     }
+    fetchItems(){
+        fetch("../ORDERS.json").then(res => res.json()).then((result)=>{
+             this.setState({
+                 list: result,
+             });
+        })
+     }
+    componentDidMount(){
+        this.fetchItems();
+    }
     render(){
-        const dalist = this.getItemBasedOnSearchResult();
+        const foundList = this.getItemBasedOnSearchResult();
         return(
             <div id="result_display">
-                    { dalist.length >0 ? (dalist.map((item)=>(
-                         <OrderWidget key={item.id} id={item.id} name={item.name} quantity={item.quantity} inStock={item.inStock} price={item.price} types={item.types}>
-
-                         </OrderWidget>
-                    ))) : <div>Not found</div> }   
+                    <h4>Results: ({foundList.length})</h4>
+                    { foundList.length >0 ? (<Pagination  dalist={foundList}></Pagination>) : ( <div>Not found</div>) }   
             </div>
         );
     }
