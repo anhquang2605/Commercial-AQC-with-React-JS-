@@ -20,7 +20,6 @@
     "react-router-transition": "^2.0.0",
     "react-scripts": "4.0.1",
     "react-transition": "^1.0.3",
-    "react-transition-group": "^1.2.1",
     "redux": "^4.0.5",
     "web-vitals": "^0.2.4"
   },

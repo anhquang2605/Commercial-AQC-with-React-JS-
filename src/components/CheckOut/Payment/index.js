@@ -4,8 +4,7 @@ import GIFTCARDS from '../../../model/GiftCards';
 import './payment.scss';
 const Payment = (props) => {
     const [dacard, setdaCard] = useState(CARDS[0]);
-    const [dagiftCard, setdaGiftCard] = useState(GIFTCARDS[0]);
-
+    const [dagiftCards, setdaGiftCard] = useState([]);
     let handleChange = (e) =>{
         e.stopPropagation();
         var changeField = document.getElementById("change-card-field");
@@ -13,7 +12,6 @@ const Payment = (props) => {
         changeField.classList.remove("display-none");
         chosen.classList.add("display-none");
     }
-
     let handleClose = (e) =>{
         e.stopPropagation();
         var changeField = document.getElementById("change-card-field");
@@ -22,42 +20,51 @@ const Payment = (props) => {
         changeField.classList.add("display-none"); 
         //Check if there is gift card or not, if there is, check if it is a debit or percentage
         //Should change this since it seems imparative
-        if(dagiftCard.id === "" || dagiftCard === undefined){
+        if(dagiftCards.length === 0 || dagiftCards === undefined){
             props.getDis(0);
             props.getDebitDis(0);
-        } else if (dagiftCard.type === "discount") {
-            props.getDis(dagiftCard.dis);
-            props.getDebitDis(0);
-        } else if (dagiftCard.type === "debit") {
-            props.getDebitDis(dagiftCard.ammount);
-            props.getDis(0);
+        } else {
+            handleDiscount();
+        } 
+
+        
+    }
+    let handleDiscount = () => {
+        var disObj = {dis: 0, ammt: 0};
+        dagiftCards.forEach(card => {
+            if(card.type==="discount"){
+                disObj.dis +=  card.dis;
+            } else {
+                disObj.ammt += card.ammount;
+            }
+        });
+        props.getDis(disObj.dis);
+        props.getDebitDis(disObj.ammt);
+    }
+    let handleChangeGcard = (id,e) =>{
+        var items = [...dagiftCards];    
+        var newList;
+        if(e.target.checked){//if checked the box, added the item
+            items.push(GIFTCARDS[id]);
+            setdaGiftCard(items);
+        } else {// else unchecked, remove the item
+            var found = items.findIndex(ele => ele.id === id);
+            newList = items.slice(0, found).concat(items.slice(found + 1, items.length))
+            setdaGiftCard(newList);
+        }       
+    }
+    let noGiftCard = (e) => {
+        var dontUseThem = e.target.checked;
+        if(dontUseThem){
+            setdaGiftCard([]);
+            
         }
         
     }
-
-    let handleChangeGcard = (id) =>{
-        if (id === ""){
-           setdaGiftCard({id: ""}); 
-        } else {
-            setdaGiftCard(GIFTCARDS[id]);
-        }
-    }
-
     let handleChangeCard = (id) => {
         setdaCard(CARDS[id])
     }
 
-    useEffect(() => {
-        var giftCard = GIFTCARDS[0];//INITLA GIFT CARD
-        if (giftCard.type === "debit"){
-            props.getDebitDis(giftCard.ammount);
-            props.getDis(0);
-        } else if (giftCard.type === "dis"){
-            props.getDis(giftCard.dis);
-            props.getDebitDis(0);
-        }
-        
-    }, []);
     return (
         <div id="payment">
                 <h4 className="check-out-title">Payment</h4>
@@ -69,14 +76,20 @@ const Payment = (props) => {
                                 <span className="card-name"><b>{dacard.type}</b></span>
                                 <span className="card-ending">Ending in {dacard.number.slice(15)}</span>
                              </div>
-                             {(dagiftCard.id !== "" && dagiftCard != undefined) ? 
+                             {(dagiftCards.length !== 0) ? 
                              <div className="giftcard-payment">
-                                <img className="gcard-img" src={require("../../../images/Cards/" + dagiftCard.imgSrc)}></img>
-                                <span className="gcard-name">{
-                                (dagiftCard.type === "debit"? ("$ " + dagiftCard.ammount) : (dagiftCard.dis + " %")) 
-                                + " " + dagiftCard.name + " gift card"
-                                }</span>
-                             </div> : <div>No gift card chosen</div>}
+                                {dagiftCards.map(card => {
+                                return(
+                                <div key={card.id} className="chosen-gift-card">
+                                    <img className="gcard-img" src={require("../../../images/Cards/" + card.imgSrc)}></img>
+                                    <span className="gcard-name">{
+                                    (card.type === "debit"? ("$ " + card.ammount) : (card.dis + " %")) 
+                                    + " " + card.name + " gift card"}</span>
+                                </div>
+                                );
+                                
+                            })}
+                             </div> : <div>No gift card chosen, you owned <b>{GIFTCARDS.length}</b> gift cards </div>}
                     </div>
                    <div id="change-card-field" className="display-none">
                         <div className="card-container-change">
@@ -118,7 +131,7 @@ const Payment = (props) => {
                                     {GIFTCARDS.map((card)=>{
                                         return(
                                             <tr key={card.id}>
-                                                <td className="radio-value"><input onChange={()=>{handleChangeGcard(card.id)}} defaultChecked={card.id == dagiftCard.id } type="radio" name="giftCard" value={card.id}></input></td>
+                                                <td className="checkbox-value"><input onChange={(e)=>{handleChangeGcard(card.id,e)}} checked={dagiftCards.findIndex(dacard => dacard.id === card.id) != -1}   type="checkbox" name={"giftcard" + (parseInt(card.id) + 1)} value={card.id}></input></td>
                                                 <td className="card-name">{card.name}  </td>
                                                 <td className="card-dis">{card.type == "debit" ? "$ " + card.ammount : card.dis + " %"}</td>
                                                 <td className="card-owner">{card.nameOnCard}</td>
@@ -126,7 +139,8 @@ const Payment = (props) => {
                                         );
                                         })}
                                     <tr>
-                                        <td className="radio-value"><input onChange={()=>{handleChangeGcard("")}} defaultChecked={dagiftCard.id === ""} type="radio" name="giftCard" value={""}></input></td>
+                                        <td className="checkbox-value"><input onChange={(e)=>{
+                                            noGiftCard(e)}} checked={dagiftCards.length===0}  type="checkbox" name="giftCard"></input></td>
                                         <td className="card-name">I don't use any gift card</td>
                                     </tr>
                                     
@@ -136,9 +150,7 @@ const Payment = (props) => {
                         : <div className="no-gift-card">No gift card available</div>}
                         <button className="commit-btn" onClick={handleClose}>Commit change (Close)</button>
                         </div>
-                </div>
-               
-                
+                </div>                
         </div>
     );
 }

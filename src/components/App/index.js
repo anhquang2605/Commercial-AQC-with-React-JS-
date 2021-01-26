@@ -5,7 +5,6 @@ import NavBar from '../NavBar';
 import SearchBar from '../SearchBar';
 import Logo from '../Logo';
 import { Route, Switch, useLocation} from 'react-router-dom';
-import {CSSTransition} from 'react-transition-group';
 import * as ROUTES from '../../Constants/Routes';
 import SearchResult from '../SearchResult';
 import OrderDetail from '../OrderDetail';
