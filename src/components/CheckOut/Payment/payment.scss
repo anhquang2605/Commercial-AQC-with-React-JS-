@@ -3,7 +3,7 @@
         text-transform: capitalize;
     }
     table{
-        border: 1px solid purple;
+        border: 1px solid black;
         border-radius: 5px;
         width: 100%;
         margin: 5px 0;
@@ -20,6 +20,10 @@
     }
     #change-card-field{
         transition: height 0.2;
+        padding: 10px;
+        border: 1px solid purple;
+        box-sizing: border-box;
+        width: 100%;
     }
     .display-none{
         height: 0;

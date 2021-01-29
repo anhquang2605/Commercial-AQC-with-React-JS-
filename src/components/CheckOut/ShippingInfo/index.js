@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './shipping-info.scss';
+
 const ShippingInfo = () => {
     return (
         <div id="shipping-info">

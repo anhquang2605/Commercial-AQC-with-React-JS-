@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import CARDS from '../../../model/Cards';
 import GIFTCARDS from '../../../model/GiftCards';
 import './payment.scss';
 const Payment = (props) => {
-    const [dacard, setdaCard] = useState(CARDS[0]);
+    const [dacard, setdaCard] = useState(props.card);
+    const [cards, setCards] =  useState(props.cards);
     const [dagiftCards, setdaGiftCard] = useState([]);
     let handleChange = (e) =>{
         e.stopPropagation();
@@ -62,20 +62,25 @@ const Payment = (props) => {
         
     }
     let handleChangeCard = (id) => {
-        setdaCard(CARDS[id])
+        props.setMyCard(id);
     }
-
+    useState(()=>{
+        if(props.cards){
+            setdaCard(props.card);
+            setCards(props.cards);
+        }
+    },[]);
     return (
         <div id="payment">
                 <h4 className="check-out-title">Payment</h4>
                 <div className="card-options">
                     <div id="chosen-card">
                              <button  className="change-card" onClick={handleChange}>Change</button>
-                             <div className="card-payment">
-                                <img className="card-img" src={require("../../../images/Cards/" + dacard.imgSrc)}></img>
-                                <span className="card-name"><b>{dacard.type}</b></span>
-                                <span className="card-ending">Ending in {dacard.number.slice(15)}</span>
-                             </div>
+                             {props.card && <div className="card-payment">
+                                 <img className="card-img" src={require("../../../images/Cards/" + props.card.imgSrc)}></img>
+                                <span className="card-name"><b>{props.card.type} </b></span>
+                                <span className="card-ending">Ending in {props.card["card number"].slice(12)}</span> 
+                             </div>}
                              {(dagiftCards.length !== 0) ? 
                              <div className="giftcard-payment">
                                 {dagiftCards.map(card => {
@@ -93,6 +98,7 @@ const Payment = (props) => {
                     </div>
                    <div id="change-card-field" className="display-none">
                         <div className="card-container-change">
+                            <h4>Cards for payment</h4>
                             <table>
                                 <thead>
                                     <tr>
@@ -103,21 +109,25 @@ const Payment = (props) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {CARDS.length > 0 && CARDS.map((card)=>{
-                                        return(
-                                            <tr key={card.id}>
-                                                <td className="radio-value"><input onChange={()=>{handleChangeCard(card.id)}} defaultChecked={card.id == dacard.id } type="radio" name="card" value={card.id}></input></td>
-                                                <td className="card-name"><b>{card.name} {" " + card.type}</b> ending in {card.number.slice(15)}</td>
-                                                <td className="card-owner">{card.nameOnCard}</td>
-                                                <td className="card-exp">{card.expM}/{card.expY}</td>
-                                            </tr>
+                                    {props.cards  && props.cards.map((card)=>{
+                                        return( 
+                    
+                                           <tr key={card["id"]}>
+
+                                               { <td className="radio-value"><input onChange={()=>{handleChangeCard(card["id"])}} defaultChecked={card["id"] == props.card["id"] } type="radio" name="card" value={card["id"]}></input></td>}
+                                                <td className="card-name"><b>{card.name} {" " + card.type}</b> ending in {card["card number"].slice(12)}</td>
+                                                <td className="card-owner">{card.owner.toUpperCase()}</td>
+                                                <td className="card-exp">{card["exp month"]}/{card["exp year"]}</td>
+                                            </tr>  
                                         );
                                     })}
                                 </tbody>
                             </table>
+                            <button className="btn add-card-btn">+ Add a new card</button>
                         </div>
                         {GIFTCARDS.length > 0 ? 
                         <div className="gcard-container-change">
+                            <h4>Gift cards</h4>
                             <table>
                                 <thead>
                                     <tr>
