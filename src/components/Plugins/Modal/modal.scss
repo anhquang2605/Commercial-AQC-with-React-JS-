@@ -1,0 +1,55 @@
+.modal-container{
+    width: 100%;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    display: block;
+    transition: visibility 0.5s, opacity 0.5s;
+    .black-curtain{
+        width: 100%;
+        background: black;
+        opacity: 0.7;
+        position: relative;
+        height: 100%;
+    }
+    .modal{
+        position: absolute;
+        z-index: 5000;
+        width: 60%;
+        left: 20%;
+        top: 20%;
+        background: white;
+        height: 45%;
+        padding: 20px;
+    }
+    .close-btn{
+        border: none;
+        transition: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        svg{
+            fill: darkred;
+            width: 100%;
+            height: 100%;
+            transition: fill 0.3s;
+        }
+        &:hover{
+            background: white;
+            svg{
+                fill: red;
+            }
+        }
+    }
+    &.hide-modal{
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+

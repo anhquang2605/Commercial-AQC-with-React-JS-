@@ -27,6 +27,56 @@
     }
     .display-none{
         height: 0;
+        padding: 0!important;
+        border: 0!important;
         overflow: hidden;
     }
+    //form control for modal, added seperately from the modal.scss
+    .add-card-form{
+        width: 100%;
+        font-size: 1.1em;
+        &, & *{
+            box-sizing: border-box;
+        }
+
+        .form-row-control{
+            width: 100%;
+            display: flex;
+            border: 1px solid purple;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            &:not(.exp-date){
+                flex-wrap: wrap;
+            }
+            input, select, legend{
+                font-family: inherit;
+                font-size: inherit;
+                flex-shrink: 0;
+            }
+            input{
+                width: 100%;
+                &[type=text]{
+                    border: none;
+                }
+                &.exp-month{
+                    width: 40px; 
+                }
+                &.exp-year{
+                    width: 60px;
+                }
+            }
+            legend{
+                width: 100%;
+                font-size: 0.7em;
+                font-weight: bold;
+                &[for=exp], &[for=type]{
+                    width: auto;
+                }
+
+            }
+
+        }
+    }
+
 }
