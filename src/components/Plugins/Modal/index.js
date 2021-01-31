@@ -13,7 +13,7 @@ const Modal = React.forwardRef((props,ref) => {//expose showModal method to the 
     }
     useImperativeHandle(ref, () => ({
         showModal: showModal, hideModal: hideModal
-    }));
+    }));//use ref in parent component to access to the component methods from outside
     useEffect(()=>{
         if (props.hide === false){
             showModal();
