@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './shipping-info.scss';
 import Collapsable from "../../Plugins/Collaspable";
+import Modal from "../../Plugins/Modal";
 import firebase from '../../../firebase';
 const shippingInitObj = {
     name: "Pikachu",
@@ -12,9 +13,11 @@ const shippingInitObj = {
 }
 const db = firebase.firestore();
 const ShippingInfo = () => {
+    //Refs
+    const modalRef = useRef();
     //States
     const [shippingList, setShippingList] = useState([]);
-    const [currentShipping, setCurrentShipping] = useState(shippingInitObj)
+    const [currentShipping, setCurrentShipping] = useState({})
     const [allStates, setAllStates] = useState();
     const [shippingFormValues, setShippingFormValues] = useState({});
     //Methods
@@ -32,6 +35,7 @@ const ShippingInfo = () => {
              });
             promise.then(()=>{
                 setShippingList(list);
+                setCurrentShipping(list[0]);
             });
         })
         fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
@@ -47,7 +51,7 @@ const ShippingInfo = () => {
                     chosenChildren= {currentShipping && 
                         <div className="shipping-chosen">
                             <span className="chosen-shipping-name">{currentShipping.name}</span>
-                            <span className="chosen-shipping-address-line">{currentShipping.address} #{currentShipping.apt}</span>
+                            <span className="chosen-shipping-address-line">{currentShipping.address}</span>
                             <span className="chosen-shipping-city-state">{currentShipping.city}, {currentShipping.resiState} {currentShipping.zip} </span>
                         </div>
                     }
@@ -76,35 +80,39 @@ const ShippingInfo = () => {
                                     })}
                                     </tbody>
                                 </table>
+                                <button onClick={()=>{modalRef.current.showModal()}}>+ Add new Address</button>
                             </div>
-                            <div className="shipping-adding">
-                                <span className="add-shipping-name">
-                                    <label className="label">For (Name):</label>
-                                    <input value={shippingFormValues.name} type="text" placeholder="Enter Name Here"></input>
-                                </span>
-                                <span className="add-shipping-address">
-                                    <label className="label">Address</label>
-                                    <input value={shippingFormValues.address} type="text" placeholder="Enter Address"></input>
-                                </span>
-                                <span className="add-shipping-state">
-                                    <label className="label">State</label>
-                                    <select value={shippingFormValues.resiState}>
-                                        {allStates && allStates.map((daState)=>{
-                                            return(
-                                                <option value={daState.abbreviation}>{daState.name}</option>
-                                            );
-                                        })}
-                                    </select>
-                                </span>
-                                <span className="add-shipping-city">
-                                    <label className="label">City</label>
-                                    <input value={shippingFormValues.city} type="text" placeholder="Enter City"></input>
-                                </span>
-                                <span className="add-shipping-zip">
-                                    <label className="label">Zip</label>
-                                    <input value={shippingFormValues.zip} type="text" placeholder="Enter zip code"></input>
-                                </span>
-                            </div>
+                            <Modal ref={modalRef} name="add_shipping">
+                                <div className="shipping-adding">
+                                    <span className="add-shipping-name">
+                                        <label className="label">For (Name):</label>
+                                        <input value={shippingFormValues.name} type="text" placeholder="Enter Name Here"></input>
+                                    </span>
+                                    <span className="add-shipping-address">
+                                        <label className="label">Address</label>
+                                        <input value={shippingFormValues.address} type="text" placeholder="Enter Address"></input>
+                                    </span>
+                                    <span className="add-shipping-state">
+                                        <label className="label">State</label>
+                                        <select value={shippingFormValues.resiState}>
+                                            {allStates && allStates.map((daState)=>{
+                                                return(
+                                                    <option value={daState.abbreviation}>{daState.name}</option>
+                                                );
+                                            })}
+                                        </select>
+                                    </span>
+                                    <span className="add-shipping-city">
+                                        <label className="label">City</label>
+                                        <input value={shippingFormValues.city} type="text" placeholder="Enter City"></input>
+                                    </span>
+                                    <span className="add-shipping-zip">
+                                        <label className="label">Zip</label>
+                                        <input value={shippingFormValues.zip} type="text" placeholder="Enter zip code"></input>
+                                    </span>
+                                </div>
+                                <button>Add the Address</button>
+                            </Modal>
                         </div>
                         )
                     }

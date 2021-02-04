@@ -4,6 +4,7 @@ import './modal.scss';
 const Modal = React.forwardRef((props,ref) => {//expose showModal method to the user
     let [id, setid] = useState("modal" + (props.name? ("_"+props.name) : ""));
     let hideModal = () => {
+        console.log(id);
         var daModal = document.getElementById(id);
         daModal.classList.add("hide-modal");
     }

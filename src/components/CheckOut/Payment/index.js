@@ -224,7 +224,7 @@ const Payment = (props) => {
                         <button className="commit-btn" onClick={handleClose}>Commit change (Close)</button>
                         </div>
                 </div>               
-                <Modal ref={modalRef}>{/*hide initially, only show when evoke showModal method of the component Modal through ref*/}
+                <Modal name="add_card_form" ref={modalRef}>{/*hide initially, only show when evoke showModal method of the component Modal through ref*/}
                                 <div className="add-card-form">
                                     <span className="form-row-control">
                                         <legend htmlFor="card owner">Full Name</legend><br></br>
