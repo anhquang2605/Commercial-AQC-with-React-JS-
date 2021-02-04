@@ -13,24 +13,41 @@
         }
     }
     #chosen-card{
-        transition: height 0.3;
+        opacity: 1;
+        visibility: initial;
+        padding: 10px;
+        box-sizing: border-box;
+        width: 100%;
+        transition: opacity 0.3s, visibility 0.3s;
         img{
             width: 50px;
         }
+        &.display-none{
+            opacity: 0;
+            visibility: hidden;
+            height: 0;
+            padding: 0;
+            border: 0;
+            overflow: hidden;
+        }
     }
     #change-card-field{
-        transition: height 0.2;
+        opacity: 1;
         padding: 10px;
         border: 1px solid purple;
         box-sizing: border-box;
         width: 100%;
+        transition: opacity 0.3s, visibility 0.3s;
+        &.display-none{
+            opacity: 0;
+            visibility: hidden;
+            height: 0;
+            padding: 0;
+            border: 0;
+            overflow: hidden;
+        }
     }
-    .display-none{
-        height: 0;
-        padding: 0!important;
-        border: 0!important;
-        overflow: hidden;
-    }
+
     //form control for modal, added seperately from the modal.scss
     .add-card-form{
         width: 100%;

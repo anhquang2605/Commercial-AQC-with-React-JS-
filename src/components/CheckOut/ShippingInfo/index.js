@@ -19,11 +19,16 @@ const ShippingInfo = () => {
     const [shippingList, setShippingList] = useState([]);
     const [currentShipping, setCurrentShipping] = useState({})
     const [allStates, setAllStates] = useState();
-    const [shippingFormValues, setShippingFormValues] = useState({});
+    const [shippingFormValues, setShippingFormValues] = useState({
+        name:"",
+        zip: "",
+        city: "",
+        resiState: "",
+        address: ""
+    });
     //Methods
-
-    //Getting states data from json file at public directory
-    useEffect(() => {
+    //data getter from firestore
+    let fetchDataFromFireStore = (id) => {
         db.collection("shippings").get().then((dat)=>{
             var collections = dat.docs;
             var list = [];
@@ -35,9 +40,60 @@ const ShippingInfo = () => {
              });
             promise.then(()=>{
                 setShippingList(list);
-                setCurrentShipping(list[0]);
+                if (id != undefined){
+                    setCurrentShipping(list[0]);
+                }
             });
         })
+    }
+    //Forms handlers
+        //Handling Forms inputs
+    let handleNameChange = (e) => {
+        setShippingFormValues(prevState => ({
+            ...prevState,
+            name: e.target.value
+        }))
+    }
+    let handleZipChange = (e) => {
+        setShippingFormValues(prevState => ({
+            ...prevState,
+            zip: e.target.value
+        }))
+    }    
+    let handleStateChange = (e) => {
+        setShippingFormValues(prevState => ({
+            ...prevState,
+            resiState: e.target.value
+        }))
+    }
+    let handleCityChange = (e) => {
+        setShippingFormValues(prevState => ({
+            ...prevState,
+            city: e.target.value
+        }))
+    }
+    let handleAddressChange = (e) => {
+        setShippingFormValues(prevState => ({
+            ...prevState,
+            address: e.target.value
+        }))
+    }
+        //Submitting form values
+    let setShippingAddress = () => {
+        if(shippingFormValues.length === 0 || shippingFormValues === undefined){
+            return;
+        } else {
+            var newShipAddress = {...shippingFormValues};
+            var lengthOfList = (shippingList.length).toString();
+            db.collection("shippings").doc(lengthOfList).set(newShipAddress).then(()=>{
+                fetchDataFromFireStore();
+                setCurrentShipping(newShipAddress);
+            });
+        }
+    } 
+    //Getting states data from json file from public directory
+    useEffect(() => {
+        fetchDataFromFireStore(0);
         fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
             setAllStates(data);
         });
@@ -72,7 +128,7 @@ const ShippingInfo = () => {
                                     {shippingList && shippingList.map((ship)=>{
                                         return(
                                        <tr key={ship.id}>
-                                           <td><input type="radio"></input></td>
+                                           <td><input type="radio" checked={currentShipping.id === ship.id}></input></td>
                                            <td className="ship-name">{ship.name}</td>
                                            <td className="ship-address">{ship.address}</td>
                                        </tr>     
@@ -82,19 +138,19 @@ const ShippingInfo = () => {
                                 </table>
                                 <button onClick={()=>{modalRef.current.showModal()}}>+ Add new Address</button>
                             </div>
-                            <Modal ref={modalRef} name="add_shipping">
+                            <Modal ref={modalRef} name="add_shipping">{/*Provdie name to make unique ID for the modal*/}
                                 <div className="shipping-adding">
                                     <span className="add-shipping-name">
                                         <label className="label">For (Name):</label>
-                                        <input value={shippingFormValues.name} type="text" placeholder="Enter Name Here"></input>
+                                        <input value={shippingFormValues.name} onChange={handleNameChange} type="text" placeholder="Enter Name Here"></input>
                                     </span>
                                     <span className="add-shipping-address">
                                         <label className="label">Address</label>
-                                        <input value={shippingFormValues.address} type="text" placeholder="Enter Address"></input>
+                                        <input value={shippingFormValues.address} onChange={handleAddressChange}  type="text" placeholder="Enter Address"></input>
                                     </span>
                                     <span className="add-shipping-state">
                                         <label className="label">State</label>
-                                        <select value={shippingFormValues.resiState}>
+                                        <select value={shippingFormValues.resiState} onChange={handleStateChange}>
                                             {allStates && allStates.map((daState)=>{
                                                 return(
                                                     <option value={daState.abbreviation}>{daState.name}</option>
@@ -104,14 +160,14 @@ const ShippingInfo = () => {
                                     </span>
                                     <span className="add-shipping-city">
                                         <label className="label">City</label>
-                                        <input value={shippingFormValues.city} type="text" placeholder="Enter City"></input>
+                                        <input value={shippingFormValues.city} onChange={handleCityChange} type="text" placeholder="Enter City"></input>
                                     </span>
                                     <span className="add-shipping-zip">
                                         <label className="label">Zip</label>
-                                        <input value={shippingFormValues.zip} type="text" placeholder="Enter zip code"></input>
+                                        <input value={shippingFormValues.zip} onChange={handleZipChange} type="text" placeholder="Enter zip code"></input>
                                     </span>
                                 </div>
-                                <button>Add the Address</button>
+                                <button onClick={setShippingAddress}>Add the Address</button>
                             </Modal>
                         </div>
                         )
