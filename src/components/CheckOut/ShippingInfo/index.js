@@ -24,7 +24,8 @@ const ShippingInfo = () => {
         zip: "",
         city: "",
         resiState: "",
-        address: ""
+        address: "",
+        id: "",
     });
     //Methods
     //data getter from firestore
@@ -78,6 +79,10 @@ const ShippingInfo = () => {
             address: e.target.value
         }))
     }
+    let updateCurrentShipping = (e) =>{
+        let id = e.target.value;
+        setCurrentShipping(shippingList[id]);
+    }
         //Submitting form values
     let setShippingAddress = () => {
         if(shippingFormValues.length === 0 || shippingFormValues === undefined){
@@ -85,6 +90,7 @@ const ShippingInfo = () => {
         } else {
             var newShipAddress = {...shippingFormValues};
             var lengthOfList = (shippingList.length).toString();
+            newShipAddress.id = lengthOfList;
             db.collection("shippings").doc(lengthOfList).set(newShipAddress).then(()=>{
                 fetchDataFromFireStore();
                 setCurrentShipping(newShipAddress);
@@ -128,7 +134,7 @@ const ShippingInfo = () => {
                                     {shippingList && shippingList.map((ship)=>{
                                         return(
                                        <tr key={ship.id}>
-                                           <td><input type="radio" checked={currentShipping.id === ship.id}></input></td>
+                                           <td><input onClick={updateCurrentShipping} type="radio" name="shipping" checked={currentShipping.id == ship.id} value={ship.id}></input></td>
                                            <td className="ship-name">{ship.name}</td>
                                            <td className="ship-address">{ship.address}</td>
                                        </tr>     
@@ -153,7 +159,7 @@ const ShippingInfo = () => {
                                         <select value={shippingFormValues.resiState} onChange={handleStateChange}>
                                             {allStates && allStates.map((daState)=>{
                                                 return(
-                                                    <option value={daState.abbreviation}>{daState.name}</option>
+                                                    <option key={daState.abbreviation} value={daState.abbreviation}>{daState.name}</option>
                                                 );
                                             })}
                                         </select>
