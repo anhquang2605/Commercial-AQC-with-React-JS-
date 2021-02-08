@@ -11,6 +11,7 @@ import OrderDetail from '../OrderDetail';
 import ShoppingCart from '../ShoppingCart';
 import KartDetail from '../KartDetail';
 import CheckOut from '../CheckOut';
+import PlaceOrder from '../PlaceOrder';
 import './app.scss';
 /*const PageComponents = {
     Home: Home,
@@ -86,6 +87,7 @@ const App = (props) =>  {
                                 <Route path = {ROUTES.ORDERS + "/:id"} render={(props) => (<OrderDetail {...props} addItem={addToCartList} reRendering={handleRerendering}></OrderDetail>)}></Route>
                                 <Route path = {ROUTES.KART_DETAIL} render={(props) => (<KartDetail {...props} list={cartList} removeItem={removeFromCartList} changeQuantity={handleChangeOfQuantity} rerenderer={handleRerendering}></KartDetail>)}></Route>
                                 <Route path = {ROUTES.CHECK_OUT} render = {(props) => (<CheckOut {...props} list={cartList}></CheckOut>)}></Route>
+                                <Route path = {ROUTES.PLACE_ORDER} component={PlaceOrder}></Route>
                             </Switch>
                        
             </div>

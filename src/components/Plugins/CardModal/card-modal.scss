@@ -1,0 +1,9 @@
+$padding: 10px;
+$margin: 20px;
+$borderPurple: 1px solid purple;
+.card-modal{
+    margin-bottom: $margin;
+    padding: $padding;
+    border: $borderPurple;
+    box-sizing: border-box;
+}

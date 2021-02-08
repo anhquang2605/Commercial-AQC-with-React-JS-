@@ -1,0 +1,13 @@
+.collapsable{
+    .chosen-collapsable, .change-collapsable{
+        transition: height 0.3s, opacity 0.3s;
+        opacity: 1;
+    }
+    .display-none{
+        opacity: 0;
+        height: 0;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+    }
+}

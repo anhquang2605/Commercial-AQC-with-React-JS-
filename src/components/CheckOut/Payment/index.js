@@ -1,10 +1,29 @@
-import React, {useState, useEffect} from 'react';
-import CARDS from '../../../model/Cards';
+import React, {useState, useEffect, useRef} from 'react';
 import GIFTCARDS from '../../../model/GiftCards';
+import Modal from '../../Plugins/Modal';
 import './payment.scss';
+
 const Payment = (props) => {
-    const [dacard, setdaCard] = useState(CARDS[0]);
+    const [dacard, setdaCard] = useState(props.card);
+    const [addingCard, setAddingCard] = useState({
+        owner: "",
+        "card number": "",
+        "exp month": 0,
+        "exp year": 0,
+        type: "",
+        id: 0,
+        name: "added from modal",
+        imgSrc: "kirby.jpg"    
+    });
+    const [cards, setCards] =  useState(props.cards);
     const [dagiftCards, setdaGiftCard] = useState([]);
+    //ref to modal
+    const modalRef = useRef();
+    //get current year for min year in card
+    let dateobj = new Date();
+    let fullYear = dateobj.getFullYear();
+
+    //When user click change button to change their cards option
     let handleChange = (e) =>{
         e.stopPropagation();
         var changeField = document.getElementById("change-card-field");
@@ -12,6 +31,7 @@ const Payment = (props) => {
         changeField.classList.remove("display-none");
         chosen.classList.add("display-none");
     }
+    //when use click close button or commit to change to hide the change option tab
     let handleClose = (e) =>{
         e.stopPropagation();
         var changeField = document.getElementById("change-card-field");
@@ -25,10 +45,13 @@ const Payment = (props) => {
             props.getDebitDis(0);
         } else {
             handleDiscount();
-        } 
+        }
+        if(dacard!==null||undefined){
 
-        
+        } 
     }
+    //get discount information through the states arrays dagiftCards 
+    //then call its parent method to get discount ammount and/or discount percentage
     let handleDiscount = () => {
         var disObj = {dis: 0, ammt: 0};
         dagiftCards.forEach(card => {
@@ -41,6 +64,7 @@ const Payment = (props) => {
         props.getDis(disObj.dis);
         props.getDebitDis(disObj.ammt);
     }
+    //On select, add G card chosen to the state dagiftCards array
     let handleChangeGcard = (id,e) =>{
         var items = [...dagiftCards];    
         var newList;
@@ -53,6 +77,7 @@ const Payment = (props) => {
             setdaGiftCard(newList);
         }       
     }
+    //If unchecked the gift card option, remove the card from the dagiftCard state
     let noGiftCard = (e) => {
         var dontUseThem = e.target.checked;
         if(dontUseThem){
@@ -62,22 +87,67 @@ const Payment = (props) => {
         
     }
     let handleChangeCard = (id) => {
-        setdaCard(CARDS[id])
+        props.setMyCard(id);
     }
-
+    //Handle add card from modal
+    let handleAddCard = () => {
+        var thecard = {...addingCard};
+        props.addCardToDb(thecard);
+        modalRef.current.hideModal();
+    }
+    //Input state management
+    let handleOwnerNameChange = (e) => {
+        setAddingCard(prevState => ({
+            ...prevState,
+            owner: e.target.value
+        }))
+    }
+    let handleCardNumberChange = (e) =>{
+        setAddingCard(prevState => ({
+            ...prevState,
+            "card number": e.target.value
+        }))
+    }
+    let handleTypeSelect = (e) => {
+        setAddingCard(prevState => ({
+            ...prevState,
+            type: e.target.value
+        }))
+    }
+    let handleMonthChange = (e) => {
+        setAddingCard(prevState => ({
+            ...prevState,
+            "exp month": e.target.value
+        }))
+    }
+    let handleYearChange = (e) => {
+        setAddingCard(prevState => ({
+            ...prevState,
+            "exp year": e.target.value
+        }))
+    }
+    //initiate, componentDidMount
+    useState(()=>{
+        if(props.cards){
+            setdaCard(props.card);
+            setCards(props.cards);
+        }
+    },[]);
+   
     return (
         <div id="payment">
                 <h4 className="check-out-title">Payment</h4>
+                {/*default option for cards and gift cards */}
                 <div className="card-options">
-                    <div id="chosen-card">
+                    <div id="chosen-card">       {/*chosen card*/}
                              <button  className="change-card" onClick={handleChange}>Change</button>
-                             <div className="card-payment">
-                                <img className="card-img" src={require("../../../images/Cards/" + dacard.imgSrc)}></img>
-                                <span className="card-name"><b>{dacard.type}</b></span>
-                                <span className="card-ending">Ending in {dacard.number.slice(15)}</span>
-                             </div>
+                             {props.card && <div className="card-payment">
+                                 <img className="card-img" src={require("../../../images/Cards/" + props.card.imgSrc)}></img>
+                                <span className="card-name"><b>{props.card.type} </b></span>
+                                <span className="card-ending">Ending in {props.card["card number"].slice(12)}</span> 
+                             </div>}
                              {(dagiftCards.length !== 0) ? 
-                             <div className="giftcard-payment">
+                             <div className="giftcard-payment">{/*chosen gift card(s)*/}
                                 {dagiftCards.map(card => {
                                 return(
                                 <div key={card.id} className="chosen-gift-card">
@@ -91,8 +161,9 @@ const Payment = (props) => {
                             })}
                              </div> : <div>No gift card chosen, you owned <b>{GIFTCARDS.length}</b> gift cards </div>}
                     </div>
-                   <div id="change-card-field" className="display-none">
-                        <div className="card-container-change">
+                   <div id="change-card-field" className="display-none">{/*initially hidden, appear when click change button in #chosen-card*/}
+                        <div className="card-container-change">{/*change field for card*/}
+                            <h4>Cards for payment</h4>
                             <table>
                                 <thead>
                                     <tr>
@@ -103,21 +174,23 @@ const Payment = (props) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {CARDS.length > 0 && CARDS.map((card)=>{
+                                    {props.cards  && props.cards.map((card)=>{
                                         return(
-                                            <tr key={card.id}>
-                                                <td className="radio-value"><input onChange={()=>{handleChangeCard(card.id)}} defaultChecked={card.id == dacard.id } type="radio" name="card" value={card.id}></input></td>
-                                                <td className="card-name"><b>{card.name} {" " + card.type}</b> ending in {card.number.slice(15)}</td>
-                                                <td className="card-owner">{card.nameOnCard}</td>
-                                                <td className="card-exp">{card.expM}/{card.expY}</td>
-                                            </tr>
+                                           <tr key={card["id"]}>
+                                               { <td className="radio-value"><input onChange={()=>{handleChangeCard(card["id"])}} defaultChecked={card["id"] == props.card["id"] } type="radio" name="card" value={card["id"]}></input></td>}
+                                                <td className="card-name"><b>{card.name} {" " + card.type}</b> ending in {card["card number"].slice(12)}</td>
+                                                <td className="card-owner">{card.owner.toUpperCase()}</td>
+                                                <td className="card-exp">{card["exp month"]}/{card["exp year"]}</td>
+                                            </tr>  
                                         );
                                     })}
                                 </tbody>
                             </table>
+                            <button className="btn add-card-btn" onClick={()=>{modalRef.current.showModal()}}>+ Add a new card</button>
                         </div>
                         {GIFTCARDS.length > 0 ? 
-                        <div className="gcard-container-change">
+                        <div className="gcard-container-change">{/*change field for  gift card*/}
+                            <h4>Gift cards</h4>
                             <table>
                                 <thead>
                                     <tr>
@@ -141,7 +214,7 @@ const Payment = (props) => {
                                     <tr>
                                         <td className="checkbox-value"><input onChange={(e)=>{
                                             noGiftCard(e)}} checked={dagiftCards.length===0}  type="checkbox" name="giftCard"></input></td>
-                                        <td className="card-name">I don't use any gift card</td>
+                                        <td className="card-name">I don't use any gift card</td>{/*if user dont want to use any gift card*/}
                                     </tr>
                                     
                                 </tbody>
@@ -150,7 +223,39 @@ const Payment = (props) => {
                         : <div className="no-gift-card">No gift card available</div>}
                         <button className="commit-btn" onClick={handleClose}>Commit change (Close)</button>
                         </div>
-                </div>                
+                </div>               
+                <Modal name="add_card_form" ref={modalRef}>{/*hide initially, only show when evoke showModal method of the component Modal through ref*/}
+                                <div className="add-card-form">
+                                    <span className="form-row-control">
+                                        <legend htmlFor="card owner">Full Name</legend><br></br>
+                                        <input type="text" onChange={handleOwnerNameChange} value={addingCard.owner} placeholder=" Enter Name on Card" required></input>
+                                    </span>
+                                    <span className="form-row-control">
+                                        <legend htmlFor="card number">Card Number</legend><br></br>
+                                        <input type="text" onChange={handleCardNumberChange} value={addingCard["card number"]} placeholder="Enter Card Number" required></input>
+                                    </span>
+                                    <span className="form-row-control">
+                                        <legend htmlFor="cvs">CVS</legend><br></br>
+                                        <input type="text" placeholder="Enter CVS"></input>
+                                    </span>
+                                    <span className="form-row-control">
+                                        <legend htmlFor="type">Type of cards</legend><br></br>
+                                        <select required className="card-type" value={addingCard.type} onChange={handleTypeSelect} placeholder="Select card type">
+                                            <option value="" disabled >Select card type</option>
+                                            <option value="debit">Debit</option>
+                                            <option value="credit">Credit</option>
+                                            <option value="visa">Visa</option>
+                                            <option value="master">Master</option>
+                                        </select>
+                                    </span>
+                                    <span className="form-row-control exp-date">
+                                        <legend htmlFor="exp">Expires on (month/YYYY)</legend>
+                                        <input required type="number" value={addingCard["exp month"]} onChange={handleMonthChange} className="exp-month exp" max="12" min="1"></input>
+                                        <input required type="number" value={addingCard["exp year"]} onChange={handleYearChange} className="exp-year exp" min={fullYear}></input>{/*full year got in the begining through date obj*/}
+                                    </span>
+                                </div>
+                                <button onClick={handleAddCard}>Add card</button>
+                    </Modal> 
         </div>
     );
 }
