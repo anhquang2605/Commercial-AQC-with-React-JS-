@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Navigator from '../Navigator';
 import Home from '../Home';
 import NavBar from '../NavBar';
@@ -12,6 +12,7 @@ import ShoppingCart from '../ShoppingCart';
 import KartDetail from '../KartDetail';
 import CheckOut from '../CheckOut';
 import PlaceOrder from '../PlaceOrder';
+import ThankYou from "../ThankYou";
 import './app.scss';
 /*const PageComponents = {
     Home: Home,
@@ -34,6 +35,10 @@ const App = (props) =>  {
         const [,setState] = useState();
         const location = useLocation();
         const [cartList, setCartList] = useState([]);
+        const [paymentFinal, setPaymentFinal] =  useState();
+        //Ref to Check out component
+        const CheckOutRef = useRef();
+
         let isInCart = (name, type) =>{
             var i = 0;
             var length = cartList.length;
@@ -64,11 +69,17 @@ const App = (props) =>  {
             if (val == 0) removeFromCartList(index);
             else  cartList[index].quantity = val;
         }
-
+        //get payment option from check out component 
+        let getPaymentFromCheckOut = (obj) => {
+            setPaymentFinal(obj);
+        }
+        //flush the cart list when user hit place order
+        let flushCart = () => {
+            setCartList([]);
+        }
         useEffect(() => {
             setPageName(location.pathname)
         });
-
         return(
             <div className="commercial-AQC">
                 <h1>Commercial website AQC</h1>
@@ -86,8 +97,9 @@ const App = (props) =>  {
                                 <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
                                 <Route path = {ROUTES.ORDERS + "/:id"} render={(props) => (<OrderDetail {...props} addItem={addToCartList} reRendering={handleRerendering}></OrderDetail>)}></Route>
                                 <Route path = {ROUTES.KART_DETAIL} render={(props) => (<KartDetail {...props} list={cartList} removeItem={removeFromCartList} changeQuantity={handleChangeOfQuantity} rerenderer={handleRerendering}></KartDetail>)}></Route>
-                                <Route path = {ROUTES.CHECK_OUT} render = {(props) => (<CheckOut {...props} list={cartList}></CheckOut>)}></Route>
-                                <Route path = {ROUTES.PLACE_ORDER} component={PlaceOrder}></Route>
+                                <Route path = {ROUTES.CHECK_OUT} render = {(props) => (<CheckOut {...props} getPayment={getPaymentFromCheckOut} list={cartList}></CheckOut>)}></Route>
+                                <Route path = {ROUTES.PLACE_ORDER} render={(props) => (<PlaceOrder flushCartList= {flushCart} {...props} cartList={cartList} paymentFinal={paymentFinal} ></PlaceOrder>)}></Route>
+                                <Route path = {ROUTES.THANK_YOU} component={ThankYou}></Route>
                             </Switch>
                        
             </div>

@@ -6,3 +6,4 @@ export const KART_DETAIL = "/kart-detail";
 export const SEARCH_RESULT = "/result";
 export const CHECK_OUT = "/checkout";
 export const PLACE_ORDER = "/place-order";
+export const THANK_YOU = "/thank-you";

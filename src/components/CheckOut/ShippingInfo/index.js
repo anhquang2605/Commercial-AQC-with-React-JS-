@@ -12,7 +12,7 @@ const shippingInitObj = {
     zip: "95236"
 }
 const db = firebase.firestore();
-const ShippingInfo = () => {
+const ShippingInfo = (props) => {
     //Refs
     const modalRef = useRef();
     //States
@@ -97,13 +97,18 @@ const ShippingInfo = () => {
             });
         }
     } 
-    //Getting states data from json file from public directory
+    //When current shipping changed, update shipping info to Check Out component
+    useEffect(()=>{
+        props.setShippingForCheckOut(currentShipping);
+    },[currentShipping])
+    //Getting shipping datas from fire store and states data from json file from public directory
     useEffect(() => {
         fetchDataFromFireStore(0);
         fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
             setAllStates(data);
         });
     }, []);
+
     return (
         <div id="shipping-info">
                 <h4 className="check-out-title">Shipping</h4>
@@ -144,7 +149,7 @@ const ShippingInfo = () => {
                                 </table>
                                 <button onClick={()=>{modalRef.current.showModal()}}>+ Add new Address</button>
                             </div>
-                            <Modal ref={modalRef} name="add_shipping">{/*Provdie name to make unique ID for the modal*/}
+                            <Modal ref={modalRef} extraFuncToCloseMethod name="add_shipping">{/*Provdie name to make unique ID for the modal*/}
                                 <div className="shipping-adding">
                                     <span className="add-shipping-name">
                                         <label className="label">For (Name):</label>
@@ -181,10 +186,6 @@ const ShippingInfo = () => {
                 >
 
                 </Collapsable>
-               
-                <div className="Shipping-changed">
-
-                </div>
         </div>
     );
 }

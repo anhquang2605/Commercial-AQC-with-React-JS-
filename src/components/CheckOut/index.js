@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect, useImperativeHandle} from 'react';
 import Payment from './Payment';
 import ItemsSummary from './ItemsSummary';
 import ShippingInfo from './ShippingInfo';
@@ -6,10 +6,12 @@ import PriceTotal from './PriceTotal';
 import firebase from '../../firebase.js';
 import './check-out.scss';
 const db = firebase.firestore();
-const CheckOut = (props) => {
+const CheckOut = React.forwardRef((props, ref) => {
     let [dis, setDis] = useState(0);
     let [debitDis, setDebitDis] = useState(0);
     let [card, setCard] = useState();
+    let [shipping, setShipping] = useState();
+    let [total, setTotal] = useState();
     let [cards, setCards] = useState();
     let [noOfCards, setNoOfCard] = useState(0);
     let getDis = (percentage = 0) => {
@@ -55,23 +57,43 @@ const CheckOut = (props) => {
     let setMyCard = (id) => {
         setCard(cards[id]);
     }
+    //Get shipping info from shipping component
+    let getShippingFromWithinShippingComp = (obj) => {
+        setShipping(obj);
+    }
+    //Get total price info from total price component
+    let getTotalFromWithinPriceTotalComp = (num) => {
+        setTotal(num);
+    }
+    //when place order is clicked, return payment info to the caller (App comp)
+    let wrapUpPayMent = () => {
+        return {
+            card: card,
+            total: total,
+            shipping: shipping,
+        };
+    }
     useEffect(() => {
         //getting data from firestone for the first time
        fetchCardsData();
     }, []);
+
+    useImperativeHandle(ref, ()=>({
+        wrapUpPayMent: wrapUpPayMent
+    }))
     return (
         <div id="check_out">
             <div className="left-container">
-                <ShippingInfo></ShippingInfo>
+                <ShippingInfo setShippingForCheckOut = {getShippingFromWithinShippingComp}></ShippingInfo>
                 {card && cards && <Payment  addCardToDb={addCardToDb} setMyCard={setMyCard} card={card} cards={cards} getDis={getDis} getDebitDis={getDebitDis}></Payment>}
                 <ItemsSummary list={props.list}></ItemsSummary>
             </div>
             <div className="right-container">
-                <PriceTotal dis={dis} debit={debitDis}  list={props.list}></PriceTotal>
+                <PriceTotal wrapUp={wrapUpPayMent} getPayment={props.getPayment} setTotalForCheckOut = {getTotalFromWithinPriceTotalComp} dis={dis} debit={debitDis}  list={props.list}></PriceTotal>
             </div>
             
         </div>
     );
-}
+})
 
 export default CheckOut;
