@@ -24,14 +24,6 @@ const PriceTotal = (props) => {
             return dasum
         }
     }
-    let handleOnPlaceOrder = () => {
-        //get payment final from check out
-        let payment = props.wrapUp();
-        console.log("payment retrieved");
-        console.log(payment);
-        //update the payment information to App before proceeding to place order comp
-        props.getPayment(payment);
-    }
     useEffect(()=>{
         setList(props.list);
         setSum(getSum());
@@ -71,7 +63,7 @@ const PriceTotal = (props) => {
                 <span className="item-label final">Total:</span>
                 <span className="item-value">$ {getSubTotal()}</span>    
             </span>
-            <Link to="/place-order" className="order-place-btn btn" onClick={handleOnPlaceOrder}>Place Orders</Link>
+            <Link to="/place-order" className="order-place-btn btn">Place Orders</Link>
         </div>
     );
 }

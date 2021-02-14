@@ -8,9 +8,9 @@ class PlaceOrder extends React.Component {
         super(props);
         this.state = {
             orders: props.cartList,
-            shipping: props.paymentFinal.shipping,
-            card: props.paymentFinal.card,
-            total: props.paymentFinal.total,
+            shipping: props.shipping,
+            card: props.card,
+            total: props.total,
         }
     }
     render() {

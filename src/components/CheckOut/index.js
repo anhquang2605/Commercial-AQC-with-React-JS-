@@ -7,10 +7,11 @@ import firebase from '../../firebase.js';
 import './check-out.scss';
 const db = firebase.firestore();
 const CheckOut = React.forwardRef((props, ref) => {
-    let [dis, setDis] = useState(0);
-    let [debitDis, setDebitDis] = useState(0);
-    let [card, setCard] = useState();
-    let [shipping, setShipping] = useState();
+    let [dis, setDis] = useState();
+    let [debitDis, setDebitDis] = useState();
+    let [card, setCard] = useState(props.curCard);
+    let [gcards, setGcards] = useState(props.curGCards);
+    let [shipping, setShipping] = useState(props.curShipping);
     let [total, setTotal] = useState();
     let [cards, setCards] = useState();
     let [noOfCards, setNoOfCard] = useState(0);
@@ -20,7 +21,7 @@ const CheckOut = React.forwardRef((props, ref) => {
     let getDebitDis = (ammount = 0) => {
         setDebitDis(ammount);
     } 
-    let fetchCardsData = () =>{//fetch data from firestore then process it and import it into the cards state of checkout component as well as setting the initial card state
+    let fetchCardsData = (id) =>{//fetch data from firestore then process it and import it into the cards state of checkout component as well as setting the initial card state
         db.collection("cards").get().then(dat=>{
             var daColection = dat.docs;
             var daList = [];
@@ -32,13 +33,10 @@ const CheckOut = React.forwardRef((props, ref) => {
             var promise = new Promise(resolve => {
                 //set state at once through props or avail model
                 setNoOfCard(cardsNo);
-                setCards(daList)
-                setCard(daList["0"]);
+                setCards(daList);
+                setCard(daList[id]);
                 resolve();
             });
-            promise.then(()=>{
-                console.log("done");
-            })
         });
     }
     let addCardToDb = (obj) => { //add card to the collection
@@ -57,39 +55,35 @@ const CheckOut = React.forwardRef((props, ref) => {
     let setMyCard = (id) => {
         setCard(cards[id]);
     }
-    //Get shipping info from shipping component
-    let getShippingFromWithinShippingComp = (obj) => {
-        setShipping(obj);
-    }
     //Get total price info from total price component
     let getTotalFromWithinPriceTotalComp = (num) => {
         setTotal(num);
-    }
-    //when place order is clicked, return payment info to the caller (App comp)
-    let wrapUpPayMent = () => {
-        return {
-            card: card,
-            total: total,
-            shipping: shipping,
-        };
+        props.setTotalForApp(num);
     }
     useEffect(() => {
         //getting data from firestone for the first time
-       fetchCardsData();
+       if(card === undefined){
+           fetchCardsData(0);
+       } else {
+           fetchCardsData(card.id);
+       }
+        
     }, []);
-
+    useEffect(()=>{
+        props.setCardForApp(card);
+    }, [card])
     useImperativeHandle(ref, ()=>({
-        wrapUpPayMent: wrapUpPayMent
+       
     }))
     return (
         <div id="check_out">
             <div className="left-container">
-                <ShippingInfo setShippingForCheckOut = {getShippingFromWithinShippingComp}></ShippingInfo>
-                {card && cards && <Payment  addCardToDb={addCardToDb} setMyCard={setMyCard} card={card} cards={cards} getDis={getDis} getDebitDis={getDebitDis}></Payment>}
-                <ItemsSummary list={props.list}></ItemsSummary>
+                <ShippingInfo curShipping={shipping} setShippingForApp={props.setShippingForApp}></ShippingInfo>
+                {card && cards && <Payment  addCardToDb={addCardToDb} setMyCard={setMyCard} card={card} cards={cards} gcards={props.curGCards} setGCardForApp={props.setGCardForApp} getDis={getDis} getDebitDis={getDebitDis}></Payment>}
+                <ItemsSummary list={props.list}></ItemsSummary> 
             </div>
             <div className="right-container">
-                <PriceTotal wrapUp={wrapUpPayMent} getPayment={props.getPayment} setTotalForCheckOut = {getTotalFromWithinPriceTotalComp} dis={dis} debit={debitDis}  list={props.list}></PriceTotal>
+                <PriceTotal setTotalForCheckOut = {getTotalFromWithinPriceTotalComp} dis={dis} debit={debitDis}  list={props.list}></PriceTotal>
             </div>
             
         </div>

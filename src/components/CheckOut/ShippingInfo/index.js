@@ -3,21 +3,13 @@ import './shipping-info.scss';
 import Collapsable from "../../Plugins/Collaspable";
 import Modal from "../../Plugins/Modal";
 import firebase from '../../../firebase';
-const shippingInitObj = {
-    name: "Pikachu",
-    address: "3637 Snell Ave",
-    apt: "spc 67",
-    resiState: "CA",
-    city: "San Jose",
-    zip: "95236"
-}
 const db = firebase.firestore();
 const ShippingInfo = (props) => {
     //Refs
     const modalRef = useRef();
     //States
     const [shippingList, setShippingList] = useState([]);
-    const [currentShipping, setCurrentShipping] = useState({})
+    const [currentShipping, setCurrentShipping] = useState(props.curShipping)
     const [allStates, setAllStates] = useState();
     const [shippingFormValues, setShippingFormValues] = useState({
         name:"",
@@ -41,8 +33,11 @@ const ShippingInfo = (props) => {
              });
             promise.then(()=>{
                 setShippingList(list);
-                if (id != undefined){
+                if (!id){
                     setCurrentShipping(list[0]);
+                } else {
+                    setCurrentShipping(list[id]);
+                    props.setShippingForApp(list[id]);
                 }
             });
         })
@@ -92,21 +87,30 @@ const ShippingInfo = (props) => {
             var lengthOfList = (shippingList.length).toString();
             newShipAddress.id = lengthOfList;
             db.collection("shippings").doc(lengthOfList).set(newShipAddress).then(()=>{
-                fetchDataFromFireStore();
-                setCurrentShipping(newShipAddress);
+                fetchDataFromFireStore(newShipAddress.id);
             });
         }
     } 
     //When current shipping changed, update shipping info to Check Out component
     useEffect(()=>{
-        props.setShippingForCheckOut(currentShipping);
+        if(currentShipping != undefined){
+            props.setShippingForApp(currentShipping);
+        }
     },[currentShipping])
     //Getting shipping datas from fire store and states data from json file from public directory
     useEffect(() => {
-        fetchDataFromFireStore(0);
-        fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
-            setAllStates(data);
-        });
+        if (props.curShipping === undefined){
+            fetchDataFromFireStore(0);
+            fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
+                setAllStates(data);
+            });
+        } else {     
+            fetchDataFromFireStore(props.curShipping.id);
+            fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
+                setAllStates(data);
+            });
+        }
+
     }, []);
 
     return (
@@ -127,7 +131,7 @@ const ShippingInfo = (props) => {
                         (
                         <div>
                             <div className="shipping-options">
-                                <table>
+                                <table >
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -136,7 +140,7 @@ const ShippingInfo = (props) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {shippingList && shippingList.map((ship)=>{
+                                    {shippingList && currentShipping && shippingList.map((ship)=>{
                                         return(
                                        <tr key={ship.id}>
                                            <td><input onClick={updateCurrentShipping} type="radio" name="shipping" checked={currentShipping.id == ship.id} value={ship.id}></input></td>

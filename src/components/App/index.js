@@ -35,10 +35,12 @@ const App = (props) =>  {
         const [,setState] = useState();
         const location = useLocation();
         const [cartList, setCartList] = useState([]);
-        const [paymentFinal, setPaymentFinal] =  useState();
+        const [curSearchQ, setCurSearchQ] = useState();
+        const [curCard, setCurCard] = useState();
+        const [curGCards, setCurGCards] = useState([]);
+        const [curShipping, setCurShipping] = useState({});
+        const [curTotal, setCurTotal] = useState(0);
         //Ref to Check out component
-        const CheckOutRef = useRef();
-
         let isInCart = (name, type) =>{
             var i = 0;
             var length = cartList.length;
@@ -69,9 +71,19 @@ const App = (props) =>  {
             if (val == 0) removeFromCartList(index);
             else  cartList[index].quantity = val;
         }
-        //get payment option from check out component 
-        let getPaymentFromCheckOut = (obj) => {
-            setPaymentFinal(obj);
+        //Set Gcard, card, and shipping for app from within checkout component
+        let getCardFromCheckout = (obj) =>{
+            setCurCard(obj);
+        }
+        let getGCardsFromCheckout = (arr) =>{
+            setCurGCards(arr);
+            
+        }
+        let getShippingFromCheckout = (obj) =>{
+            setCurShipping(obj);
+        }
+        let getTotalFromCheckout = (num) =>{
+            setCurTotal(num);
         }
         //flush the cart list when user hit place order
         let flushCart = () => {
@@ -97,8 +109,32 @@ const App = (props) =>  {
                                 <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
                                 <Route path = {ROUTES.ORDERS + "/:id"} render={(props) => (<OrderDetail {...props} addItem={addToCartList} reRendering={handleRerendering}></OrderDetail>)}></Route>
                                 <Route path = {ROUTES.KART_DETAIL} render={(props) => (<KartDetail {...props} list={cartList} removeItem={removeFromCartList} changeQuantity={handleChangeOfQuantity} rerenderer={handleRerendering}></KartDetail>)}></Route>
-                                <Route path = {ROUTES.CHECK_OUT} render = {(props) => (<CheckOut {...props} getPayment={getPaymentFromCheckOut} list={cartList}></CheckOut>)}></Route>
-                                <Route path = {ROUTES.PLACE_ORDER} render={(props) => (<PlaceOrder flushCartList= {flushCart} {...props} cartList={cartList} paymentFinal={paymentFinal} ></PlaceOrder>)}></Route>
+                                <Route 
+                                    path = {ROUTES.CHECK_OUT} 
+                                    render = {(props) => (
+                                        <CheckOut {...props}
+                                                curGCards={curGCards}  
+                                                curCard={curCard} 
+                                                curShipping={curShipping}  
+                                                setShippingForApp={getShippingFromCheckout} 
+                                                setCardForApp={getCardFromCheckout} 
+                                                setGCardForApp={getGCardsFromCheckout} 
+                                                setTotalForApp={getTotalFromCheckout}
+                                                list={cartList}>
+                                        </CheckOut>)}>
+                                        </Route>
+                                <Route path = {ROUTES.PLACE_ORDER} 
+                                    render={(props) => (
+                                        <PlaceOrder
+                                            {...props} 
+                                            flushCartList= {flushCart}  
+                                            cartList={cartList}
+                                            total={curTotal}
+                                            shipping={curShipping}
+                                            card={curCard}
+                                            >
+                                        </PlaceOrder>)}>
+                                </Route>
                                 <Route path = {ROUTES.THANK_YOU} component={ThankYou}></Route>
                             </Switch>
                        

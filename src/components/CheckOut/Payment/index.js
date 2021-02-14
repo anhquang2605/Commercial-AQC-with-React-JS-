@@ -16,7 +16,7 @@ const Payment = (props) => {
         imgSrc: "kirby.jpg"    
     });
     const [cards, setCards] =  useState(props.cards);
-    const [dagiftCards, setdaGiftCard] = useState([]);
+    const [dagiftCards, setdaGiftCard] = useState(props.gcards);
     //ref to modal
     const modalRef = useRef();
     //get current year for min year in card
@@ -38,29 +38,27 @@ const Payment = (props) => {
         var chosen = document.getElementById("chosen-card");
         chosen.classList.remove("display-none");
         changeField.classList.add("display-none"); 
-        //Check if there is gift card or not, if there is, check if it is a debit or percentage
-        //Should change this since it seems imparative
-        if(dagiftCards.length === 0 || dagiftCards === undefined){
-            props.getDis(0);
-            props.getDebitDis(0);
-        } else {
-            handleDiscount();
-        }
-        if(dacard!==null||undefined){
-
-        } 
+        handleDiscount();
     }
     //get discount information through the states arrays dagiftCards 
     //then call its parent method to get discount ammount and/or discount percentage
     let handleDiscount = () => {
         var disObj = {dis: 0, ammt: 0};
-        dagiftCards.forEach(card => {
-            if(card.type==="discount"){
-                disObj.dis +=  card.dis;
-            } else {
-                disObj.ammt += card.ammount;
-            }
-        });
+        //Check if there is gift card or not, if there is, check if it is a debit or percentage
+        //Should change this since it seems imparative
+        if(dagiftCards.length === 0 || dagiftCards === undefined){
+            props.getDis(disObj.dis);
+            props.getDebitDis(disObj.ammt);
+            return;
+        } else {
+            dagiftCards.forEach(card => {
+                if(card.type==="discount"){
+                    disObj.dis +=  card.dis;
+                } else {
+                    disObj.ammt += card.ammount;
+                }
+            });
+        }
         props.getDis(disObj.dis);
         props.getDebitDis(disObj.ammt);
     }
@@ -71,10 +69,12 @@ const Payment = (props) => {
         if(e.target.checked){//if checked the box, added the item
             items.push(GIFTCARDS[id]);
             setdaGiftCard(items);
+            props.setGCardForApp(items);
         } else {// else unchecked, remove the item
             var found = items.findIndex(ele => ele.id === id);
             newList = items.slice(0, found).concat(items.slice(found + 1, items.length))
             setdaGiftCard(newList);
+            props.setGCardForApp(newList);
         }       
     }
     //If unchecked the gift card option, remove the card from the dagiftCard state
@@ -82,7 +82,7 @@ const Payment = (props) => {
         var dontUseThem = e.target.checked;
         if(dontUseThem){
             setdaGiftCard([]);
-            
+            props.setGCardForApp([]);        
         }
         
     }
@@ -132,8 +132,9 @@ const Payment = (props) => {
             setdaCard(props.card);
             setCards(props.cards);
         }
+        handleDiscount();
     },[]);
-   
+
     return (
         <div id="payment">
                 <h4 className="check-out-title">Payment</h4>
