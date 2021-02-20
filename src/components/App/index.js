@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Navigator from '../Navigator';
 import Home from '../Home';
 import NavBar from '../NavBar';
@@ -13,6 +13,12 @@ import KartDetail from '../KartDetail';
 import CheckOut from '../CheckOut';
 import PlaceOrder from '../PlaceOrder';
 import ThankYou from "../ThankYou";
+import Firebase, {FirebaseContext} from './../Firebase/';
+import Shortcut from '../Account/Shortcut';
+import Orders from '../Account/Orders';
+import Account from '../Account';
+import Cards from '../Account/Cards';
+import GCards from '../Account/GCards'; 
 import './app.scss';
 /*const PageComponents = {
     Home: Home,
@@ -40,6 +46,9 @@ const App = (props) =>  {
         const [curGCards, setCurGCards] = useState([]);
         const [curShipping, setCurShipping] = useState({});
         const [curTotal, setCurTotal] = useState(0);
+        const [account, setAccount] = useState({});
+        //const firebasecontext =  useContext(FirebaseContext);
+        const db = Firebase.firestore();
         //Ref to Check out component
         let isInCart = (name, type) =>{
             var i = 0;
@@ -90,7 +99,11 @@ const App = (props) =>  {
             setCartList([]);
         }
         useEffect(() => {
-            setPageName(location.pathname)
+            db.collection("accounts").get("anhquang2605").then((datas)=>{
+                var account = datas.docs[0].data();
+                setAccount(account);
+            });
+            setPageName(location.pathname);
         });
         return(
             <div className="commercial-AQC">
@@ -98,12 +111,10 @@ const App = (props) =>  {
                 <Navigator>
                     <Logo href={ROUTES.HOME} src={'logo.png'}></Logo>
                     <NavBar></NavBar>
+                    {account && <Shortcut username={account.nickname || account.username}></Shortcut>}
                     {(pageName.search("/result")) != 0  && <SearchBar></SearchBar>}
                 </Navigator>
                 {((pageName.search("/kart-detail")!= 0) && (pageName.search("/checkout")!= 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
-                  
-                
-
                             <Switch location={location}>
                                 <Route  exact path = {ROUTES.HOME} component = {Home}/>
                                 <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
@@ -136,7 +147,18 @@ const App = (props) =>  {
                                         </PlaceOrder>)}>
                                 </Route>
                                 <Route path = {ROUTES.THANK_YOU} component={ThankYou}></Route>
-                            </Switch>
+                                {/* Account Routes  */}
+                                <Route exact path = {ROUTES.ACCOUNT} render={(props)=>(
+                                    <Account {...props} account={account}>
+                                        
+                                    </Account>
+                                    )}>
+                                </Route>
+                                <Route path = {ROUTES.ACCOUNT + '/orders'} component={Orders}></Route>
+                                <Route path = {ROUTES.ACCOUNT + '/cards'} component={Cards}></Route>
+                                <Route path = {ROUTES.ACCOUNT + '/gcards'} component={GCards}></Route>
+                                    
+                                </Switch>
                        
             </div>
         )

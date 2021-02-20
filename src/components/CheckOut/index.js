@@ -3,7 +3,7 @@ import Payment from './Payment';
 import ItemsSummary from './ItemsSummary';
 import ShippingInfo from './ShippingInfo';
 import PriceTotal from './PriceTotal';
-import firebase from '../../firebase.js';
+import firebase from './../Firebase/firebase.js';
 import './check-out.scss';
 const db = firebase.firestore();
 const CheckOut = React.forwardRef((props, ref) => {

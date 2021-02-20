@@ -1,0 +1,37 @@
+.account-shortcut{
+    position: relative;
+    float: left;
+    .more-detail-btn{
+        width: 20px;
+        padding: 5px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    .dropdown-account-nav{
+        width: 150%;
+        position: absolute;
+        background: purple;
+        z-index: 5000;
+        border-radius: 3px;
+        ul{
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            list-style-type: none;
+            padding: 12px;
+            margin: 0;
+            li a{
+                padding: 10px;
+                text-decoration: none;
+                color: white;
+                border: 1px solid white;
+                display: block;
+            }
+        }
+        &.display-none{
+            height: 0;
+            overflow: hidden;
+        }
+    }
+}

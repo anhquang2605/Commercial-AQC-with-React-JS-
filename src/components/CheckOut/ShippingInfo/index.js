@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import './shipping-info.scss';
 import Collapsable from "../../Plugins/Collaspable";
 import Modal from "../../Plugins/Modal";
-import firebase from '../../../firebase';
+import firebase from '../../Firebase/firebase.js';
 const db = firebase.firestore();
 const ShippingInfo = (props) => {
     //Refs

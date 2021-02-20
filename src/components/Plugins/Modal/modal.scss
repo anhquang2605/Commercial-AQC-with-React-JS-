@@ -7,6 +7,7 @@
     opacity: 1;
     display: block;
     transition: visibility 0.5s, opacity 0.5s;
+    z-index: 9999;
     .black-curtain{
         width: 100%;
         background: black;
@@ -24,7 +25,7 @@
         height: 45%;
         padding: 20px;
     }
-    .close-btn{
+    .close-btn-modal{
         border: none;
         transition: none;
         position: absolute;
