@@ -1,0 +1,21 @@
+.collapse-tabs{
+    & *{
+        width: 100%;
+    }
+    .collapse-title{
+        background: khaki;
+        border-radius: 3px;
+        padding: 6px;
+        cursor: pointer;
+    }
+    .collapse-content{
+        box-sizing: border-box;
+        background: rgb(223, 197, 223);
+        padding: 5px;
+        &.display-none{
+            height: 0;
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+}

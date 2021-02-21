@@ -155,7 +155,11 @@ const App = (props) =>  {
                                     )}>
                                 </Route>
                                 <Route path = {ROUTES.ACCOUNT + '/orders'} component={Orders}></Route>
-                                <Route path = {ROUTES.ACCOUNT + '/cards'} component={Cards}></Route>
+                                <Route path = {ROUTES.ACCOUNT + '/cards'} render={(props)=>(
+                                    account.cards ? <Cards {...props} list={account.cards}>
+                                        
+                                    </Cards> : ""
+                                    )}></Route>
                                 <Route path = {ROUTES.ACCOUNT + '/gcards'} component={GCards}></Route>
                                     
                                 </Switch>
