@@ -9,10 +9,11 @@ const Shortcut = (props) => {
     }
     useEffect(() => {
        document.addEventListener("click", function(e){
+        let dropdown = document.getElementById("drop-down-account-detail");
+           if(!dropdown.classList.contains("display-none")){
             if(!e.target.matches(".more-detail-btn")){
-                let dropdown = document.getElementById("drop-down-account-detail");
                 dropdown.classList.add("display-none"); 
-            };
+            };}
 
         });
         return () => {

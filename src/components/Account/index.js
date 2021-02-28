@@ -30,12 +30,19 @@ const Account = (props) => {
                     </tbody>
                 </table>
                 <button onClick={()=>{changePassRefModal.current.showModal()}}>Change Password</button>
-                <Modal ref={changePassRefModal} name="change-pass">
-                    <div>
-                        <div><span>new passwords</span><span><input autoComplete="off" type="password"></input></span></div>
-                        <div><span>re enter new passwords</span><span><input autoComplete="off" type="password"></input></span></div>
-                        <button>Confirm change</button>
+                <Modal hasTitle={true} ref={changePassRefModal} name="change-password">
+                <   div className="form-in-modal">
+                        <span className="form-row-control">
+                            <legend>New Password</legend>
+                            <input type="password" value=""></input>
+                        </span>
+                        <span className="form-row-control">
+                            <legend>Re enter new password </legend>
+                            <input type="password" value=""></input>
+                        </span>
+                        <div className="add-card-btn half">Confirm Change Password</div>
                     </div>
+                   
                 </Modal>
                 <div className="other-information-access">
                     {otherInfo && <LinkCards list={otherInfo}>

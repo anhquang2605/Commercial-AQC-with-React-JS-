@@ -13,6 +13,7 @@ body{
         &:hover{
             background-color: purple;
             color: white;
+            cursor: pointer;
         }
         &:focus{
             border-radius: 0;

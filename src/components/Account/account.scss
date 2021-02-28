@@ -1,0 +1,71 @@
+$form-background: rgba($color: #fcff67, $alpha: .5);
+.form-in-modal{
+    width: 100%;
+    font-size: 1.1em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    &, & *{
+        box-sizing: border-box;
+    }
+    .add-card-btn{
+        margin: auto 0;
+        text-align: center;
+        padding: 20px;
+        background-color: khaki;
+        transition: background-color 0.3s;
+        &:hover{
+            background-color: purple;
+            color: white;
+            cursor: pointer;
+        }
+    }
+    .form-row-control{
+        width: 100%;
+        border: 1px solid purple;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        input, select, legend{
+            font-family: inherit;
+            font-size: inherit;
+            flex-shrink: 0;
+        }
+        input{
+            width: 100%;
+            padding: 10px;
+            padding-bottom: 5px;
+            transition: background-color 0.3s, border-bottom 0.3s;
+            &[type=password]{
+                border: none;
+            }
+            &.exp-month{
+                width: 50px; 
+                margin-right: 20px;
+                background:$form-background;
+            }
+            &.exp-year{
+                width: 80px;
+                background:$form-background;
+            }
+            &:focus{
+                outline: none;
+                background-color: $form-background;
+                border-bottom: 1px solid purple;
+            }
+        }
+        legend{
+            width: 100%;
+            font-size: 0.7em;
+            font-weight: bold;
+            &[for=exp], &[for=type]{
+                width: auto;
+            }
+
+        }
+    }
+    .half{
+        width: 48%;
+    }    
+}
