@@ -156,7 +156,7 @@ const App = (props) =>  {
                                 </Route>
                                 <Route path = {ROUTES.ACCOUNT + '/orders'} component={Orders}></Route>
                                 <Route path = {ROUTES.ACCOUNT + '/cards'} render={(props)=>(
-                                    account.cards ? <Cards {...props} list={account.cards}>
+                                    account.cards ? <Cards {...props} accountID={account.username} list={account.cards}>
                                         
                                     </Cards> : ""
                                     )}></Route>

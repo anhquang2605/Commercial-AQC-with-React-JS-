@@ -1,22 +1,47 @@
 import React, {useState,useEffect, useRef} from 'react';
 import CollapseTab from '../Plugins/CollapseTab';
 import Modal from '../../Plugins/Modal';
+import Firebase from '../../Firebase';
 import './cards.scss';
 const Cards = (props) => {
-    const [prepList, setPrepList] = useState([])
+    //List of random state to generate when add a new card, as if the information is retrieved from the bank the card from
+    const randomCities = ["San jose", "San Frans", "Sunny vale"];
+    const randomStates = ["CA", "AZ", "NY"];
+    const randomZips = ["97888","99999","11100"];
+    const randomTypes = ["visa","master"];
+    const INITIALCARDFORM = {//empty object used to initialize form for adding card
+        name: "Newly added",
+        owner: "",
+        "card number": "",
+        "exp month": 0,
+        "exp year": 0,
+        "billing address": "Newly added" + (Math.round(Math.random()*99)),
+        "billing city": randomCities[Math.floor(Math.random()*3)],
+        "billing state": randomStates[Math.floor(Math.random()*3)],
+        "billing city": randomZips[Math.floor(Math.random()*3)],
+        type: randomTypes[Math.floor(Math.random()*2)],
+    }
+    const [prepList, setPrepList] = useState([]);
+    const [addingCardFromForm, setAddingCardFromForm] = useState({...INITIALCARDFORM});
+    const [deletingCard, setDeletingCard] = useState({});
+    const [confirmedAddedCard, setConfirmedAddedCard] = useState({});
+    //reference to the modal that is exposed with there showModal and hideModal methods.
     const refForAddCardModal = useRef({});
     const refForRemoveCardModal = useRef({});
     const refForEditCardModal = useRef({});
-    useEffect(() => {//preping item and markup to provide the collapse Tab
-        setPrepList(props.list.map((item)=>{
+    //Firebase 's firestore 
+    const db = Firebase.firestore();
+    
+    let handlePreProcessingCardListToComponent = () => {//Transform the provided cards list from props to title and content props that is later used by collapse tab component
+        return props.list.map((item)=>{
             return {
-                title: 
+                title: //Title part
                 <React.Fragment>
                     <span className="card-thumb"><img src={require("./../../../images/Cards/" + item.type + ".jpg")}></img></span>
                     <span className="card-mini-info">{item.type} {item.name} {item["card number"]}</span>
                     <span>{item["exp month"]} / {item["exp year"]}</span>
                 </React.Fragment>,
-                content: 
+                content: //Content part
                 <React.Fragment>
                     <div>
                         <h5>Name on card</h5>
@@ -33,12 +58,91 @@ const Cards = (props) => {
                     </div>
                     <div className="card-edit-remove">
                         <button onClick={refForEditCardModal.current.showModal} >Edit</button>
-                        <button onClick={refForRemoveCardModal.current.showModal}>Delete</button>
+                        <button onClick={()=>{handleClickDeleteCardButton(item)}}>Delete</button>
                     </div>
                 </React.Fragment>
             }
-        }));
+        })
+    }
+    //Adding card to account
+    let handleAddCardToAccount = () =>{ 
+        let daCard = {...addingCardFromForm};
+        let promise = new Promise((resolve,reject)=>{
+            setConfirmedAddedCard(daCard);//Set the card to buffer before updating
+            resolve("added confirmation");
+        })
+        promise.then((result)=>{//reset the buffer, close the modal
+            if (result == "added confirmation"){
+                setAddingCardFromForm({...INITIALCARDFORM});
+                refForAddCardModal.current.hideModal();
+            } else {
+                console.log("cannot add");
+            }
+        });
+    }
+        //Handling adding field to card in form modal
+    let handleAddingOwnerToCardForm = (e) => {
+        setAddingCardFromForm((prevState)=>({
+            ...prevState,
+            owner: e.target.value,
+        }))
+    }
+    let handleAddingCardNumberToCardForm = (e) => {
+        setAddingCardFromForm((prevState)=>({
+            ...prevState,
+            "card number": e.target.value,
+        }))
+    }
+    let handleAddingExpMonthToCardForm = (e) => {
+        setAddingCardFromForm((prevState)=>({
+            ...prevState,
+            "exp month": e.target.value,
+        }))
+    }
+    let handleAddingExpYearToCardForm = (e) => {
+        setAddingCardFromForm((prevState)=>({
+            ...prevState,
+            "exp year": e.target.value,
+        }))
+    }
+    //Handling deleting card
+     let handleDeleteCard = () => {
+        let daCard = {...deletingCard};
+        let promise = new Promise((resolve,reject)=>{
+            let accountDoc = db.collection("accounts").doc(props.accountID);
+            accountDoc.update({
+                cards: Firebase.firestore.FieldValue.arrayRemove(daCard)
+            });
+            resolve(); 
+        });
+        promise.then((resolve)=>{     
+            refForRemoveCardModal.current.hideModal();
+        });
+    }
+    //Handling clicking of add, edit and delete button
+    let handleClickingAddCard = () => {
+        refForAddCardModal.current.showModal();
+    }
+    let handleClickDeleteCardButton = (card) => {
+        setDeletingCard(card);
+        refForRemoveCardModal.current.showModal();
+    } 
+   
+ 
+    useEffect(() => {//preping item and markup to provide the collapse Tab
+        setPrepList(handlePreProcessingCardListToComponent);
     }, []);
+    useEffect(() => {//When confirmedAddedCard is update through the card adding method
+        if(JSON.stringify(confirmedAddedCard)!= JSON.stringify({})){
+            let accountDoc = db.collection("accounts").doc(props.accountID);
+            accountDoc.update({
+                cards: Firebase.firestore.FieldValue.arrayUnion(confirmedAddedCard)
+            });
+        }
+    }, [confirmedAddedCard]);
+    useEffect(()=>{//rerender Cards component whenever new card is added
+        setPrepList(handlePreProcessingCardListToComponent);
+    },[props.list])
     return (
         <div className="user-cards-manament">
             <h4>Payments</h4>
@@ -52,24 +156,24 @@ const Cards = (props) => {
                     <div className="form-in-modal">
                         <span className="form-row-control">
                             <legend>Name on Card</legend>
-                            <input type="text" value="" placeholder="Enter Name on Card"></input>
+                            <input type="text" onChange={handleAddingOwnerToCardForm} value={addingCardFromForm.owner} placeholder="Enter Name on Card"></input>
                         </span>
                         <span className="form-row-control">
                             <legend>Card Number </legend>
-                            <input type="text" value="" placeholder="Enter Card Number"></input>
+                            <input type="text" onChange={handleAddingCardNumberToCardForm} value={addingCardFromForm["card number"]} placeholder="Enter Card Number"></input>
                         </span>
                         <span className="form-row-control half exp-date">
                             <legend>Expire month/year (MM/YYYY)</legend>
-                            <input className="exp-month" type="number" value="" min="1" max="12"></input>
-                            <input className="exp-year" type="number" value="" min="2020"></input>
+                            <input className="exp-month" onChange={handleAddingExpMonthToCardForm} type="number" value={addingCardFromForm["exp month"]} min="1" max="12"></input>
+                            <input className="exp-year" onChange={handleAddingExpYearToCardForm} type="number" value={addingCardFromForm["exp year"]} min="2020"></input>
                         </span>
-                        <div className="add-card-btn half">Add Card</div>
+                        <div className="add-card-btn half" onClick={handleAddCardToAccount}>Add Card</div>
                     </div>
             </Modal>
             <Modal ref={refForRemoveCardModal} name="remove-card-confirm">
-                <div>Are you sure you want to remove ?</div>
-                <button>Confirm</button> 
-                <button>Cancel</button> 
+                {deletingCard != {} && <div>Are you sure you want to remove <b>{deletingCard.type}</b> card ending in {deletingCard["card number"]} ?</div>}
+                <button onClick={handleDeleteCard}>Confirm</button> 
+                <button onClick={refForRemoveCardModal.current.hideModal}>Cancel</button> 
             </Modal>
             <Modal hasTitle={true} ref={refForEditCardModal} name="edit-card-for-account">
                     <div className="form-in-modal">
@@ -88,7 +192,7 @@ const Cards = (props) => {
                         <div className="add-card-btn half">Confirm edit</div>
                     </div>
             </Modal>
-            <button onClick={refForAddCardModal.current.showModal}>Add a new card</button>
+            <button onClick={handleClickingAddCard}>Add a new card</button>
         </div>
     );
 }
