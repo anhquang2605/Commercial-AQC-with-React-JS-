@@ -25,6 +25,9 @@ const Cards = (props) => {
     const [addingCardFromForm, setAddingCardFromForm] = useState({...INITIALCARDFORM});
     const [deletingCard, setDeletingCard] = useState({});
     const [confirmedAddedCard, setConfirmedAddedCard] = useState({});
+    const [beforeEditedCard, setBeforeEditedCard] = useState({});//To remove in the fire store
+    const [beingEdittedCard, setBeingEdittedCard] = useState({});//To add to the fire store to replace the removed one
+    const [currentIndexOfEdited, setCurreentIndexOfEdited] = useState();
     //reference to the modal that is exposed with there showModal and hideModal methods.
     const refForAddCardModal = useRef({});
     const refForRemoveCardModal = useRef({});
@@ -33,7 +36,8 @@ const Cards = (props) => {
     const db = Firebase.firestore();
     
     let handlePreProcessingCardListToComponent = () => {//Transform the provided cards list from props to title and content props that is later used by collapse tab component
-        return props.list.map((item)=>{
+        if(props.list){
+        return props.list.map((item,index)=>{
             return {
                 title: //Title part
                 <React.Fragment>
@@ -57,14 +61,20 @@ const Cards = (props) => {
                         </div>
                     </div>
                     <div className="card-edit-remove">
-                        <button onClick={refForEditCardModal.current.showModal} >Edit</button>
+                        <button onClick={(e)=>{
+                            e.stopPropagation();
+                            handleClickEditCardButton(item,index)}} >Edit</button>
                         <button onClick={()=>{handleClickDeleteCardButton(item)}}>Delete</button>
                     </div>
                 </React.Fragment>
             }
-        })
+            })
+        }
     }
     //Adding card to account
+    let handleClickingAddCard = () => {
+        refForAddCardModal.current.showModal();
+    }
     let handleAddCardToAccount = () =>{ 
         let daCard = {...addingCardFromForm};
         let promise = new Promise((resolve,reject)=>{
@@ -106,6 +116,10 @@ const Cards = (props) => {
         }))
     }
     //Handling deleting card
+    let handleClickDeleteCardButton = (card) => {
+        setDeletingCard(card);
+        refForRemoveCardModal.current.showModal();
+    } 
      let handleDeleteCard = () => {
         let daCard = {...deletingCard};
         let promise = new Promise((resolve,reject)=>{
@@ -115,19 +129,79 @@ const Cards = (props) => {
             });
             resolve(); 
         });
-        promise.then((resolve)=>{     
+        promise.then(()=>{     
             refForRemoveCardModal.current.hideModal();
         });
     }
-    //Handling clicking of add, edit and delete button
-    let handleClickingAddCard = () => {
-        refForAddCardModal.current.showModal();
+    //Handling Editing 
+    let handleClickEditCardButton = (card,index) => {
+        setBeingEdittedCard(card);
+        setBeforeEditedCard(card);
+        refForEditCardModal.current.showModal();
+        setCurreentIndexOfEdited(index);
     }
-    let handleClickDeleteCardButton = (card) => {
-        setDeletingCard(card);
-        refForRemoveCardModal.current.showModal();
-    } 
-   
+        //Handling editing form
+    let handleOwnerChangeEditing = (e) =>{
+        setBeingEdittedCard((prevState)=>({
+            ...prevState,
+            owner: e.target.value
+        }));
+    }
+    let handleExpMonthChangeEditing = (e) =>{
+        setBeingEdittedCard((prevState)=>({
+            ...prevState,
+            "exp month": e.target.value
+        }))
+    }
+    let handleExpYearChangeEditing = (e) => {
+        setBeingEdittedCard((prevState) => ({
+            ...prevState,
+            "exp year": e.target.value
+        }))
+    }
+        //When user pressed confirmed
+    let handleEditConfirmation = () =>{
+        let daCard = {...beingEdittedCard};//To be added
+        let daOrignial = {...beforeEditedCard};//To be removed, the original
+        if (JSON.stringify(daCard) != JSON.stringify(daOrignial)){//If there is difference
+           let promise = new Promise((resolve,reject)=>{//First remove the original
+                let accountDoc = db.collection("accounts").doc(props.accountID);
+                accountDoc.update({
+                    cards: Firebase.firestore.FieldValue.arrayRemove(daOrignial)
+                });
+                resolve(); 
+            });
+            promise.then(()=>{//Then add the updated version to replace the removed one     
+                let accountDoc = db.collection("accounts").doc(props.accountID);
+                accountDoc.update({
+                    cards: Firebase.firestore.FieldValue.arrayUnion(daCard)
+                });
+                refForEditCardModal.current.hideModal();
+            }); 
+    /*         let accountDoc = db.collection("accounts").doc(props.accountID);
+                accountDoc.get().then((snapShot)=>{
+                let daCardsOld = snapShot.data().cards;
+                let daCardsNew = snapShot.data().cards;
+                daCardsNew[currentIndexOfEdited] = daCard;
+                for (var i = 0; i < daCardsNew.length; i+=1){
+                    accountDoc.update({
+                        cards: Firebase.firestore.FieldValue.arrayUnion(daCardsNew[i])
+                    });
+                }
+                for (var i = 0; i < daCardsOld.length; i+=1){
+                    accountDoc.update({
+                        cards: Firebase.firestore.FieldValue.arrayRemove(daCardsOld[i])
+                    });
+                }
+
+            }).then(()=>{
+                refForEditCardModal.current.hideModal();
+            }); */
+        }else{//no difference, simply close the box
+            refForEditCardModal.current.hideModal();
+        }
+    }
+
  
     useEffect(() => {//preping item and markup to provide the collapse Tab
         setPrepList(handlePreProcessingCardListToComponent);
@@ -176,21 +250,21 @@ const Cards = (props) => {
                 <button onClick={refForRemoveCardModal.current.hideModal}>Cancel</button> 
             </Modal>
             <Modal hasTitle={true} ref={refForEditCardModal} name="edit-card-for-account">
-                    <div className="form-in-modal">
+            {beingEdittedCard!=undefined && <div className="form-in-modal">
                         <span className="form-row-control">
-                            Card type, ending in AAAA
+                            Card type, ending in {beingEdittedCard["card number"] == undefined ? "" : beingEdittedCard["card number"]}
                         </span>
                         <span className="form-row-control">
                             <legend>Name on Card</legend>
-                            <input type="text" value="" placeholder="Enter Name on Card"></input>
+                            <input type="text" onChange={handleOwnerChangeEditing} value={beingEdittedCard.owner} placeholder="Enter Name on Card"></input>
                         </span>
                         <span className="form-row-control half exp-date">
                             <legend>Expire month/year (MM/YYYY)</legend>
-                            <input className="exp-month" type="number" value="" min="1" max="12"></input>
-                            <input className="exp-year" type="number" value="" min="2020"></input>
+                            <input className="exp-month" onChange={handleExpMonthChangeEditing} type="number" value={beingEdittedCard["exp month"]} min="1" max="12"></input>
+                            <input className="exp-year" onChange={handleExpYearChangeEditing} type="number" value={beingEdittedCard["exp year"]} min="2020"></input>
                         </span>
-                        <div className="add-card-btn half">Confirm edit</div>
-                    </div>
+                        <div className="add-card-btn half" onClick={handleEditConfirmation}>Confirm edit</div>
+                    </div>}
             </Modal>
             <button onClick={handleClickingAddCard}>Add a new card</button>
         </div>
