@@ -65,12 +65,12 @@ $form-background: rgba($color: #fcff67, $alpha: .5);
                     border: none;
                 }
                 &.exp-month{
-                    width: 50px; 
+                    width: 60px; 
                     margin-right: 20px;
                     background:$form-background;
                 }
                 &.exp-year{
-                    width: 80px;
+                    width: 90px;
                     background:$form-background;
                 }
                 &:focus{

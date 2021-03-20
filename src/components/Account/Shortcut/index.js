@@ -9,6 +9,7 @@ const Shortcut = (props) => {
     }
     useEffect(() => {
        document.addEventListener("click", function(e){
+           e.stopPropagation();
         let dropdown = document.getElementById("drop-down-account-detail");
            if(!dropdown.classList.contains("display-none")){
             if(!e.target.matches(".more-detail-btn")){

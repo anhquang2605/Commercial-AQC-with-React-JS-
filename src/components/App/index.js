@@ -160,7 +160,9 @@ const App = (props) =>  {
                                         
                                     </Cards> : ""
                                     )}></Route>
-                                <Route path = {ROUTES.ACCOUNT + '/gcards'} component={GCards}></Route>
+                                <Route path = {ROUTES.ACCOUNT + '/gcards'} render={(props)=>(
+                                    account.gcards? <GCards {...props} accountID={account.username} list={account.gcards}></GCards> : ""
+                                )}></Route>
                                     
                                 </Switch>
                        
