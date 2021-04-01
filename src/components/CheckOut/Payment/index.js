@@ -1,10 +1,9 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import GIFTCARDS from '../../../model/GiftCards';
 import Modal from '../../Plugins/Modal';
 import './payment.scss';
 
 const Payment = (props) => {
-    const [dacard, setdaCard] = useState(props.card);
     const [addingCard, setAddingCard] = useState({
         owner: "",
         "card number": "",
@@ -15,7 +14,7 @@ const Payment = (props) => {
         name: "added from modal",
         imgSrc: "kirby.jpg"    
     });
-    const [cards, setCards] =  useState(props.cards);
+
     const [dagiftCards, setdaGiftCard] = useState(props.gcards);
     //ref to modal
     const modalRef = useRef();
@@ -128,10 +127,6 @@ const Payment = (props) => {
     }
     //initiate, componentDidMount
     useState(()=>{
-        if(props.cards){
-            setdaCard(props.card);
-            setCards(props.cards);
-        }
         handleDiscount();
     },[]);
 
@@ -143,7 +138,7 @@ const Payment = (props) => {
                     <div id="chosen-card">       {/*chosen card*/}
                              <button  className="change-card" onClick={handleChange}>Change</button>
                              {props.card && <div className="card-payment">
-                                 <img className="card-img" src={require("../../../images/Cards/" + props.card.imgSrc)}></img>
+                                 <img className="card-img" alt={props.card.type} src={require("../../../images/Cards/" + props.card.imgSrc)}></img>
                                 <span className="card-name"><b>{props.card.type} </b></span>
                                 <span className="card-ending">Ending in {props.card["card number"].slice(12)}</span> 
                              </div>}
@@ -152,7 +147,7 @@ const Payment = (props) => {
                                 {dagiftCards.map(card => {
                                 return(
                                 <div key={card.id} className="chosen-gift-card">
-                                    <img className="gcard-img" src={require("../../../images/Cards/" + card.imgSrc)}></img>
+                                    <img className="gcard-img" alt={card.type} src={require("../../../images/Cards/" + card.imgSrc)}></img>
                                     <span className="gcard-name">{
                                     (card.type === "debit"? ("$ " + card.ammount) : (card.dis + " %")) 
                                     + " " + card.name + " gift card"}</span>
@@ -178,7 +173,7 @@ const Payment = (props) => {
                                     {props.cards  && props.cards.map((card)=>{
                                         return(
                                            <tr key={card["id"]}>
-                                               { <td className="radio-value"><input onChange={()=>{handleChangeCard(card["id"])}} defaultChecked={card["id"] == props.card["id"] } type="radio" name="card" value={card["id"]}></input></td>}
+                                               { <td className="radio-value"><input onChange={()=>{handleChangeCard(card["id"])}} defaultChecked={card["id"] === props.card["id"] } type="radio" name="card" value={card["id"]}></input></td>}
                                                 <td className="card-name"><b>{card.name} {" " + card.type}</b> ending in {card["card number"].slice(12)}</td>
                                                 <td className="card-owner">{card.owner.toUpperCase()}</td>
                                                 <td className="card-exp">{card["exp month"]}/{card["exp year"]}</td>
@@ -205,9 +200,9 @@ const Payment = (props) => {
                                     {GIFTCARDS.map((card)=>{
                                         return(
                                             <tr key={card.id}>
-                                                <td className="checkbox-value"><input onChange={(e)=>{handleChangeGcard(card.id,e)}} checked={dagiftCards.findIndex(dacard => dacard.id === card.id) != -1}   type="checkbox" name={"giftcard" + (parseInt(card.id) + 1)} value={card.id}></input></td>
+                                                <td className="checkbox-value"><input onChange={(e)=>{handleChangeGcard(card.id,e)}} checked={dagiftCards.findIndex(dacard => dacard.id === card.id) !== -1}   type="checkbox" name={"giftcard" + (parseInt(card.id) + 1)} value={card.id}></input></td>
                                                 <td className="card-name">{card.name}  </td>
-                                                <td className="card-dis">{card.type == "debit" ? "$ " + card.ammount : card.dis + " %"}</td>
+                                                <td className="card-dis">{card.type === "debit" ? "$ " + card.ammount : card.dis + " %"}</td>
                                                 <td className="card-owner">{card.nameOnCard}</td>
                                             </tr>
                                         );

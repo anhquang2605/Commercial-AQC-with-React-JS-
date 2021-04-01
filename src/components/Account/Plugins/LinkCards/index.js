@@ -1,9 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import LinkCard from './LinkCard';
 import './link-cards.scss';
 const LinkCards = (props) => {
-    useEffect(() => {
-    }, []);
     return (
         <div className="link-cards-list">
             {props.list && props.list.map((item)=>{

@@ -11,7 +11,6 @@ class SearchForm extends Component {
             types: '',
             avail: false,
             valid: false,
-            validName: true,
             validPrice: true,
         }
         this.onChangeMaxPrice = this.onChangeMaxPrice.bind(this);
@@ -22,15 +21,7 @@ class SearchForm extends Component {
     }
     onChangeName = (event) => {
         let val = event.target.value;
-        if (val.length > 50 || val == ""){
-            this.setState({
-                validName: false,
-            })
-        } else {
-            this.setState({
-                validName: true,
-            })
-        }
+
         this.setState(()=>({
             name: val
         }));
@@ -74,10 +65,8 @@ class SearchForm extends Component {
                     <label htmlFor="name">Name</label>
                     <br></br>
                     <span className="input container">
-                    <input className={this.state.validName? "" : "not-valid"} type="text" id="name" name="name" value={this.state.name} onChange={this.onChangeName}></input>
-                    {   !this.state.validName &&
-                        <BiX></BiX>
-                    }
+                    <input type="text" id="name" name="name" value={this.state.name} onChange={this.onChangeName}></input>
+
                     </span>
                     <br></br>
                     <label htmlFor="maxPrice">Max Price</label>
@@ -100,7 +89,7 @@ class SearchForm extends Component {
                     <input type="checkbox" value={this.state.avail} onChange={this.handleInStockCheck}></input>
                     <br></br>
                     <button onClick={ (e) => {e.preventDefault(); this.props.onSubmitSearch(this.state.name, this.state.minPrice, this.state.maxPrice, this.state.avail)}} 
-                    disabled={!this.state.validName || !this.state.validPrice}>Search</button>
+                    disabled={!this.state.validPrice}>Search</button>
                     {/*to add function reference instead of calling the function directly, 
                     otherwise the setState will be called infinitely within the render methods which might cause loop and max exceed error*/}
             </div>

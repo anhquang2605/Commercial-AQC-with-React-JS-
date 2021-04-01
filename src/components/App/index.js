@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import Navigator from '../Navigator';
 import Home from '../Home';
 import NavBar from '../NavBar';
@@ -13,7 +13,7 @@ import KartDetail from '../KartDetail';
 import CheckOut from '../CheckOut';
 import PlaceOrder from '../PlaceOrder';
 import ThankYou from "../ThankYou";
-import Firebase, {FirebaseContext} from './../Firebase/';
+import Firebase from './../Firebase/';
 import Shortcut from '../Account/Shortcut';
 import Orders from '../Account/Orders';
 import Account from '../Account';
@@ -41,7 +41,6 @@ const App = (props) =>  {
         const [,setState] = useState();
         const location = useLocation();
         const [cartList, setCartList] = useState([]);
-        const [curSearchQ, setCurSearchQ] = useState();
         const [curCard, setCurCard] = useState();
         const [curGCards, setCurGCards] = useState([]);
         const [curShipping, setCurShipping] = useState({});
@@ -77,7 +76,7 @@ const App = (props) =>  {
             setCartList(newList);
         }
         let handleChangeOfQuantity = (index,val) =>{
-            if (val == 0) removeFromCartList(index);
+            if (val === 0) removeFromCartList(index);
             else  cartList[index].quantity = val;
         }
         //Set Gcard, card, and shipping for app from within checkout component
@@ -112,9 +111,9 @@ const App = (props) =>  {
                     <Logo href={ROUTES.HOME} src={'logo.png'}></Logo>
                     <NavBar></NavBar>
                     {account && <Shortcut username={account.nickname || account.username}></Shortcut>}
-                    {(pageName.search("/result")) != 0  && <SearchBar></SearchBar>}
+                    {(pageName.search("/result")) !== 0  && <SearchBar></SearchBar>}
                 </Navigator>
-                {((pageName.search("/kart-detail")!= 0) && (pageName.search("/checkout")!= 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
+                {((pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
                             <Switch location={location}>
                                 <Route  exact path = {ROUTES.HOME} component = {Home}/>
                                 <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>

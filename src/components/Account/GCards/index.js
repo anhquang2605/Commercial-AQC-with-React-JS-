@@ -20,7 +20,6 @@ const GCards = (props) => {
     const [confirmedAddedCard, setConfirmedAddedCard] = useState({});
     const [beforeEditedCard, setBeforeEditedCard] = useState({});//To remove in the fire store
     const [beingEdittedCard, setBeingEdittedCard] = useState({});//To add to the fire store to replace the removed one
-    const [currentIndexOfEdited, setCurreentIndexOfEdited] = useState();
     //reference to the modal that is exposed with there showModal and hideModal methods.
     const refForAddCardModal = useRef({});
     const refForRemoveCardModal = useRef({});
@@ -34,7 +33,7 @@ const GCards = (props) => {
             return {
                 title: //Title part
                 <React.Fragment>
-                    <span className="card-thumb"><img src={require("./../../../images/Cards/" + item.type + ".jpg")}></img></span>
+                    <span className="card-thumb"><img alt={item.type} src={require("./../../../images/Cards/" + item.type + ".jpg")}></img></span>
                     <span className="card-mini-info">{item.type[0].toUpperCase() + item.type.slice(1)} {item.name}</span>
                     <span>{item["exp month"]} / {item["exp year"]}</span>
                 </React.Fragment>,
@@ -45,7 +44,7 @@ const GCards = (props) => {
                         <span>{item.name}</span>
                     </div>
                     <div>
-                        <h5>{item.type == "debit"? "Amount($): " : "Discount(%): "} <span>{item.amount}</span></h5>
+                        <h5>{item.type === "debit"? "Amount($): " : "Discount(%): "} <span>{item.amount}</span></h5>
                     </div>
                     <div className="card-edit-remove">
                         <button onClick={(e)=>{
@@ -69,7 +68,7 @@ const GCards = (props) => {
             resolve("added confirmation");
         })
         promise.then((result)=>{//reset the buffer, close the modal
-            if (result == "added confirmation"){
+            if (result === "added confirmation"){
                 setAddingCardFromForm({...INITIALCARDFORM});
                 refForAddCardModal.current.hideModal();
             } else {
@@ -134,7 +133,6 @@ const GCards = (props) => {
         setBeforeEditedCard(card);
         
         refForEditCardModal.current.showModal();
-        setCurreentIndexOfEdited(index);
     }
         //Handling editing form
     let handleNameChangeEditing = (e) =>{
@@ -159,7 +157,7 @@ const GCards = (props) => {
     let handleEditConfirmation = () =>{
         let daCard = {...beingEdittedCard};//To be added
         let daOrignial = {...beforeEditedCard};//To be removed, the original
-        if (JSON.stringify(daCard) != JSON.stringify(daOrignial)){//If there is difference
+        if (JSON.stringify(daCard) !== JSON.stringify(daOrignial)){//If there is difference
            let promise = new Promise((resolve,reject)=>{//First remove the original
                 let accountDoc = db.collection("accounts").doc(props.accountID);
                 accountDoc.update({
@@ -251,12 +249,12 @@ const GCards = (props) => {
                     </div>
             </Modal>
             <Modal ref={refForRemoveCardModal} name="remove-gift-card-confirm">
-                {deletingCard != {} && <div>Are you sure you want to remove <b>{deletingCard.name}</b> card ?</div>}
+                {deletingCard !== {} && <div>Are you sure you want to remove <b>{deletingCard.name}</b> card ?</div>}
                 <button onClick={handleDeleteCard}>Confirm</button> 
                 <button onClick={refForRemoveCardModal.current.hideModal}>Cancel</button> 
             </Modal>
             <Modal hasTitle={true} ref={refForEditCardModal} name="edit-gift-card-for-account">
-            {Object.keys(beingEdittedCard) != 0 && <div className="form-in-modal">
+            {Object.keys(beingEdittedCard) !== 0 && <div className="form-in-modal">
                         <span className="form-row-control">
                             <legend>Name of Card</legend>
                             <input type="text" onChange={handleNameChangeEditing} value={beingEdittedCard.name} placeholder="Enter Name of Card"></input>

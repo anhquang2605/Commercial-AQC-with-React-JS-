@@ -17,7 +17,7 @@ const Pagination = (props) => {
        setCurPage(indexFromController);
     }
     let nextPage = () => {
-        let next = curPage + 1;
+        let next = parseInt(curPage) + 1;//Added parseInt here because the curPage sometimes is string
         setCurPage(next);
     }
     let prevPage = () => {
@@ -31,33 +31,39 @@ const Pagination = (props) => {
         setCurPage(getTotalPageNumbers() - 1);
     }
     const [itemPerPage, setItemPerPage] = useState(8);//how many item to display
-    var items = getItemsForPage(0);
    // const [itemWidth, setItemWidth] = useState(30); //percentage width of items
-    const [curList, setCurList] = useState(items);
+    const [curList, setCurList] = useState(getItemsForPage(0));
     const [pageNumber, setPageNumber] = useState(getTotalPageNumbers());
     const [curPage, setCurPage] = useState(0);//deduct one to get the start index
     const [paginified,setPaginified] = useState(pageNumber>0);
     //props.dalist got update from search result
 
     useEffect(()=>{
-        var items = getItemsForPage(0);
-        var totalPages = getTotalPageNumbers();
-        setCurList(items);
-        setPageNumber(totalPages);
-        setPaginified(totalPages >= 2);
-    },[props.dalist]);
-    
+                var totalPages = getTotalPageNumbers();
+                setCurList(getItemsForPage(0));
+                setPageNumber(totalPages);
+                setPaginified(totalPages >= 2);
+            },[]);
+    useEffect((prev,next)=>{ 
+        if (prev != props){
+            var totalPages = getTotalPageNumbers();
+            setCurList(getItemsForPage(0));
+            setCurPage(0);
+            setPageNumber(totalPages);
+            setPaginified(totalPages >= 2);
+        }
+    },[props.dalist]); 
     useEffect(()=>{
-        var items = getItemsForPage(curPage*itemPerPage);
-        setCurList(items);
+         
+        setCurList(getItemsForPage(curPage*itemPerPage));
     },[curPage]);
     return (
         <div className="pagination">
-            {paginified && <PaginationController list={props.dalist} prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
+            {paginified && <PaginationController list={curList} prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
             }
             <PaginationView list={curList}></PaginationView>
             { paginified &&
-            <PaginationController list={props.dalist} prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
+            <PaginationController list={curList} prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>
             }
         </div>
     );

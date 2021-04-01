@@ -93,7 +93,7 @@ const ShippingInfo = (props) => {
     } 
     //When current shipping changed, update shipping info to Check Out component
     useEffect(()=>{
-        if(currentShipping != undefined){
+        if(currentShipping !== undefined){
             props.setShippingForApp(currentShipping);
         }
     },[currentShipping])
@@ -143,7 +143,7 @@ const ShippingInfo = (props) => {
                                     {shippingList && currentShipping && shippingList.map((ship)=>{
                                         return(
                                        <tr key={ship.id}>
-                                           <td><input onClick={updateCurrentShipping} type="radio" name="shipping" checked={currentShipping.id == ship.id} value={ship.id}></input></td>
+                                           <td><input onClick={updateCurrentShipping} type="radio" name="shipping" checked={currentShipping.id === ship.id} value={ship.id}></input></td>
                                            <td className="ship-name">{ship.name}</td>
                                            <td className="ship-address">{ship.address}</td>
                                        </tr>     

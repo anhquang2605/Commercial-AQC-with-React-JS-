@@ -18,7 +18,7 @@ const Cards = (props) => {
         "billing address": "Newly added" + (Math.round(Math.random()*99)),
         "billing city": randomCities[Math.floor(Math.random()*3)],
         "billing state": randomStates[Math.floor(Math.random()*3)],
-        "billing city": randomZips[Math.floor(Math.random()*3)],
+        "billing zip": randomZips[Math.floor(Math.random()*3)],
         type: randomTypes[Math.floor(Math.random()*2)],
     }
     const [prepList, setPrepList] = useState([]);
@@ -27,7 +27,6 @@ const Cards = (props) => {
     const [confirmedAddedCard, setConfirmedAddedCard] = useState({});
     const [beforeEditedCard, setBeforeEditedCard] = useState({});//To remove in the fire store
     const [beingEdittedCard, setBeingEdittedCard] = useState({});//To add to the fire store to replace the removed one
-    const [currentIndexOfEdited, setCurreentIndexOfEdited] = useState();
     //reference to the modal that is exposed with there showModal and hideModal methods.
     const refForAddCardModal = useRef({});
     const refForRemoveCardModal = useRef({});
@@ -41,7 +40,7 @@ const Cards = (props) => {
             return {
                 title: //Title part
                 <React.Fragment>
-                    <span className="card-thumb"><img src={require("./../../../images/Cards/" + item.type + ".jpg")}></img></span>
+                    <span className="card-thumb"><img alt={item.type} src={require("./../../../images/Cards/" + item.type + ".jpg")}></img></span>
                     <span className="card-mini-info">{item.type} {item.name} {item["card number"]}</span>
                     <span>{item["exp month"]} / {item["exp year"]}</span>
                 </React.Fragment>,
@@ -82,7 +81,7 @@ const Cards = (props) => {
             resolve("added confirmation");
         })
         promise.then((result)=>{//reset the buffer, close the modal
-            if (result == "added confirmation"){
+            if (result === "added confirmation"){
                 setAddingCardFromForm({...INITIALCARDFORM});
                 refForAddCardModal.current.hideModal();
             } else {
@@ -138,7 +137,6 @@ const Cards = (props) => {
         setBeingEdittedCard(card);
         setBeforeEditedCard(card);
         refForEditCardModal.current.showModal();
-        setCurreentIndexOfEdited(index);
     }
         //Handling editing form
     let handleOwnerChangeEditing = (e) =>{
@@ -163,7 +161,7 @@ const Cards = (props) => {
     let handleEditConfirmation = () =>{
         let daCard = {...beingEdittedCard};//To be added
         let daOrignial = {...beforeEditedCard};//To be removed, the original
-        if (JSON.stringify(daCard) != JSON.stringify(daOrignial)){//If there is difference
+        if (JSON.stringify(daCard) !== JSON.stringify(daOrignial)){//If there is difference
            let promise = new Promise((resolve,reject)=>{//First remove the original
                 let accountDoc = db.collection("accounts").doc(props.accountID);
                 accountDoc.update({
@@ -204,10 +202,10 @@ const Cards = (props) => {
 
  
     useEffect(() => {//preping item and markup to provide the collapse Tab
-        setPrepList(handlePreProcessingCardListToComponent);
+        setPrepList(handlePreProcessingCardListToComponent());
     }, []);
     useEffect(() => {//When confirmedAddedCard is update through the card adding method
-        if(JSON.stringify(confirmedAddedCard)!= JSON.stringify({})){
+        if(JSON.stringify(confirmedAddedCard)!== JSON.stringify({})){
             let accountDoc = db.collection("accounts").doc(props.accountID);
             accountDoc.update({
                 cards: Firebase.firestore.FieldValue.arrayUnion(confirmedAddedCard)
@@ -215,7 +213,7 @@ const Cards = (props) => {
         }
     }, [confirmedAddedCard]);
     useEffect(()=>{//rerender Cards component whenever new card is added
-        setPrepList(handlePreProcessingCardListToComponent);
+        setPrepList(handlePreProcessingCardListToComponent());
     },[props.list])
     return (
         <div className="user-cards-manament">
@@ -245,14 +243,14 @@ const Cards = (props) => {
                     </div>
             </Modal>
             <Modal ref={refForRemoveCardModal} name="remove-card-confirm">
-                {deletingCard != {} && <div>Are you sure you want to remove <b>{deletingCard.type}</b> card ending in {deletingCard["card number"]} ?</div>}
+                {deletingCard !== {} && <div>Are you sure you want to remove <b>{deletingCard.type}</b> card ending in {deletingCard["card number"]} ?</div>}
                 <button onClick={handleDeleteCard}>Confirm</button> 
                 <button onClick={refForRemoveCardModal.current.hideModal}>Cancel</button> 
             </Modal>
             <Modal hasTitle={true} ref={refForEditCardModal} name="edit-card-for-account">
-            {beingEdittedCard!=undefined && <div className="form-in-modal">
+            {beingEdittedCard!==undefined && <div className="form-in-modal">
                         <span className="form-row-control">
-                            Card type, ending in {beingEdittedCard["card number"] == undefined ? "" : beingEdittedCard["card number"]}
+                            Card type, ending in {beingEdittedCard["card number"] === undefined ? "" : beingEdittedCard["card number"]}
                         </span>
                         <span className="form-row-control">
                             <legend>Name on Card</legend>

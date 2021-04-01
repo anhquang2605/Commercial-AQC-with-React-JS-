@@ -6,31 +6,25 @@ class ResultDisplay extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            name: "",
-            maxPrice: 0,
-            minPrice: 0,
-            getInStock: false,
+            searchQueue: {
+                name: props.name,
+                maxPrice: props.maxPrice,
+                minPrice: props.minPrice,
+                inStock: props.inStock,
+            },
             list: [],
             foundList: []
         }
         this.fetchItems = this.fetchItems.bind(this);
     }
-    static getDerivedStateFromProps(props,state){
-        return({
-            name: props.name,
-            maxPrice: props.maxPrice,
-            minPrice: props.minPrice,
-            getInStock: props.inStock
-        });
-    }
     getItemBasedOnSearchResult(){
         let list = this.state.list;
         let newList = [];
         let result = [];
-        let nameResult = this.state.name;
-        let maxPriceResult = parseInt(this.state.maxPrice);
-        let minPriceResult = parseInt(this.state.minPrice);
-        let getInStockResult = this.state.getInStock;
+        let nameResult = this.props.name;
+        let maxPriceResult = parseInt(this.props.maxPrice);
+        let minPriceResult = parseInt(this.props.minPrice);
+        let getInStockResult = this.props.inStock;
         if(getInStockResult){
             list.forEach((item) =>{
                 var nameMatchResult = item.name.toLowerCase().search(nameResult);
@@ -56,20 +50,36 @@ class ResultDisplay extends React.Component{
     }
     fetchItems(){
         fetch("../ORDERS.json").then(res => res.json()).then((result)=>{
-             this.setState({
+            this.setState({
                  list: result,
              });
+        }).then(()=>{
+            this.setState({
+               foundList: this.getItemBasedOnSearchResult()
+            })
         })
      }
     componentDidMount(){
         this.fetchItems();
     }
+    componentDidUpdate(prevProps,prevState){
+        if(prevProps.name !== this.props.name 
+            || prevProps.minPrice !== this.props.minPrice
+            || prevProps.maxPrice !== this.props.maxPrice
+            || prevProps.inStock !== this.props.inStock
+            ){//need to use this to update component when props change, compare the prev props with the current props to stop infinite call of render
+            this.setState({
+                foundList: this.getItemBasedOnSearchResult()
+            });
+        }
+    }
+
+
     render(){
-        const foundList = this.getItemBasedOnSearchResult();
         return(
             <div id="result_display">
-                    <h4>Results: ({foundList.length})</h4>
-                    { foundList.length >0 ? (<Pagination  dalist={foundList}></Pagination>) : ( <div>Not found</div>) }   
+                    <h4>Results: ({this.state.foundList.length})</h4>
+                    { this.state.foundList.length >0 ? (<Pagination  dalist={this.state.foundList}></Pagination>) : ( <div>Not found</div>)}   
             </div>
         );
     }

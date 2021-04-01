@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import './collapse-tab.scss';
 const CollapseTab = (props) => {
     let handleCollapse = (e) => {
         const target = e.target;
         
-        if(target.nodeName =="IMG"){
+        if(target.nodeName ==="IMG"){
             target.parentElement.parentElement.nextSibling.classList.toggle("display-none");
         } else if(!target.matches(".collapse-title")){
             target.parentElement.nextSibling.classList.toggle("display-none");
@@ -12,8 +12,6 @@ const CollapseTab = (props) => {
             target.nextElementSibling.classList.toggle("display-none")
         };
     }
-    useEffect(() => {
-    }, []);
     return (
         <div className="collapse-tabs">
             {props.list && props.list.map((item,index)=>{

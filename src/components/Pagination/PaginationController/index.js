@@ -5,26 +5,30 @@ const PaginationController = (props) => {
     const [curPage, setCurPage] = useState(props.cur);
     const [,setState] = useState();
     const [lastPage, setLastPage] = useState(props.lastP);
-    const listOfPage = [];
-    let i = 0;
-    let length = props.pageNo;
-    while(i < length){
-        listOfPage.push((<span  data-index={i} onClick={(e)=>{
-            e.stopPropagation();
-            let index = e.target.getAttribute("data-index");
-            props.handlePageChange(index);
-        }} className={(props.cur == i? "cur-page-btn " : "") + "page-no"} key={i}>{i + 1}</span>));
-        i+=1;
+    const [listOfPage,setListOfPage] = useState([]);
+    let generatePageNo = () =>{
+        let arrays = [];
+        let i = 0;
+        let length = props.pageNo;
+        while(i < length){
+            arrays.push((<span  data-index={i} onClick={(e)=>{
+                e.stopPropagation();
+                let index = e.target.getAttribute("data-index");
+                props.handlePageChange(index);
+            }} className={(props.cur == i? "cur-page-btn " : "") + "page-no"} key={i}>{i + 1}</span>));
+            i+=1;
+        }
+        return arrays;
     }
+   
     useEffect(()=>{
         //if the current page number is updated
         setCurPage(props.cur);
+        setListOfPage(generatePageNo());
     },[props.cur]);
     useEffect(()=>{
-        //if the list changed
-        props.handlePageChange(0);//tells the parents to update to page 1
-
-    },[props.list]);
+        setListOfPage(generatePageNo());
+    },[props.pageNo]);
     return (
         <div className="pagination-controller">
             <span hidden={curPage == 0} className="first-btn" onClick={(e)=>{
