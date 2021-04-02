@@ -21,7 +21,13 @@ class ThankYou extends Component {
         return listOfChar.toString().replaceAll(',',"").toUpperCase();
     }
     componentDidMount = () => {
-       this.state.randomizedOrderTracking  = this.generateRanDomMaxChar(15);
+       this.state.randomizedOrderTracking  = this.generateRanDomMaxChar(15);   
+       let promise = new Promise((resolve)=>{
+        this.props.addToOrderAfterCheckOut(this.state.randomizedOrderTracking);
+        resolve();
+        }).then(()=>{
+            this.props.flushCart();
+       })
     }
     render() {
         return (

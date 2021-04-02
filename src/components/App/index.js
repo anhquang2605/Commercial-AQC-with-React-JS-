@@ -13,7 +13,7 @@ import KartDetail from '../KartDetail';
 import CheckOut from '../CheckOut';
 import PlaceOrder from '../PlaceOrder';
 import ThankYou from "../ThankYou";
-import Firebase from './../Firebase/';
+import Firebase, { FirebaseContext } from './../Firebase/';
 import Shortcut from '../Account/Shortcut';
 import Orders from '../Account/Orders';
 import Account from '../Account';
@@ -60,18 +60,51 @@ const App = (props) =>  {
             }
             return {found:false, index: 0};    
         }
+        let addNewItemToUserCart = (account, item) => {
+            db.collection("accounts").doc(account).update({
+                kart: Firebase.firestore.FieldValue.arrayUnion(item)
+            });
+        }
+        let removeItemFromUserCart = (account, item) => {
+            db.collection("accounts").doc(account).update({
+                kart: Firebase.firestore.FieldValue.arrayRemove(item)
+            })
+        }
         let addToCartList = (item) => {
             let inCartSign = isInCart(item.name, item.type);
             if (!inCartSign.found){
                 cartList.push(item);
+                addNewItemToUserCart(account.username, item);
             } else {
-                cartList[inCartSign.index].quantity += parseInt(item.quantity);
+                var theItem = cartList[inCartSign.index];
+                removeItemFromUserCart(account.username, theItem);
+                theItem.quantity += parseInt(item.quantity);
+                addNewItemToUserCart(account.username, theItem)
             }
         }
         let handleRerendering = () =>{
             setState({});
         }
+        let addToOrderAfterCheckOut = (tracking) => {
+            let daOrder = {
+                trackingID: tracking,
+                orderList: []
+            }
+            db.collection("accounts").doc(account.username).update({
+                orders: Firebase.firestore.FieldValue.arrayUnion(daOrder)
+            }).then(()=>{
+                for (var i = 0; i < cartList.length; i += 1){
+                    db.collection("accounts").doc(account.username).update({
+                        orderList: Firebase.firestore.FieldValue.arrayUnion(cartList[i])
+                    })
+                }
+            })
+            
+        }
         let removeFromCartList = (itemIndex) => {
+            if (account!= undefined){
+                removeItemFromUserCart(account.username, cartList[itemIndex]);
+            }
             let newList = cartList.slice(0,itemIndex).concat(cartList.slice(itemIndex + 1, cartList.length));
             setCartList(newList);
         }
@@ -96,6 +129,9 @@ const App = (props) =>  {
         //flush the cart list when user hit place order
         let flushCart = () => {
             setCartList([]);
+            db.collection("accounts").doc(account.username).update({
+                kart: []
+            })
         }
         useEffect(() => {
             db.collection("accounts").get("anhquang2605").then((datas)=>{
@@ -103,7 +139,14 @@ const App = (props) =>  {
                 setAccount(account);
             });
             setPageName(location.pathname);
-        });
+            if(account != undefined){
+                if(account.kart != null){
+                    setCartList(account.kart);
+                }
+            }
+            
+        },[]);
+        
         return(
             <div className="commercial-AQC">
                 <h1>Commercial website AQC</h1>
@@ -137,7 +180,6 @@ const App = (props) =>  {
                                     render={(props) => (
                                         <PlaceOrder
                                             {...props} 
-                                            flushCartList= {flushCart}  
                                             cartList={cartList}
                                             total={curTotal}
                                             shipping={curShipping}
@@ -145,7 +187,10 @@ const App = (props) =>  {
                                             >
                                         </PlaceOrder>)}>
                                 </Route>
-                                <Route path = {ROUTES.THANK_YOU} component={ThankYou}></Route>
+                                <Route path = {ROUTES.THANK_YOU} render={(props)=>(
+                                    <ThankYou {...props} flushCart={flushCart} addToOrderAfterCheckOut={addToOrderAfterCheckOut}>
+                                    </ThankYou>
+                                    )}></Route>
                                 {/* Account Routes  */}
                                 <Route exact path = {ROUTES.ACCOUNT} render={(props)=>(
                                     <Account {...props} account={account}>

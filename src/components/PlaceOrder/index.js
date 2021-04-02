@@ -50,7 +50,7 @@ class PlaceOrder extends React.Component {
                         </span>
                 </CardModal>
                 <Link to="/checkout">Back</Link>
-                <Link to="/thank-you" onClick={this.props.flushCartList}>Confirm and Place orders</Link>
+                <Link to="/thank-you">Confirm and Place orders</Link>
             </div>
         )
     }
