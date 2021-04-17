@@ -1,0 +1,21 @@
+.account_orders{
+    .hoz-order-box{
+        img{
+            width: 20%;
+            float: left;
+            box-sizing: border-box;
+        }
+        .box-content{
+            box-sizing: border-box;
+            width: 80%;
+            padding-left: 10px;
+            float: right;
+        }
+        .order-name{
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+        overflow: auto;
+        margin-bottom: 10px;
+    }
+}

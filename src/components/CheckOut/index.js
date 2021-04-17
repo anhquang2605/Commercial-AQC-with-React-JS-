@@ -63,9 +63,22 @@ const CheckOut = React.forwardRef((props, ref) => {
     useEffect(() => {
         //getting data from firestone for the first time
        if(card === undefined){
-           fetchCardsData(0);
+           //If there is account or signed in
+           if(props.account !== undefined){
+                setCards(props.account.cards);
+                setNoOfCard(props.account.cards.length);
+                setCard(props.account.cards[0])
+           }else {//else use default option
+                fetchCardsData(0);
+           }
        } else {
-           fetchCardsData(card.id);
+            if(props.account !== undefined){
+                setCards(props.account.cards);
+                setNoOfCard(props.account.cards.length);
+                setCard(props.account.cards[card.id])
+            }else {
+                fetchCardsData(card.id);
+            }     
        }
         
     }, []);
@@ -79,7 +92,7 @@ const CheckOut = React.forwardRef((props, ref) => {
         <div id="check_out">
             <div className="left-container">
                 <ShippingInfo curShipping={shipping} setShippingForApp={props.setShippingForApp}></ShippingInfo>
-                {card && cards && <Payment  addCardToDb={addCardToDb} setMyCard={setMyCard} card={card} cards={cards} gcards={props.curGCards} setGCardForApp={props.setGCardForApp} getDis={getDis} getDebitDis={getDebitDis}></Payment>}
+                {card && cards && <Payment  addCardToDb={addCardToDb} setMyCard={setMyCard} card={card} cards={cards} gcards={props.account.gcards} currentGCards={props.curGCards} setGCardForApp={props.setGCardForApp} getDis={getDis} getDebitDis={getDebitDis}></Payment>}
                 <ItemsSummary list={props.list}></ItemsSummary> 
             </div>
             <div className="right-container">

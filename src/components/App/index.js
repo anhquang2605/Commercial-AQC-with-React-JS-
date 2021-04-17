@@ -20,6 +20,7 @@ import Account from '../Account';
 import Cards from '../Account/Cards';
 import GCards from '../Account/GCards'; 
 import './app.scss';
+import GIFTCARDS from '../../model/GiftCards';
 /*const PageComponents = {
     Home: Home,
     Order: Order,
@@ -37,6 +38,7 @@ import './app.scss';
 }
 );*/
 const App = (props) =>  {
+        const [user, setUser] = useState("anhquang2605");
         const [pageName, setPageName] = useState('');
         const [,setState] = useState();
         const location = useLocation();
@@ -45,7 +47,9 @@ const App = (props) =>  {
         const [curGCards, setCurGCards] = useState([]);
         const [curShipping, setCurShipping] = useState({});
         const [curTotal, setCurTotal] = useState(0);
-        const [account, setAccount] = useState({});
+        const [account, setAccount] = useState(null);
+        //the date
+        let d = new Date();
         //const firebasecontext =  useContext(FirebaseContext);
         const db = Firebase.firestore();
         //Ref to Check out component
@@ -86,20 +90,52 @@ const App = (props) =>  {
             setState({});
         }
         let addToOrderAfterCheckOut = (tracking) => {
+            let proccessedOrders = cartList.map(item=>{
+                let day = d.getDate() + 2 + Math.ceil(Math.random()*7);
+                let month = d.getMonth() + 1;
+                let year = d.getFullYear();
+                //Is there a better way to this?
+                if (month === 1,3,5,7,8,10,12){
+                    if(day > 31){
+                        day = day - 31;
+                        month +=1;
+                    }
+                    if(month > 12){
+                        month = month - 12;
+                        year += 1;
+                    }
+                } else if( month === 2) {
+                    if(day > 28){
+                        day = day - 28;
+                        month +=1;
+                    }
+                } else {
+                    if(day > 30){
+                        day = day - 30;
+                        month +=1;
+                    }
+                }
+                return {
+                    ...item,
+                    arrival: month + "-" + day + "-" + year,
+                }              
+            })
             let daOrder = {
                 trackingID: tracking,
-                orderList: []
+                orderList: proccessedOrders,
+                orderDay: d.getDate(),
+                orderMonth: d.getMonth() + 1,
+                orderYear: d.getFullYear()
             }
             db.collection("accounts").doc(account.username).update({
                 orders: Firebase.firestore.FieldValue.arrayUnion(daOrder)
-            }).then(()=>{
-                for (var i = 0; i < cartList.length; i += 1){
-                    db.collection("accounts").doc(account.username).update({
-                        orderList: Firebase.firestore.FieldValue.arrayUnion(cartList[i])
-                    })
-                }
-            })
-            
+            });
+            //reset account so that order is updated after checking out, is there a better way?
+            db.collection("accounts").get(account.username).then((datas)=>{
+                //Set account and kart after accessing database is fine
+                var account = datas.docs[0].data();
+                setAccount(account);
+            })    
         }
         let removeFromCartList = (itemIndex) => {
             if (account!= undefined){
@@ -129,24 +165,26 @@ const App = (props) =>  {
         //flush the cart list when user hit place order
         let flushCart = () => {
             setCartList([]);
-            db.collection("accounts").doc(account.username).update({
-                kart: []
-            })
+            if(account!==undefined){
+                db.collection("accounts").doc(account.username).update({
+                    kart: []
+                })
+            }
         }
         useEffect(() => {
-            db.collection("accounts").get("anhquang2605").then((datas)=>{
-                var account = datas.docs[0].data();
-                setAccount(account);
-            });
-            setPageName(location.pathname);
-            if(account != undefined){
-                if(account.kart != null){
+            if(user!==""){//IF THERE IS USER
+                db.collection("accounts").get("anhquang2605").then((datas)=>{
+                    //Set account and kart after accessing database is fine
+                    var account = datas.docs[0].data();
+                    setAccount(account);
                     setCartList(account.kart);
-                }
-            }
-            
+                })
+            } 
+            setPageName(location.pathname);
         },[]);
-        
+        useEffect(()=>{
+
+        },);
         return(
             <div className="commercial-AQC">
                 <h1>Commercial website AQC</h1>
@@ -166,6 +204,7 @@ const App = (props) =>  {
                                     path = {ROUTES.CHECK_OUT} 
                                     render = {(props) => (
                                         <CheckOut {...props}
+                                                account={account}
                                                 curGCards={curGCards}  
                                                 curCard={curCard} 
                                                 curShipping={curShipping}  
@@ -198,7 +237,9 @@ const App = (props) =>  {
                                     </Account>
                                     )}>
                                 </Route>
-                                <Route path = {ROUTES.ACCOUNT + '/orders'} component={Orders}></Route>
+                                <Route path = {ROUTES.ACCOUNT + '/orders'} render={(props)=>(
+                                    account.orders ? <Orders {...props} ordersOfAccount={account.orders}></Orders> : <span className="no-order">No order found</span>
+                                )}></Route>
                                 <Route path = {ROUTES.ACCOUNT + '/cards'} render={(props)=>(
                                     account.cards ? <Cards {...props} accountID={account.username} list={account.cards}>
                                         
