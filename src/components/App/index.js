@@ -20,7 +20,9 @@ import Account from '../Account';
 import Cards from '../Account/Cards';
 import GCards from '../Account/GCards'; 
 import './app.scss';
-import GIFTCARDS from '../../model/GiftCards';
+import SignInUpButtons from '../SignInUpButtons';
+import SignIn from '../Account/SignIn';
+import SignUp from '../Account/SignUp'; 
 /*const PageComponents = {
     Home: Home,
     Order: Order,
@@ -38,7 +40,7 @@ import GIFTCARDS from '../../model/GiftCards';
 }
 );*/
 const App = (props) =>  {
-        const [user, setUser] = useState("anhquang2605");
+        const [user, setUser] = useState("");
         const [pageName, setPageName] = useState('');
         const [,setState] = useState();
         const location = useLocation();
@@ -78,12 +80,18 @@ const App = (props) =>  {
             let inCartSign = isInCart(item.name, item.type);
             if (!inCartSign.found){
                 cartList.push(item);
-                addNewItemToUserCart(account.username, item);
+                if(account){
+                    addNewItemToUserCart(account.username, item);
+                }
             } else {
                 var theItem = cartList[inCartSign.index];
-                removeItemFromUserCart(account.username, theItem);
+                if(account){
+                    removeItemFromUserCart(account.username, theItem);
+                }
                 theItem.quantity += parseInt(item.quantity);
-                addNewItemToUserCart(account.username, theItem)
+                if(account){
+                    addNewItemToUserCart(account.username, theItem)
+                }
             }
         }
         let handleRerendering = () =>{
@@ -165,7 +173,7 @@ const App = (props) =>  {
         //flush the cart list when user hit place order
         let flushCart = () => {
             setCartList([]);
-            if(account!==undefined){
+            if(account!==undefined,null){
                 db.collection("accounts").doc(account.username).update({
                     kart: []
                 })
@@ -173,7 +181,7 @@ const App = (props) =>  {
         }
         useEffect(() => {
             if(user!==""){//IF THERE IS USER
-                db.collection("accounts").get("anhquang2605").then((datas)=>{
+                db.collection("accounts").get(user).then((datas)=>{
                     //Set account and kart after accessing database is fine
                     var account = datas.docs[0].data();
                     setAccount(account);
@@ -182,18 +190,20 @@ const App = (props) =>  {
             } 
             setPageName(location.pathname);
         },[]);
-        useEffect(()=>{
-
-        },);
+        useEffect(()=>{//keep track of paths
+            setPageName(location.pathname);
+        },[location])
         return(
             <div className="commercial-AQC">
                 <h1>Commercial website AQC</h1>
-                <Navigator>
+                { (pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && <Navigator>
                     <Logo href={ROUTES.HOME} src={'logo.png'}></Logo>
                     <NavBar></NavBar>
+                    
                     {account && <Shortcut username={account.nickname || account.username}></Shortcut>}
-                    {(pageName.search("/result")) !== 0  && <SearchBar></SearchBar>}
-                </Navigator>
+                    {(pageName.search("result")) === -1  && <SearchBar></SearchBar>}
+                    {!user && <SignInUpButtons></SignInUpButtons>}
+                </Navigator>}
                 {((pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
                             <Switch location={location}>
                                 <Route  exact path = {ROUTES.HOME} component = {Home}/>
@@ -227,7 +237,7 @@ const App = (props) =>  {
                                         </PlaceOrder>)}>
                                 </Route>
                                 <Route path = {ROUTES.THANK_YOU} render={(props)=>(
-                                    <ThankYou {...props} flushCart={flushCart} addToOrderAfterCheckOut={addToOrderAfterCheckOut}>
+                                    <ThankYou {...props} account={account} flushCart={flushCart} addToOrderAfterCheckOut={addToOrderAfterCheckOut}>
                                     </ThankYou>
                                     )}></Route>
                                 {/* Account Routes  */}
@@ -248,7 +258,8 @@ const App = (props) =>  {
                                 <Route path = {ROUTES.ACCOUNT + '/gcards'} render={(props)=>(
                                     account.gcards? <GCards {...props} accountID={account.username} list={account.gcards}></GCards> : ""
                                 )}></Route>
-                                    
+                                <Route path ={ROUTES.SIGN_IN} component={SignIn}/>
+                                <Route path ={ROUTES.SIGN_UP} component={SignUp}/>
                                 </Switch>
                        
             </div>

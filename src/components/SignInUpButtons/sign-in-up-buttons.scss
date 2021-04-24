@@ -1,0 +1,19 @@
+.sign_in_up_buttons{
+    float: right;
+    a{
+        display: block;
+        text-decoration: none;
+        color: black;
+        float: left;
+        padding: 6px;
+        background: purple;
+        color: white;
+        transition: all 0.5s;
+        border-radius: 2px;
+        margin-right: 5px;
+        &:hover{
+            background: white;
+            color: black;
+        }
+    }
+}

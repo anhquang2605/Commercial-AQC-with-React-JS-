@@ -7,3 +7,5 @@ export const SEARCH_RESULT = "/result";
 export const CHECK_OUT = "/checkout";
 export const PLACE_ORDER = "/place-order";
 export const THANK_YOU = "/thank-you";
+export const SIGN_IN = "/sign-in";
+export const SIGN_UP = "/sign-up";

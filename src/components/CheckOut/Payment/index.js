@@ -156,7 +156,7 @@ const Payment = (props) => {
                                 );
                                 
                             })}
-                             </div> : <div>No gift card chosen, you owned <b>{GIFTCARDS.length}</b> gift cards </div>}
+                             </div> : <div>No gift card chosen, you owned <b>{dagiftCards.length}</b> gift cards </div>}
                     </div>
                    <div id="change-card-field" className="display-none">{/*initially hidden, appear when click change button in #chosen-card*/}
                         <div className="card-container-change">{/*change field for card*/}

@@ -4,7 +4,7 @@ const GIFTCARDS = [
         name: "Account redemption",
         nameOnCard: "ANH QUANG CHU",
         type: "debit",
-        ammount: 47,
+        amount: 47,
         imgSrc: "gc_icon.png",
     },
     {
@@ -12,7 +12,7 @@ const GIFTCARDS = [
         name: "Christmas discount",
         nameOnCard: "ANH QUANG CHU",
         type: "discount",
-        ammount: 15,
+        amount: 15,
         imgSrc: "gc_xmas.jpg"
     }
 ]

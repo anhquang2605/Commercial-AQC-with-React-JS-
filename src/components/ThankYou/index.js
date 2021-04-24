@@ -23,7 +23,9 @@ class ThankYou extends Component {
     componentDidMount = () => {
        this.state.randomizedOrderTracking  = this.generateRanDomMaxChar(15);   
        let promise = new Promise((resolve)=>{
-        this.props.addToOrderAfterCheckOut(this.state.randomizedOrderTracking);
+        if(this.props.account){
+            this.props.addToOrderAfterCheckOut(this.state.randomizedOrderTracking);
+        }
         resolve();
         }).then(()=>{
             this.props.flushCart();
