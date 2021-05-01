@@ -9,7 +9,7 @@ const Account = (props) => {
         <div>
             <h4>Account Information</h4>
             <div className="account information">
-                <table>
+               { props.account && <table>
                     <tbody>
                         <tr>
                             <td className="title-col">User Name</td>
@@ -28,7 +28,7 @@ const Account = (props) => {
                             <td className="content-col">{props.account.nickname}</td>
                         </tr>
                     </tbody>
-                </table>
+                </table>}
                 <button onClick={()=>{changePassRefModal.current.showModal()}}>Change Password</button>
                 <Modal hasTitle={true} ref={changePassRefModal} name="change-password">
                 <   div className="form-in-modal">

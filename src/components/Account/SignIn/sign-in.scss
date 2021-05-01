@@ -1,0 +1,10 @@
+.sign-in-aqc{
+    .error{
+        color: red;
+        transition: all 0.2s;
+    }
+    .error-hidden{
+        height: 0;
+        opacity: 0;
+    }
+}

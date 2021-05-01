@@ -4,7 +4,7 @@ import Home from '../Home';
 import NavBar from '../NavBar';
 import SearchBar from '../SearchBar';
 import Logo from '../Logo';
-import { Route, Switch, useLocation} from 'react-router-dom';
+import { Route, Switch, useLocation, useHistory} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
 import SearchResult from '../SearchResult';
 import OrderDetail from '../OrderDetail';
@@ -50,10 +50,23 @@ const App = (props) =>  {
         const [curShipping, setCurShipping] = useState({});
         const [curTotal, setCurTotal] = useState(0);
         const [account, setAccount] = useState(null);
+        const history = useHistory();
         //the date
         let d = new Date();
         //const firebasecontext =  useContext(FirebaseContext);
         const db = Firebase.firestore();
+        //set user for app upon finish signing in
+        let setUserForApp = (u) => {
+            setUser(u)
+        }
+        //Signing out
+        let removeAccountFromApp = (e) => {
+            e.preventDefault();
+            setUser("");
+            setAccount(null);
+            setCartList([]);
+            history.push("");
+        }
         //Ref to Check out component
         let isInCart = (name, type) =>{
             var i = 0;
@@ -173,7 +186,7 @@ const App = (props) =>  {
         //flush the cart list when user hit place order
         let flushCart = () => {
             setCartList([]);
-            if(account!==undefined,null){
+            if(account!==null){
                 db.collection("accounts").doc(account.username).update({
                     kart: []
                 })
@@ -192,7 +205,17 @@ const App = (props) =>  {
         },[]);
         useEffect(()=>{//keep track of paths
             setPageName(location.pathname);
-        },[location])
+        },[location]);
+        useEffect(()=>{
+            if(user!==""){
+                db.collection("accounts").get(user).then((datas)=>{
+                    //Set account and kart after accessing database is fine
+                    var account = datas.docs[0].data();
+                    setAccount(account);
+                    setCartList(account.kart);
+                }) 
+            }
+        },[user])
         return(
             <div className="commercial-AQC">
                 <h1>Commercial website AQC</h1>
@@ -200,9 +223,9 @@ const App = (props) =>  {
                     <Logo href={ROUTES.HOME} src={'logo.png'}></Logo>
                     <NavBar></NavBar>
                     
-                    {account && <Shortcut username={account.nickname || account.username}></Shortcut>}
                     {(pageName.search("result")) === -1  && <SearchBar></SearchBar>}
-                    {!user && <SignInUpButtons></SignInUpButtons>}
+                    <SignInUpButtons user={user} removeAccount={removeAccountFromApp}></SignInUpButtons>
+                     {(JSON.stringify(account) !== JSON.stringify({}) && account !== null) && <Shortcut username={account.nickname || account.username}></Shortcut>}
                 </Navigator>}
                 {((pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
                             <Switch location={location}>
@@ -258,7 +281,11 @@ const App = (props) =>  {
                                 <Route path = {ROUTES.ACCOUNT + '/gcards'} render={(props)=>(
                                     account.gcards? <GCards {...props} accountID={account.username} list={account.gcards}></GCards> : ""
                                 )}></Route>
-                                <Route path ={ROUTES.SIGN_IN} component={SignIn}/>
+                                <Route path ={ROUTES.SIGN_IN} render={(props)=>(
+                                      <SignIn {...props} setUserForApp = {setUserForApp}>
+
+                                    </SignIn>
+                                )}/>
                                 <Route path ={ROUTES.SIGN_UP} component={SignUp}/>
                                 </Switch>
                        

@@ -1,37 +1,54 @@
 .account-shortcut{
+    margin: 0 5px;
     position: relative;
-    float: left;
+    float: right;
+    padding: 5px;
+    border: 1px solid purple;
+    border-radius: 5px;
+    background-color: purple;
+    color: white;
     .more-detail-btn{
-        width: 20px;
-        padding: 5px;
-        &:hover{
-            cursor: pointer;
-        }
+        width: 15px;
+        //padding: 3px;
     }
     .dropdown-account-nav{
         width: 150%;
         position: absolute;
-        background: purple;
+        background:khaki;
         z-index: 5000;
+        //display: none;
         border-radius: 3px;
+        opacity: 0;
+        transition: all 0.3s;
+        margin-top: 6px;
+        margin-left: -5px;
+        border: 1px solid purple;
         ul{
+            display: block;
             width: 100%;
             box-sizing: border-box;
             position: relative;
             list-style-type: none;
-            padding: 12px;
             margin: 0;
+            padding: 0;
             li a{
                 padding: 10px;
                 text-decoration: none;
-                color: white;
-                border: 1px solid white;
+                color: black;
                 display: block;
+                &:hover{
+                    font-weight: bold;
+                    background: purple;
+                    color: white;
+                }
             }
         }
-        &.display-none{
-            height: 0;
-            overflow: hidden;
-        }
     }
+    &:hover{
+        cursor: pointer;
+        .dropdown-account-nav{
+            display: block;
+            opacity: 1;
+        }
+    } 
 }

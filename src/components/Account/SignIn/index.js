@@ -1,12 +1,17 @@
 import React, {useEffect, useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import AwesomeForm from '../../AwesomeForm';
 import bcrypt from 'bcryptjs';
 import Firebase from './../../Firebase';
 import './sign-in.scss';
-const SignIn = () => {
+const SignIn = (props) => {
+    const history = useHistory();
     const [passwordField, setPasswordField] = useState("");
     const [usernameField, setUsernameField] = useState("");
     const [password, setPassword] = useState("");
+    const [user, setUser] = useState("");
+    const [userFound, setUserFound] = useState(null);
+    const [passWordMatch, setPasswordMatch] = useState(null);
     const db = Firebase.firestore();
    /*bcrypt.genSalt(10, function(err,salt){
         bcrypt.hash(pass, salt, function(err, hash){
@@ -25,27 +30,27 @@ const SignIn = () => {
     let comparePasswordWithHash = (pass, dahash) => {
         bcrypt.compare(pass, dahash, function(err,res){
             if(res){
-                return true;
+                setPasswordMatch(true);
+                props.setUserForApp(user);
+                history.push("");
             } else {
-                return false;
+                setPasswordMatch(false);
                 console.log("Wrong pass word or ID")
             }   
         })
     }
     let userInDatabase = (user) => {
-        let found = false;
         db.collection("users").get().then((res)=>{
+                var found = false;
                 res.docs.map((doc)=>{
                     if(doc.data().username === user){
-                       console.log("user found");
                        found = true;
-                    }
-                })
-        });
-        return found;
-    }
-    let handlePasswordCheck = () => {
-
+                       setUser(user);
+                    } 
+                });
+                setUserFound(found);
+                
+        })
     }
     let getPasswordFromUser = (user) =>{
         db.collection("users").doc(user).get().then((res)=>{
@@ -58,27 +63,44 @@ const SignIn = () => {
     let handleUsernameFieldChange = (e) => {
         setUsernameField(e.target.value)
     }
-    useEffect(()=>{
-        let user = "anhquang2605"
-        if(userInDatabase(user)){
+    let handleSignIn = () => {
+        if (user !== usernameField || user !== ""){
+            userInDatabase(usernameField);
+        } 
+
+        if (user !== "" && password !== ""){
+            setPasswordMatch(comparePasswordWithHash(passwordField, password));
+        } else if (user !== ""){
             getPasswordFromUser(user);
-        } else {
-            console.log("dont find any user named" + user)
-        };
-    },[])
+        } 
+
+        /* if(userInDatabase(usernameField)){
+            setUserFound(true);
+        }else{
+            setUserFound(false);
+        } */
+    }
     useEffect(()=>{
         if(password !== ""){
-            comparePasswordWithHash("292/B22Bui", password);
+            setPasswordMatch(comparePasswordWithHash(passwordField, password));
         }
     },[password])
+    useEffect(()=>{
+       if(user !== ""){
+           getPasswordFromUser(user);
+       }
+    },[userFound])
+    useEffect(()=>{})
     return (
         <div className="sign-in-aqc">
+                <div className={"error no-user " + (userFound === true || userFound ===  null ? "error-hidden" : "")}>No user found</div>
+                <div className={"error password-unmatch " + (passWordMatch === true || passWordMatch === null ? "error-hidden" : "")}>Wrong password</div>
                 <AwesomeForm title="Sign In"> 
                     <span className="username aform-field">
                         <label>
                             User Name
                         </label>
-                        <input type="text" name="user" value={usernameField} onChange={handleUsernameFieldChange}>
+                        <input type="text" name="user" value={usernameField} onChange={handleUsernameFieldChange} autoComplete="off">
 
                         </input>
                     </span>
@@ -86,11 +108,11 @@ const SignIn = () => {
                         <label>
                             Password
                         </label>
-                        <input type="password" name="pass" value={passwordField} onChange={handlePasswordFieldChange}>
+                        <input type="password" name="pass" value={passwordField} onChange={handlePasswordFieldChange} autoComplete="off">
 
                         </input>
                     </span>
-                    <button>Sign In</button>
+                    <button onClick={handleSignIn}>Sign In</button>
                 </AwesomeForm>
         </div>
     );
