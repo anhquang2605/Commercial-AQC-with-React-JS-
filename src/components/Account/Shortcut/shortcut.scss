@@ -16,13 +16,14 @@
         position: absolute;
         background:khaki;
         z-index: 5000;
-        //display: none;
+        height: 0;
         border-radius: 3px;
-        opacity: 0;
         transition: all 0.3s;
-        margin-top: 6px;
+        margin-top: 7px;
+        opacity: 0;
         margin-left: -5px;
         border: 1px solid purple;
+        transition: all 0.2s;
         ul{
             display: block;
             width: 100%;
@@ -47,8 +48,9 @@
     &:hover{
         cursor: pointer;
         .dropdown-account-nav{
-            display: block;
+            height: auto;
             opacity: 1;
         }
     } 
+    
 }

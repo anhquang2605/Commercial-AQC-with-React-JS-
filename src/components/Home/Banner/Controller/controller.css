@@ -1,23 +1,29 @@
 
-.controller{
-    position: absolute;
-    top:auto;
-    bottom: auto;
-    z-index: 3000;
-    width: 100%;
-}
 .left-controller-banner, .right-controller-banner {
-    background-color:khaki;
-    width: 50px;
-    height: 50px;
+    width: 10%;
+    height: 100%;
     display:block;
-   
+    position: absolute;
+    background: none;
+    color: white;
+    z-index: 3000;
+    font-size: 1em;
+    opacity: 0;
+    border: none;
+}
+.left-controller-banner svg, .right-controller-banner svg{
+    width: 25%;
+    height: 20%;
 }
 
+.left-controller-banner:hover, .right-controller-banner:hover {
+    background-color: rgba(128,0,128, 0.5);
+    opacity: 1;
+}
 .left-controller-banner{
-    float: left;
+    left: 0px;
 }
 
 .right-controller-banner{
-    float:right;
+    right: 0px;
 }

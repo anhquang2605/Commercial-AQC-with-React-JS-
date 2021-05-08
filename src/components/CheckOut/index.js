@@ -65,7 +65,7 @@ const CheckOut = React.forwardRef((props, ref) => {
         //getting data from firestone for the first time
        if(card === undefined){
            //If there is account or signed in
-           if(props.account !== undefined,null ){
+           if(props.account !== undefined || props.account !== null ){
                 setCards(props.account.cards);
                 setNoOfCard(props.account.cards.length);
                 setCard(props.account.cards[0])
@@ -73,7 +73,7 @@ const CheckOut = React.forwardRef((props, ref) => {
                 fetchCardsData(0);
            }
        } else {
-            if(props.account !== undefined,null){
+            if(props.account !== undefined || props.account !== null){
                 setCards(props.account.cards);
                 setNoOfCard(props.account.cards.length);
                 setCard(props.account.cards[card.id])

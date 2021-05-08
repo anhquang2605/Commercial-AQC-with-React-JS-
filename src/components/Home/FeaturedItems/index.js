@@ -1,5 +1,6 @@
 import React from 'react';
 import OrderWidget from '../../OrderWidget';
+import {RiVipDiamondFill} from 'react-icons/ri';
 import './feature-items.scss';
 class FeaturedItems extends React.Component{
     constructor(props){
@@ -21,7 +22,7 @@ class FeaturedItems extends React.Component{
     render() {
         return (
             <div className="FeaturedItems">
-                <h3>Featured Items</h3>
+                <h4> <RiVipDiamondFill></RiVipDiamondFill> Featured Items <RiVipDiamondFill></RiVipDiamondFill></h4>
                 <div className="flex-container">
                     {this.generateItems()}
                 </div>

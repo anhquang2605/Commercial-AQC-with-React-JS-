@@ -71,6 +71,8 @@ const GCards = (props) => {
             if (result === "added confirmation"){
                 setAddingCardFromForm({...INITIALCARDFORM});
                 refForAddCardModal.current.hideModal();
+                //!important to re update the account so that the cards list will be upto date
+                props.reFetch();
             } else {
                 console.log("cannot add");
             }

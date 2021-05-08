@@ -95,7 +95,7 @@ const SignIn = (props) => {
         <div className="sign-in-aqc">
                 <div className={"error no-user " + (userFound === true || userFound ===  null ? "error-hidden" : "")}>No user found</div>
                 <div className={"error password-unmatch " + (passWordMatch === true || passWordMatch === null ? "error-hidden" : "")}>Wrong password</div>
-                <AwesomeForm title="Sign In"> 
+                <AwesomeForm title="Sign In" width="fix-width small"> 
                     <span className="username aform-field">
                         <label>
                             User Name
@@ -112,7 +112,7 @@ const SignIn = (props) => {
 
                         </input>
                     </span>
-                    <button onClick={handleSignIn}>Sign In</button>
+                    <button className="aform-button submit" onClick={handleSignIn}>Sign In</button>
                 </AwesomeForm>
         </div>
     );

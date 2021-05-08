@@ -1,10 +1,10 @@
 #search_bar{
     float: right;
     position: relative;
-    height: auto;
+    height: 25px;
     input{
         float: left;
-        height: 20px;
+        height: 100%;
     }
     a{
         display: block;
@@ -12,6 +12,10 @@
         float: right;
         border: 1px solid blueviolet;
         padding:2px 10px;
+        height: 100%;
+        svg{
+            height: 100%;
+        }
     }
     a:hover{
         background-color: violet;

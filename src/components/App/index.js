@@ -192,14 +192,23 @@ const App = (props) =>  {
                 })
             }
         }
+        //for component that add, edit and delete their data
+        let reFetchAccount = () =>{
+            db.collection("accounts").doc(user).get().then((datas)=>{
+                //Set account and kart after accessing database is fine
+                var account = datas.data();
+                setAccount(account);
+                setCartList(account.kart);
+            }) 
+        }
         useEffect(() => {
             if(user!==""){//IF THERE IS USER
-                db.collection("accounts").get(user).then((datas)=>{
+                db.collection("accounts").doc(user).get().then((datas)=>{
                     //Set account and kart after accessing database is fine
-                    var account = datas.docs[0].data();
+                    var account = datas.data();
                     setAccount(account);
                     setCartList(account.kart);
-                })
+                }) 
             } 
             setPageName(location.pathname);
         },[]);
@@ -208,9 +217,9 @@ const App = (props) =>  {
         },[location]);
         useEffect(()=>{
             if(user!==""){
-                db.collection("accounts").get(user).then((datas)=>{
+                db.collection("accounts").doc(user).get().then((datas)=>{
                     //Set account and kart after accessing database is fine
-                    var account = datas.docs[0].data();
+                    var account = datas.data();
                     setAccount(account);
                     setCartList(account.kart);
                 }) 
@@ -218,7 +227,7 @@ const App = (props) =>  {
         },[user])
         return(
             <div className="commercial-AQC">
-                <h1>Commercial website AQC</h1>
+                <h1 className="site-heading">Commercial website AQC</h1>
                 { (pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && <Navigator>
                     <Logo href={ROUTES.HOME} src={'logo.png'}></Logo>
                     <NavBar></NavBar>
@@ -227,7 +236,7 @@ const App = (props) =>  {
                     <SignInUpButtons user={user} removeAccount={removeAccountFromApp}></SignInUpButtons>
                      {(JSON.stringify(account) !== JSON.stringify({}) && account !== null) && <Shortcut username={account.nickname || account.username}></Shortcut>}
                 </Navigator>}
-                {((pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
+                {((pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) && (pageName.search("/sign-up")!== 0) && (pageName.search("/sign-in")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
                             <Switch location={location}>
                                 <Route  exact path = {ROUTES.HOME} component = {Home}/>
                                 <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
@@ -274,12 +283,12 @@ const App = (props) =>  {
                                     account.orders ? <Orders {...props} ordersOfAccount={account.orders}></Orders> : <span className="no-order">No order found</span>
                                 )}></Route>
                                 <Route path = {ROUTES.ACCOUNT + '/cards'} render={(props)=>(
-                                    account.cards ? <Cards {...props} accountID={account.username} list={account.cards}>
+                                    account.cards ? <Cards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.cards}>
                                         
                                     </Cards> : ""
                                     )}></Route>
                                 <Route path = {ROUTES.ACCOUNT + '/gcards'} render={(props)=>(
-                                    account.gcards? <GCards {...props} accountID={account.username} list={account.gcards}></GCards> : ""
+                                    account.gcards? <GCards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.gcards}></GCards> : ""
                                 )}></Route>
                                 <Route path ={ROUTES.SIGN_IN} render={(props)=>(
                                       <SignIn {...props} setUserForApp = {setUserForApp}>

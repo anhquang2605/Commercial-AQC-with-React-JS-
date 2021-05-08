@@ -1,3 +1,108 @@
+//variables
+$border-color: purple;
+$background-input: none;
+$background-input-focus: khaki;
+$background-title: khaki;
+$title-font-color: black;
+$background-form: none;
+$background-button: khaki;
+$background-button-hover: purple;
+$font-color-button: black;
+$font-color-button-hover: white; 
+$background-button-disabled: rgba(240,230,140,.3);
+$color-button-disabled: #777777 ;
+//mixins
+@mixin css3-prefix($prop, $value) {
+    -webkit-#{$prop}: #{$value};
+    -moz-#{$prop}: #{$value};
+    -ms-#{$prop}: #{$value};
+    -o-#{$prop}: #{$value};
+    #{$prop}: #{$value};
+ }
+ //style
 .awesome_form{
-    
+    &.fix-width.wide{
+        width: 800px;
+    }
+    &.fix-width.medium{
+        width: 600px;
+    }
+    &.fix-width.small{
+        width: 400px;
+    }
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    margin: 5% auto;
+    border: 1px solid $border-color;
+    padding: 20px; 
+    border-radius: 5px;
+    @include css3-prefix(box-shadow, 2px 2px 8px #888888);
+    h5{
+        font-weight: normal;
+        width: 100%;
+        margin: 0;
+        text-align: center;
+        color: $title-font-color;
+        font-size: 2em;
+        padding: 5px;
+        border-radius: 3px 3px 0 0;
+        margin-bottom: 5px;
+
+    }
+    .aform-field{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        margin-bottom: 10px;
+        label{
+            font-size: 0.7em;
+            width: auto;;
+        }
+        input[type='text'],input[type='email'],input[type='password']{
+            padding: 10px;
+            border: 1px solid $border-color;
+            width: 100%;
+            transition: background-color 0.5s;
+            &:focus{
+                background: $background-input-focus; 
+                outline: none;
+                @include css3-prefix(box-shadow, 0px 0px 3px #800080)
+            }
+            &::selection {
+                background: transparent;
+            }
+            &::-moz-selection {
+                background: transparent;
+            }
+        }
+       
+    }
+    .error{
+        font-size: 0.8em;
+        color: crimson;
+    }
+    button.aform-button
+    {
+        &.submit{
+            background: $background-button;
+            color:$font-color-button;
+            padding: 10px;
+            margin: auto;
+            &:hover{
+                background: $background-button-hover;
+                color: $font-color-button-hover
+            }
+            &.disabled{
+                background-color: $background-button-disabled ;
+                color: $color-button-disabled;
+                transition: none;
+                &:hover{
+                    background-color: $background-button-disabled;
+                    color: $color-button-disabled;
+                    cursor: default;
+                }
+            }
+        }
+    }
 }

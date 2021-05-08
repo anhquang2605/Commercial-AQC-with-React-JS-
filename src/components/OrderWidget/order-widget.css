@@ -7,6 +7,9 @@
     position: relative;
     box-sizing: border-box;
 }
+.widget:hover{
+    background: rgba(240, 230, 140, .7);
+}
 .widget .out-of-stock{
     background-color:coral;
     position: absolute;

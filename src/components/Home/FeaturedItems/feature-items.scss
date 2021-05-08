@@ -1,5 +1,19 @@
 .FeaturedItems{
-    h3{
+    clear: both;
+    h4{
+        background: purple;
+        color: white;
+        font-weight: normal;
+        text-align: center;
         width: 100%;
+        padding: 10px 0;
+        box-sizing: border-box;
+        svg{
+            height: 100%;
+            width: 15px;
+        }
+        svg path{
+           stroke: white;       
+        }
     }
 }

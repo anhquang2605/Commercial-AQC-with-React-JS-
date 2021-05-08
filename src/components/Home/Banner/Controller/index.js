@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import {CgArrowLongLeftR, CgArrowLongRightR} from 'react-icons/cg';
 import './controller.css' ;
 class Controller extends React.Component {
     render(){
         return(
-            <div className="controller">
-                <button className="left-controller-banner">Left</button>
-                <button className="right-controller-banner">Right</button>
-            </div>
+            <Fragment>
+                <button className="left-controller-banner"><CgArrowLongLeftR></CgArrowLongLeftR></button>
+                <button className="right-controller-banner"><CgArrowLongRightR></CgArrowLongRightR></button>
+            </Fragment>
         );
     }
 }

@@ -1,7 +1,22 @@
+@font-face {
+    font-family: 'Summer-Yesterday';
+    src: local('Summer-Yesterday'), url(./../../fonts/summer-yesterday-font/SummerYesterday-nRn5O.ttf) format('truetype');
+}
 //override css attr
 body{
+    margin: 0;
     overflow-x: hidden;
     font-family: 'Montserrat', sans-serif !important;
+    .site-heading{
+        padding: 5px 0 0 5px;
+        box-sizing: border-box;
+        background-color: purple;
+        margin: 0;
+        color: khaki;
+        font-weight: normal;
+        text-transform: capitalize;
+        font-family: Summer-Yesterday;
+    }
     button, a.btn{
         background-color: white;
         border: 1px solid purple;
