@@ -161,7 +161,7 @@ const Payment = (props) => {
                    <div id="change-card-field" className="display-none">{/*initially hidden, appear when click change button in #chosen-card*/}
                         <div className="card-container-change">{/*change field for card*/}
                             <h4>Cards for payment</h4>
-                            <table>
+                            {props.cards.length !== 0? <table>
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -182,7 +182,7 @@ const Payment = (props) => {
                                         );
                                     })}
                                 </tbody>
-                            </table>
+                            </table>: <div className="no-card">No payment option availble please add through "Payments" option in accounts information</div>}
                             <button className="btn add-card-btn" onClick={()=>{modalRef.current.showModal()}}>+ Add a new card</button>
                         </div>
                         {userGcards.length > 0 ? 

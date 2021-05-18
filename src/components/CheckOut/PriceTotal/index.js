@@ -12,8 +12,8 @@ const PriceTotal = (props) => {
     const [list,setList] = useState(props.list);
     const [sum, setSum] = useState(getSum());
     const [tax, setTax] = useState(15);
-    const [debit, setDebit] = useState(props.debit);
-    const [dis, setDis] =  useState(props.dis);
+    const [debit, setDebit] = useState(isNaN(props.debit)? 0 : props.debit);
+    const [dis, setDis] =  useState(isNaN(props.dis)? 0 : props.dis);
     let getSubTotal = () => {
         var dasum = (sum + ((tax * sum)/100)) - debit - ((dis*sum)/100);
         if (dasum < 0) {
