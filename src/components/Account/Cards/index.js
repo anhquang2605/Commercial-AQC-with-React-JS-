@@ -20,6 +20,7 @@ const Cards = (props) => {
         "billing state": randomStates[Math.floor(Math.random()*3)],
         "billing zip": randomZips[Math.floor(Math.random()*3)],
         type: randomTypes[Math.floor(Math.random()*2)],
+        id: 0,
     }
     const [prepList, setPrepList] = useState([]);
     const [addingCardFromForm, setAddingCardFromForm] = useState({...INITIALCARDFORM});
@@ -76,6 +77,7 @@ const Cards = (props) => {
     }
     let handleAddCardToAccount = () =>{ 
         let daCard = {...addingCardFromForm};
+        daCard.id = props.list.length;
         let promise = new Promise((resolve,reject)=>{
             setConfirmedAddedCard(daCard);//Set the card to buffer before updating
             resolve("added confirmation");

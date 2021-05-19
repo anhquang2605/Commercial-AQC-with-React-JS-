@@ -229,7 +229,7 @@ const App = (props) =>  {
             <div className="commercial-AQC">
                 <h1 className="site-heading">Commercial website AQC</h1>
                 { (pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && <Navigator>
-                    <Logo href={ROUTES.HOME} src={'logo.png'}></Logo>
+                    {/* <Logo href={ROUTES.HOME} src={'logo.png'}></Logo> */}
                     <NavBar></NavBar>
                     
                     {(pageName.search("result")) === -1  && <SearchBar></SearchBar>}
@@ -246,6 +246,7 @@ const App = (props) =>  {
                                     path = {ROUTES.CHECK_OUT} 
                                     render = {(props) => (
                                         <CheckOut {...props}
+                                                reFetch={reFetchAccount}
                                                 account={account}
                                                 curGCards={curGCards}  
                                                 curCard={curCard} 

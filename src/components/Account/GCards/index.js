@@ -13,6 +13,7 @@ const GCards = (props) => {
         "exp year": 0,
         "id": randomTypes[Math.floor(Math.random()*2)] + Math.floor(Math.random()*99),
         type: randomTypes[Math.floor(Math.random()*2)],
+        id: 0,
     }
     const [prepList, setPrepList] = useState([]);
     const [addingCardFromForm, setAddingCardFromForm] = useState({...INITIALCARDFORM});
@@ -63,6 +64,7 @@ const GCards = (props) => {
     }
     let handleAddCardToAccount = () =>{ 
         let daCard = {...addingCardFromForm};
+        daCard.id = props.list.length;
         let promise = new Promise((resolve,reject)=>{
             setConfirmedAddedCard(daCard);//Set the card to buffer before updating
             resolve("added confirmation");

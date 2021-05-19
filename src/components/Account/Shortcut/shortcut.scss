@@ -10,6 +10,9 @@
     .more-detail-btn{
         width: 15px;
         //padding: 3px;
+        svg{
+            margin-left: 5px;
+        }
     }
     .dropdown-account-nav{
         width: 150%;
@@ -21,6 +24,7 @@
         transition: all 0.3s;
         margin-top: 7px;
         opacity: 0;
+        display: none;
         margin-left: -5px;
         border: 1px solid purple;
         transition: all 0.2s;
@@ -50,6 +54,7 @@
         .dropdown-account-nav{
             height: auto;
             opacity: 1;
+            display: block;
         }
     } 
     

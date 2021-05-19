@@ -42,16 +42,27 @@ const CheckOut = React.forwardRef((props, ref) => {
     }
     let addCardToDb = (obj) => { //add card to the collection
         obj.id =  parseInt(noOfCards).toString();
-        db.collection("cards").doc(obj.id).set(obj).then(()=>{
-        //once added, fetch the cards data again and set the current card to newly added card
-            db.collection("cards").doc(obj.id).get().then((data)=>{
-                var newCard = data.data(); //don't forget .data() method to get actual data
-                setCard(newCard);
-                setCards(prevState => [...prevState, newCard]);//add new object to the list
+        if (props.account !== undefined && props.account !== null){
+            let accountDoc = db.collection("accounts").doc(props.account.username)
+            accountDoc.update({
+                cards: firebase.firestore.FieldValue.arrayUnion(obj)
+            }).then(()=>{
+                setCard(obj);
+                setCards(prevState => [...prevState, obj]);
+                props.reFetch();
             });
-        }).catch((error)=>{
-            console.error("Error writting document: ", error)
-        }); 
+        } else {
+            db.collection("cards").doc(obj.id).set(obj).then(()=>{
+                //once added, fetch the cards data again and set the current card to newly added card
+                    db.collection("cards").doc(obj.id).get().then((data)=>{
+                        var newCard = data.data(); //don't forget .data() method to get actual data
+                        setCard(newCard);
+                        setCards(prevState => [...prevState, newCard]);//add new object to the list
+                    });
+                }).catch((error)=>{
+                    console.error("Error writting document: ", error)
+                }); 
+        }
     }
     let setMyCard = (id) => {
         setCard(cards[id]);
@@ -93,7 +104,7 @@ const CheckOut = React.forwardRef((props, ref) => {
         <div id="check_out">
             <div className="left-container">
                 <ShippingInfo curShipping={shipping} setShippingForApp={props.setShippingForApp}></ShippingInfo>
-                {(card && cards) ? <Payment  addCardToDb={addCardToDb} setMyCard={setMyCard} card={card} cards={cards} gcards={props.account ? props.account.gcards : GIFTCARDS} currentGCards={props.curGCards} setGCardForApp={props.setGCardForApp} getDis={getDis} getDebitDis={getDebitDis}></Payment>: <div>No payments available for this account please add via "Payments" in account information</div>}
+                {(card && cards) ? <Payment user={props.account.username}  addCardToDb={addCardToDb} setMyCard={setMyCard} card={card} cards={cards} gcards={props.account ? props.account.gcards : GIFTCARDS} currentGCards={props.curGCards} setGCardForApp={props.setGCardForApp} getDis={getDis} getDebitDis={getDebitDis}></Payment>: <div>No payments available for this account please add via "Payments" in account information</div>}
                 <ItemsSummary list={props.list}></ItemsSummary> 
             </div>
             <div className="right-container">

@@ -14,7 +14,24 @@ const Payment = (props) => {
         name: "added from modal",
         imgSrc: "kirby.jpg"    
     });
-
+     //List of random state to generate when add a new card, as if the information is retrieved from the bank the card from
+     const randomCities = ["San jose", "San Frans", "Sunny vale"];
+     const randomStates = ["CA", "AZ", "NY"];
+     const randomZips = ["97888","99999","11100"];
+     const randomTypes = ["visa","master"];
+     const INITIALCARDFORM = {//empty object used to initialize form for adding card
+         name: "Newly added",
+         owner: "",
+         "card number": "",
+         "exp month": 0,
+         "exp year": 0,
+         "billing address": "Newly added" + (Math.round(Math.random()*99)),
+         "billing city": randomCities[Math.floor(Math.random()*3)],
+         "billing state": randomStates[Math.floor(Math.random()*3)],
+         "billing zip": randomZips[Math.floor(Math.random()*3)],
+         type: randomTypes[Math.floor(Math.random()*2)],
+         id:0,
+     }
     const [dagiftCards, setdaGiftCard] = useState(props.currentGCards);
     const [userGcards, setUserGcards] = useState(props.gcards ? props.gcards : GIFTCARDS);
     //ref to modal
