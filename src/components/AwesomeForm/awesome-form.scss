@@ -55,6 +55,12 @@ $color-button-disabled: #777777 ;
         flex-wrap: wrap;
         width: 100%;
         margin-bottom: 10px;
+        transition: all 0.3s;
+        height: auto;
+        &.hidden-field{
+            display: none;
+            height: 0;
+        }
         label{
             font-size: 0.7em;
             width: auto;;
@@ -78,7 +84,10 @@ $color-button-disabled: #777777 ;
                 color: white;
             }
         }
-       
+       input[type=text]:disabled{
+           background: plum;
+           border: none;
+       }
     }
     .error{
         font-size: 0.8em;
@@ -86,6 +95,9 @@ $color-button-disabled: #777777 ;
     }
     button.aform-button
     {
+        &.hidden-btn{
+            display:none;
+        }
         &.submit{
             background: $background-button;
             color:$font-color-button;

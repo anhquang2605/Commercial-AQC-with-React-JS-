@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 import AwesomeForm from '../../AwesomeForm';
 import bcrypt from 'bcryptjs';
 import Firebase from './../../Firebase';
@@ -12,6 +12,7 @@ const SignIn = (props) => {
     const [user, setUser] = useState("");
     const [userFound, setUserFound] = useState(null);
     const [passWordMatch, setPasswordMatch] = useState(null);
+    const [readyForPassword, setReadyForPassword] = useState(false);
     const db = Firebase.firestore();
    /*bcrypt.genSalt(10, function(err,salt){
         bcrypt.hash(pass, salt, function(err, hash){
@@ -46,10 +47,10 @@ const SignIn = (props) => {
                     if(doc.data().username === user){
                        found = true;
                        setUser(user);
+                       setReadyForPassword(true);
                     } 
                 });
                 setUserFound(found);
-                
         })
     }
     let getPasswordFromUser = (user) =>{
@@ -64,15 +65,17 @@ const SignIn = (props) => {
         setUsernameField(e.target.value)
     }
     let handleSignIn = () => {
-        if (user !== usernameField || user !== ""){
-            userInDatabase(usernameField);
-        } 
-
-        if (user !== "" && password !== ""){
-            setPasswordMatch(comparePasswordWithHash(passwordField, password));
-        } else if (user !== ""){
-            getPasswordFromUser(user);
-        } 
+        if(readyForPassword){
+            if (userFound && password !== ""){
+                setPasswordMatch(comparePasswordWithHash(passwordField, password));
+            } else if (userFound){
+                getPasswordFromUser(user);
+            }
+        } else {
+            if (user !== usernameField || user !== ""){
+                userInDatabase(usernameField);
+            }
+        }
 
         /* if(userInDatabase(usernameField)){
             setUserFound(true);
@@ -80,11 +83,11 @@ const SignIn = (props) => {
             setUserFound(false);
         } */
     }
-    useEffect(()=>{
+   /*  useEffect(()=>{
         if(password !== ""){
             setPasswordMatch(comparePasswordWithHash(passwordField, password));
         }
-    },[password])
+    },[password]) */
     useEffect(()=>{
        if(user !== ""){
            getPasswordFromUser(user);
@@ -100,11 +103,11 @@ const SignIn = (props) => {
                         <label>
                             User Name
                         </label>
-                        <input type="text" name="user" value={usernameField} onChange={handleUsernameFieldChange} autoComplete="off">
+                        <input type="text" name="user" value={usernameField} onChange={handleUsernameFieldChange} autoComplete="off" disabled={readyForPassword}>
 
                         </input>
                     </span>
-                    <span className="user-password aform-field">
+                    <span className={"user-password aform-field" + (userFound && readyForPassword? "":" hidden-field")} >
                         <label>
                             Password
                         </label>
@@ -112,7 +115,11 @@ const SignIn = (props) => {
 
                         </input>
                     </span>
-                    <button className="aform-button submit" onClick={handleSignIn}>Sign In</button>
+                    <button className={"aform-button submit"} onClick={()=>{
+                        history.push("/sign-up");
+                    }}>Sign Up</button>
+                    <button className={"aform-button submit"+ (readyForPassword ? " " : " hidden-btn")} onClick={()=>{setReadyForPassword(false); setUser(""); setPasswordMatch(true)}}>Change username</button>
+                    <button className="aform-button submit" onClick={handleSignIn}>{!readyForPassword ? "Next" : "Sign In"}</button>
                 </AwesomeForm>
         </div>
     );
