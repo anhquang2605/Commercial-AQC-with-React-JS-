@@ -126,16 +126,15 @@ const GCards = (props) => {
             resolve(); 
         });
         promise.then(()=>{     
+            props.reFetch();
             refForRemoveCardModal.current.hideModal();
         });
     }
     //Handling Editing 
     let handleClickEditCardButton = (card,index) => {
         //ard.name.toCamelCase();
-        console.log(String("hello there").toUpperCase());
         setBeingEdittedCard(card);
         setBeforeEditedCard(card);
-        
         refForEditCardModal.current.showModal();
     }
         //Handling editing form
@@ -174,6 +173,7 @@ const GCards = (props) => {
                 accountDoc.update({
                     gcards: Firebase.firestore.FieldValue.arrayUnion(daCard)
                 });
+                props.reFetch();
                 refForEditCardModal.current.hideModal();
             }); 
     /*         let accountDoc = db.collection("accounts").doc(props.accountID);

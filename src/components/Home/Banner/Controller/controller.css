@@ -17,7 +17,7 @@
 }
 
 .left-controller-banner:hover, .right-controller-banner:hover {
-    background-color: rgba(128,0,128, 0.5);
+    background-color: rgba(128,0,128, 0.4);
     opacity: 1;
 }
 .left-controller-banner{

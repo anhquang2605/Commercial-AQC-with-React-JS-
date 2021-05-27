@@ -1,7 +1,7 @@
 .Pagination{
     margin-left:auto;
     margin-right:auto;
-    width: 110px;
+    width: 88px;
 }
 .Pagination a{
     display: block;
@@ -10,8 +10,8 @@
     float: left;
 }
 .Pagination a svg{
-    width: 13px;
-    height: 13px;
+    width: 10px;
+    height: 10px;
 }
 .Pagination a circle{
     fill: khaki;

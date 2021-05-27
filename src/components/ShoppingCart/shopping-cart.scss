@@ -6,22 +6,25 @@
     height: 300px;
     z-index: 5000;
     border: 1px solid purple;
-    background-color: white;
+    background-color: lightyellow;
+    text-transform: capitalize;
+    font-size: 0.9em;
+    border-radius: 3px;
     #shopping_cart_mini{
         position: absolute;
-        left: -65px;
+        left: -55px;
         top: 0px;
         z-index: 5001;
         cursor: pointer;
         svg{
-            fill: khaki;
-            width: 50px;
-            height: 50px;
+            fill: purple;
+            width: 40px;
+            height: 40px;
             transition: fill 0.2s;
         }
         span.item-no-mini-cart{
-            background-color: purple;
-            color: white;
+            background-color:khaki;
+            color: black;
             display: inline-block;
             width: 20px;
             height: 20px;
@@ -36,11 +39,11 @@
         }
         &:hover{
             svg{
-                fill: purple
+                fill: khaki
             }
             span.item-no-mini-cart{
-                background-color: khaki;
-                color: black;
+                background-color: purple;
+                color: white;
             }
         }
     }
@@ -52,8 +55,23 @@
         z-index: 5005;
         padding: 5px;
         padding-top: 15px;
+        .kart-item-img{
+            width: 50px;
+        }
         td{
             text-align: center;
+            &:first-child{
+                width: 15%;
+            }
+            &:nth-child(2){
+                width: 65%;
+            }
+            &:nth-child(3){
+                width: 10%;
+            }
+            &:last-child{
+                width: 10%;
+            }
         }
         height: 80%;
         overflow: auto;
@@ -67,9 +85,21 @@
         z-index: 6000;
         cursor: pointer;
         svg{
-            width: 30px;
-            height: 30px;
-            fill: red;
+            width: 25px;
+            height: 25px;
+            fill: white;
+            background: purple;
+            border-radius: 2px;
+        }
+    }
+    .kart-remove-item-btn{
+        padding: 0;
+        border: none;
+        background: none;
+        color: red;
+        svg{
+            width: 100%;
+            height: 100%;
         }
     }
     .cart-check-out-btn{

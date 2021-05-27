@@ -133,6 +133,7 @@ const Cards = (props) => {
             resolve(); 
         });
         promise.then(()=>{     
+            props.reFetch();
             refForRemoveCardModal.current.hideModal();
         });
     }
@@ -178,6 +179,7 @@ const Cards = (props) => {
                 accountDoc.update({
                     cards: Firebase.firestore.FieldValue.arrayUnion(daCard)
                 });
+                props.reFetch();
                 refForEditCardModal.current.hideModal();
             }); 
     /*         let accountDoc = db.collection("accounts").doc(props.accountID);

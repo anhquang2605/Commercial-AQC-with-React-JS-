@@ -3,12 +3,13 @@
     float: left;
     box-sizing: border-box;
     padding: 10px;
-    border: 1px solid black;
+    background: lightyellow;
     position: relative;
     box-sizing: border-box;
+    transition: all 0.3s;
 }
 .widget:hover{
-    background: rgba(240, 230, 140, .7);
+    background: plum;
 }
 .widget .out-of-stock{
     background-color:coral;

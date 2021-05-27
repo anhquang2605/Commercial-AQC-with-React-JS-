@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import {BiX} from 'react-icons/bi';
-import {BsFillBagFill} from 'react-icons/bs';
+import {BsFillBagFill, BsArrowRightShort} from 'react-icons/bs';
+import {VscClose} from 'react-icons/vsc';
 import {Link} from 'react-router-dom';
 import $ from 'jquery';
 import './shopping-cart.scss';
@@ -60,22 +61,16 @@ const ShoppingCart = (props) => {
                 <span className="item-no-mini-cart">{getTotalQuantity()}</span>        
              </div>
              <div className="close-btn">
-                <BiX></BiX>
+                <BsArrowRightShort></BsArrowRightShort>
             </div>
             <div id="shopping_cart">
                 { list.length > 0? (
                 <table key={props.cartList}>
-                    <colgroup>
-                        <col span={1}></col>
-                        <col span={1} style={{width: "50%"}}></col>
-                        <col span={1}></col>
-                        <col span={1}></col>
-                    </colgroup>
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th >Name</th>
-                            <th>No</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -83,12 +78,12 @@ const ShoppingCart = (props) => {
                     {list.map((item,index) => {
                         return(
                         <tr key={index}>
-                            <td>{index + 1}</td>
+                            <td><img className="kart-item-img" src={require("./../../images/" + item.id + "-" + item.type + ".jpg")}></img></td>
                             <td>{item.type + " " + item.name}</td>
                             <td>{item.quantity}</td>
-                            <td><button alt="remove item" onClick={()=>{
+                            <td><button className="kart-remove-item-btn" alt="remove item" onClick={()=>{
                                 props.removeItem(index)                               
-                            }}><BiX></BiX></button></td>
+                            }}><VscClose></VscClose></button></td>
                         </tr>
                         )
                     })}
