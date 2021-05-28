@@ -1,0 +1,30 @@
+$tab-background: purple;
+$tab-font-color: white;
+$content-background: lightyellow ;
+//$content-font-color: ;
+.collapse-tabs{
+    .collapse-title{
+        background: $tab-background;
+        padding: 10px;
+        cursor: pointer;
+        box-sizing: border-box;
+        text-transform: capitalize;
+        color: $tab-font-color;
+        display: flex;
+        justify-content: space-between;
+        .hidden-arrow{
+            display:none;
+        }
+    }
+    .collapse-content{
+        box-sizing: border-box;
+        background: $content-background;
+        padding: 10px;
+        &.display-none{
+            height: 0;
+            opacity: 0;
+            visibility: hidden;
+            padding: 0;
+        }
+    }
+}

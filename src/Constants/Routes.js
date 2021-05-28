@@ -9,3 +9,4 @@ export const PLACE_ORDER = "/place-order";
 export const THANK_YOU = "/thank-you";
 export const SIGN_IN = "/sign-in";
 export const SIGN_UP = "/sign-up";
+export const HELP = "/help";

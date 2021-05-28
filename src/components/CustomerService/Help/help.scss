@@ -1,0 +1,18 @@
+.help{
+    .panel{
+        display: flex;
+        .side-panel{
+            width: 30%;
+            .collapse-tabs{
+                .collapse-title{
+                    svg{
+                        width: auto!important;
+                    }
+                }
+            }
+         }
+        .display-panel{
+            width: 70%;
+        }
+    }
+}

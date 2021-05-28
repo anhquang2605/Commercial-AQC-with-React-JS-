@@ -1,0 +1,32 @@
+.flex-link{
+    width: 200px;
+    border: 1px solid black;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: purple;
+    fill: purple;
+    background: lightyellow;
+    text-transform: capitalize;
+    margin-bottom: 3%;
+    padding: 10px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    transition: all 0.3s;
+    border-radius: 2px;
+    svg{
+        margin-right: 5px;
+        height: 40px;
+        width: 40px;
+        transition: fill 0.3s;
+    }
+    &:hover{
+        background: purple;
+        color: white;
+        svg{
+            fill: white;
+        }
+    }
+}

@@ -23,6 +23,9 @@ import './app.scss';
 import SignInUpButtons from '../SignInUpButtons';
 import SignIn from '../Account/SignIn';
 import SignUp from '../Account/SignUp'; 
+import CustomerService from '../CustomerService';
+import ProtectedRoute from '../Plugins/ProtectedRoute';
+import Help from '../CustomerService/Help';
 import { data } from 'jquery';
 /*const PageComponents = {
     Home: Home,
@@ -282,30 +285,32 @@ const App = (props) =>  {
                                     </ThankYou>
                                     )}></Route>
                                 {/* Account Routes  */}
-                                <Route exact path = {ROUTES.ACCOUNT} render={(props)=>(
+                                <ProtectedRoute exact path = {ROUTES.ACCOUNT} account={account} component={
                                     <Account {...props} account={account}>
-                                        
+
                                     </Account>
-                                    )}>
-                                </Route>
-                                <Route path = {ROUTES.ACCOUNT + '/orders'} render={(props)=>(
+                                }>
+                                </ProtectedRoute>
+                                <ProtectedRoute path = {ROUTES.ACCOUNT + '/orders'} account={account} component ={
                                     account && account.orders ? <Orders {...props} ordersOfAccount={account.orders}></Orders> : <span className="no-order">No order found</span>
-                                )}></Route>
-                                <Route path = {ROUTES.ACCOUNT + '/cards'} render={(props)=>(
+                                }></ProtectedRoute>
+                                <ProtectedRoute path = {ROUTES.ACCOUNT + '/cards'} account={account} component ={
                                     account && account.cards ? <Cards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.cards}>
                                         
                                     </Cards> : ""
-                                    )}></Route>
-                                <Route path = {ROUTES.ACCOUNT + '/gcards'} render={(props)=>(
+                                    }></ProtectedRoute>
+                                <ProtectedRoute path = {ROUTES.ACCOUNT + '/gcards'} account={account} component ={
                                    account && account.gcards? <GCards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.gcards}></GCards> : ""
-                                )}></Route>
+                                }></ProtectedRoute>
                                 <Route path ={ROUTES.SIGN_IN} render={(props)=>(
                                       <SignIn {...props} setUserForApp = {setUserForApp}>
 
                                     </SignIn>
                                 )}/>
                                 <Route path ={ROUTES.SIGN_UP} component={SignUp}/>
-                                </Switch>
+                                <Route exact path = {ROUTES.CUSTOMER} component={CustomerService}></Route>
+                                <Route path = {ROUTES.CUSTOMER + ROUTES.HELP} component={Help}></Route>
+                            </Switch>
                        
             </div>
         )
