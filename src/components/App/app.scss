@@ -7,14 +7,13 @@ body{
     margin: 0;
     overflow-x: hidden;
     font-family: 'Montserrat', sans-serif !important;
+    font-size: 13px;
     h4{
         font-weight: normal;
         font-size: 3em;
     }
     .site-heading{
-        padding: 5px 0 0 5px;
         box-sizing: border-box;
-        background-color: purple;
         margin: 0;
         color: khaki;
         font-weight: normal;
@@ -50,6 +49,13 @@ body{
        
     .switch-wrapper > div {
         position: absolute;
+    }
+    .top-header{
+        padding: 10px 10%;
+        justify-content: space-between;
+        align-items: stretch;
+        display: flex;
+        background-color: purple;
     }
 }
 

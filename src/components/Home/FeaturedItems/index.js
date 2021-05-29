@@ -22,7 +22,7 @@ class FeaturedItems extends React.Component{
     render() {
         return (
             <div className="FeaturedItems">
-                <h3> <RiVipDiamondFill></RiVipDiamondFill> Featured Items <RiVipDiamondFill></RiVipDiamondFill></h3>
+                <h4> <RiVipDiamondFill></RiVipDiamondFill> Featured Items </h4>
                 <div className="flex-container">
                     {this.generateItems()}
                 </div>

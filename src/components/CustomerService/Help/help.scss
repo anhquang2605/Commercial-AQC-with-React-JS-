@@ -1,18 +1,53 @@
 .help{
+    padding: 0 10%;
     .panel{
         display: flex;
         .side-panel{
-            width: 30%;
+            box-sizing: border-box;
+            width: 25%;
             .collapse-tabs{
                 .collapse-title{
                     svg{
                         width: auto!important;
                     }
+                    padding-left: 15px;
+                    border-bottom: 1px solid lightyellow;
+                }
+                .collapse-content{
+                    text-transform: capitalize;
+                    padding: 0;
+                }
+            }
+            .side-panel-items{
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                li{
+                    width: 100%;
+                    box-sizing: border-box;
+                    padding: 10px 0 10px 25px;
+                    padding-left: 25px;
+                    transition: all 0.3s;
+                    &:hover{
+                        cursor: pointer;
+                        background: khaki;
+                    }  
                 }
             }
          }
         .display-panel{
-            width: 70%;
+            width: 75%;
+            padding: 10px;
+            box-sizing: border-box;
+            h3{
+                text-transform: capitalize;
+                margin-top: 0;
+                text-align: left;
+            }
+            p{
+                line-height: 1.5;
+            }
+            border: 1px solid purple;
         }
     }
 }

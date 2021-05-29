@@ -1,16 +1,19 @@
 .FeaturedItems{
     clear: both;
-    h3{
-        background: purple;
-        color: white;
+    .flex-container{
+        padding: 10px 10%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content:space-around;
+    }
+    h4{
         font-weight: normal;
-        text-align: center;
-        width: 100%;
-        padding: 10px 0;
+        padding: 10px 10%;
         box-sizing: border-box;
+        color: purple;
+        margin: 10px 0;
         svg{
             height: 100%;
-            width: 15px;
         }
         svg path{
            stroke: white;       

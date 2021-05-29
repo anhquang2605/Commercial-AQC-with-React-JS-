@@ -238,12 +238,12 @@ const App = (props) =>  {
         },[user])
         return(
             <div className="commercial-AQC">
-                <h1 className="site-heading">Commercial website AQC</h1>
+                <div className="top-header"><h1 className="site-heading">Commercial website AQC</h1> {(pageName.search("result")) === -1  && <SearchBar></SearchBar>}</div>
                 { (pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && <Navigator>
                     {/* <Logo href={ROUTES.HOME} src={'logo.png'}></Logo> */}
                     <NavBar></NavBar>
                     
-                    {(pageName.search("result")) === -1  && <SearchBar></SearchBar>}
+                   
                     <SignInUpButtons user={user} removeAccount={removeAccountFromApp}></SignInUpButtons>
                      {(JSON.stringify(account) !== JSON.stringify({}) && account !== null && account !== undefined) && <Shortcut username={account.nickname || account.username}></Shortcut>}
                 </Navigator>}

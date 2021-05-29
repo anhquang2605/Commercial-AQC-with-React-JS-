@@ -244,14 +244,12 @@ class Banner extends React.Component{
     }
     render() {
         return(
-            <Fragment>
             <div className="Banner">
                 <Controller></Controller>
                 {/*key is needed for the Banner Box to update the passing props from Banner*/}
                 <BannerBox key={this.state.bannerBoxWidth} bannerBoxWidth={this.state.bannerBoxWidth} width={this.state.bannerWidth}></BannerBox>              
+                <Pagination NoOfItems={this.getNoOfItems()}></Pagination>
             </div>
-            <Pagination NoOfItems={this.getNoOfItems()}></Pagination>
-            </Fragment>
         );
     }
 }
