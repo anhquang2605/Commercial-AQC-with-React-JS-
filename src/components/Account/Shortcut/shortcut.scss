@@ -4,7 +4,7 @@
     float: right;
     padding: 5px;
     border: 1px solid purple;
-    border-radius: 5px;
+    border-radius: 3px;
     background-color: purple;
     color: white;
     .more-detail-btn{
@@ -17,7 +17,7 @@
     .dropdown-account-nav{
         width: 150%;
         position: absolute;
-        background:khaki;
+        background: white;
         z-index: 5000;
         height: 0;
         border-radius: 3px;
@@ -28,6 +28,7 @@
         margin-left: -5px;
         border: 1px solid purple;
         transition: all 0.2s;
+        box-shadow: 2px 2px 10px  black;
         ul{
             display: block;
             width: 100%;
