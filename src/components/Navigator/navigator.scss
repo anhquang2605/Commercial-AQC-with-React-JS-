@@ -1,13 +1,15 @@
 #header{
     width: 100%;
+    display: flex;
     clear: both;
-    float: left;
     height: auto;
     background: khaki;
     z-index: 8000;
     box-sizing: border-box;
     padding: 5px 10%;
     border-bottom: 1px solid darkgrey;
+    align-items: center;
+    justify-content: flex-end;
 }
 .sticky{
     position: fixed;

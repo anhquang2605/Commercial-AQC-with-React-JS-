@@ -1,10 +1,7 @@
 .account-shortcut{
-    margin: 0 5px;
     position: relative;
-    float: right;
-    padding: 5px;
-    border: 1px solid purple;
-    border-radius: 3px;
+    padding: 4px;
+    border-radius: 2px;
     background-color: purple;
     color: white;
     .more-detail-btn{
@@ -22,7 +19,7 @@
         height: 0;
         border-radius: 3px;
         transition: all 0.3s;
-        margin-top: 7px;
+        margin-top: 5px;
         opacity: 0;
         display: none;
         margin-left: -5px;

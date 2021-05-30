@@ -1,11 +1,14 @@
 .sign_in_up_buttons{
-    float: right;
+    div{
+        display: flex;
+        justify-content:flex-end;
+    }
+    max-width: 300px;
     a{
         display: block;
         text-decoration: none;
         color: black;
-        float: left;
-        padding: 5px;
+        padding: 4px;
         background: purple;
         color: white;
         transition: all 0.5s;

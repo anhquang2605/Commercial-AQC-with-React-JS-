@@ -15,16 +15,29 @@
         width: 97%;
         border-radius: 5px 0 0 5px;
         border: 0;
+        box-shadow: inset 1px 2px 4px 0px rgba(34,34,34,0.4);
+        background: lightyellow;
+        transition: all 0.3s;
+        &:focus{
+            outline: none;
+            background: white;
+            &+a{
+                background: khaki;
+                color: black;
+                border: 1px solid purple;
+            }
+        }
     }
     a{
         display: block;
         text-decoration: none!important;
-        background: white;
+        background: purple;
         padding:2px 10px;
-
+        color: white;
         height: auto;
         border-radius: 0 5px 5px 0;
         border-left: 1px solid purple;
+        border: 1px solid white;
         transition: all 0.2s;
         svg{
             height: 100%;
@@ -32,6 +45,8 @@
     }
     a:hover{
         background-color: khaki;
+        color: black;
+        border: 1px solid purple;
     }
     .hints{
         position: absolute;

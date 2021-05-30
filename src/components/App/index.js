@@ -26,6 +26,7 @@ import SignUp from '../Account/SignUp';
 import CustomerService from '../CustomerService';
 import ProtectedRoute from '../Plugins/ProtectedRoute';
 import Help from '../CustomerService/Help';
+import Footer from '../Footer';
 import { data } from 'jquery';
 /*const PageComponents = {
     Home: Home,
@@ -238,79 +239,86 @@ const App = (props) =>  {
         },[user])
         return(
             <div className="commercial-AQC">
-                <div className="top-header"><h1 className="site-heading">Commercial website AQC</h1> {(pageName.search("result")) === -1  && <SearchBar></SearchBar>}</div>
-                { (pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && <Navigator>
+                <div className="content">
+                <div className="top-header">
+                    <h1 className="site-heading">Commercial website AQC</h1> 
+                    {(pageName.search("result")) === -1  && 
+                    <SearchBar></SearchBar>}
+                </div>
+                {(pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && 
+                <Navigator>
                     {/* <Logo href={ROUTES.HOME} src={'logo.png'}></Logo> */}
-                    <NavBar></NavBar>
-                    
-                   
+                    <NavBar></NavBar>            
+                    {(JSON.stringify(account) !== JSON.stringify({}) && account !== null && account !== undefined) && 
+                    <Shortcut username={account.nickname || account.username}></Shortcut>}
                     <SignInUpButtons user={user} removeAccount={removeAccountFromApp}></SignInUpButtons>
-                     {(JSON.stringify(account) !== JSON.stringify({}) && account !== null && account !== undefined) && <Shortcut username={account.nickname || account.username}></Shortcut>}
                 </Navigator>}
                 {((pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) && (pageName.search("/sign-up")!== 0) && (pageName.search("/sign-in")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
-                            <Switch location={location}>
-                                <Route  exact path = {ROUTES.HOME} component = {Home}/>
-                                <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
-                                <Route path = {ROUTES.ORDERS + "/:id"} render={(props) => (<OrderDetail {...props} addItem={addToCartList} reRendering={handleRerendering}></OrderDetail>)}></Route>
-                                <Route path = {ROUTES.KART_DETAIL} render={(props) => (<KartDetail {...props} list={cartList} removeItem={removeFromCartList} changeQuantity={handleChangeOfQuantity} rerenderer={handleRerendering}></KartDetail>)}></Route>
-                                <Route 
-                                    path = {ROUTES.CHECK_OUT} 
-                                    render = {(props) => (
-                                        <CheckOut {...props}
-                                                reFetch={reFetchAccount}
-                                                account={account}
-                                                curGCards={curGCards}  
-                                                curCard={curCard} 
-                                                curShipping={curShipping}  
-                                                setShippingForApp={getShippingFromCheckout} 
-                                                setCardForApp={getCardFromCheckout} 
-                                                setGCardForApp={getGCardsFromCheckout} 
-                                                setTotalForApp={getTotalFromCheckout}
-                                                list={cartList}>
-                                        </CheckOut>)}>
-                                        </Route>
-                                <Route path = {ROUTES.PLACE_ORDER} 
-                                    render={(props) => (
-                                        <PlaceOrder
-                                            {...props} 
-                                            cartList={cartList}
-                                            total={curTotal}
-                                            shipping={curShipping}
-                                            card={curCard}
-                                            >
-                                        </PlaceOrder>)}>
-                                </Route>
-                                <Route path = {ROUTES.THANK_YOU} render={(props)=>(
-                                    <ThankYou {...props} account={account} flushCart={flushCart} addToOrderAfterCheckOut={addToOrderAfterCheckOut}>
-                                    </ThankYou>
-                                    )}></Route>
-                                {/* Account Routes  */}
-                                <ProtectedRoute exact path = {ROUTES.ACCOUNT} account={account} component={
-                                    <Account {...props} account={account}>
+                <Switch location={location}>
+                    <Route  exact path = {ROUTES.HOME} component = {Home}/>
+                    <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
+                    <Route path = {ROUTES.ORDERS + "/:id"} render={(props) => (<OrderDetail {...props} addItem={addToCartList} reRendering={handleRerendering}></OrderDetail>)}></Route>
+                    <Route path = {ROUTES.KART_DETAIL} render={(props) => (<KartDetail {...props} list={cartList} removeItem={removeFromCartList} changeQuantity={handleChangeOfQuantity} rerenderer={handleRerendering}></KartDetail>)}></Route>
+                    <Route 
+                        path = {ROUTES.CHECK_OUT} 
+                        render = {(props) => (
+                            <CheckOut {...props}
+                                    reFetch={reFetchAccount}
+                                    account={account}
+                                    curGCards={curGCards}  
+                                    curCard={curCard} 
+                                    curShipping={curShipping}  
+                                    setShippingForApp={getShippingFromCheckout} 
+                                    setCardForApp={getCardFromCheckout} 
+                                    setGCardForApp={getGCardsFromCheckout} 
+                                    setTotalForApp={getTotalFromCheckout}
+                                    list={cartList}>
+                            </CheckOut>)}>
+                            </Route>
+                    <Route path = {ROUTES.PLACE_ORDER} 
+                        render={(props) => (
+                            <PlaceOrder
+                                {...props} 
+                                cartList={cartList}
+                                total={curTotal}
+                                shipping={curShipping}
+                                card={curCard}
+                                >
+                            </PlaceOrder>)}>
+                    </Route>
+                    <Route path = {ROUTES.THANK_YOU} render={(props)=>(
+                        <ThankYou {...props} account={account} flushCart={flushCart} addToOrderAfterCheckOut={addToOrderAfterCheckOut}>
+                        </ThankYou>
+                        )}></Route>
+                    {/* Account Routes  */}
+                    <ProtectedRoute exact path = {ROUTES.ACCOUNT} account={account} component={
+                        <Account {...props} account={account}>
 
-                                    </Account>
-                                }>
-                                </ProtectedRoute>
-                                <ProtectedRoute path = {ROUTES.ACCOUNT + '/orders'} account={account} component ={
-                                    account && account.orders ? <Orders {...props} ordersOfAccount={account.orders}></Orders> : <span className="no-order">No order found</span>
-                                }></ProtectedRoute>
-                                <ProtectedRoute path = {ROUTES.ACCOUNT + '/cards'} account={account} component ={
-                                    account && account.cards ? <Cards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.cards}>
-                                        
-                                    </Cards> : ""
-                                    }></ProtectedRoute>
-                                <ProtectedRoute path = {ROUTES.ACCOUNT + '/gcards'} account={account} component ={
-                                   account && account.gcards? <GCards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.gcards}></GCards> : ""
-                                }></ProtectedRoute>
-                                <Route path ={ROUTES.SIGN_IN} render={(props)=>(
-                                      <SignIn {...props} setUserForApp = {setUserForApp}>
+                        </Account>
+                    }>
+                    </ProtectedRoute>
+                    <ProtectedRoute path = {ROUTES.ACCOUNT + '/orders'} account={account} component ={
+                        account && account.orders ? <Orders {...props} ordersOfAccount={account.orders}></Orders> : <span className="no-order">No order found</span>
+                    }></ProtectedRoute>
+                    <ProtectedRoute path = {ROUTES.ACCOUNT + '/cards'} account={account} component ={
+                        account && account.cards ? <Cards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.cards}>
+                            
+                        </Cards> : ""
+                        }></ProtectedRoute>
+                    <ProtectedRoute path = {ROUTES.ACCOUNT + '/gcards'} account={account} component ={
+                        account && account.gcards? <GCards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.gcards}></GCards> : ""
+                    }></ProtectedRoute>
+                    <Route path ={ROUTES.SIGN_IN} render={(props)=>(
+                            <SignIn {...props} setUserForApp = {setUserForApp}>
 
-                                    </SignIn>
-                                )}/>
-                                <Route path ={ROUTES.SIGN_UP} component={SignUp}/>
-                                <Route exact path = {ROUTES.CUSTOMER} component={CustomerService}></Route>
-                                <Route path = {ROUTES.CUSTOMER + ROUTES.HELP} component={Help}></Route>
-                            </Switch>
+                        </SignIn>
+                    )}/>
+                    <Route path ={ROUTES.SIGN_UP} component={SignUp}/>
+                    <Route exact path = {ROUTES.CUSTOMER} component={CustomerService}></Route>
+                    <Route path = {ROUTES.CUSTOMER + ROUTES.HELP} component={Help}></Route>
+                </Switch>
+                </div>
+                <Footer></Footer>   
                        
             </div>
         )

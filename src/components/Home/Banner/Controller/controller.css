@@ -10,6 +10,7 @@
     font-size: 1em;
     opacity: 0;
     border: none;
+    margin-right: 0 !important;
 }
 .left-controller-banner svg, .right-controller-banner svg{
     width: 25%;
@@ -17,7 +18,7 @@
 }
 
 .left-controller-banner:hover, .right-controller-banner:hover {
-    background-color: rgba(128,0,128, 0.4);
+    background-color: rgba(128,0,128, 0.3);
     opacity: 1;
 }
 .left-controller-banner{
