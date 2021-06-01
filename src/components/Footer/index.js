@@ -9,36 +9,37 @@ const Footer = () => {
     const LIST_OF_ITEMS = ["account guides", "helps" ,"guides"];
     const currentTime = new Date();
     let fetchItems = () =>{
+        let myList = {};
         for (var i = 0; i < LIST_OF_ITEMS.length; i += 1){
             let item = LIST_OF_ITEMS[i];
             let daList = [];
-            db.collection(item).onSnapshot(querySnapshot=>{
+            db.collection(item).get().then(querySnapshot=>{
                 querySnapshot.forEach(data=>{
-                    console.log(data.data());
                     daList.push(data.data());
                 });
-                let holdArray = {};
-                console.log(list);
-                for (var key in list){
-                    holdArray[key] = list[key];
-                }
-               holdArray[item] = daList;
-               console.log(holdArray);
-               setList(holdArray);
+               myList[item] = daList;
                // setList((prevState) => {...prevState, holdArray});
+            }).then(()=>{
+                if(Object.keys(myList).length === LIST_OF_ITEMS.length){
+                    //to make sure that there is maximum items of the array 
+                    setList(myList);
+                }
             })
         }
+        
         }
     let prepareComponents = () =>{
         setPreparedList(()=>{
+            let array = [];
             for (var dakey in list){
-                return (<ul key={dakey} className="footer-items">
+                array.push(<ul key={dakey} className="footer-items">
                     <li className="main-item">{dakey}</li>
                     {list[dakey].map((item)=>(
-                        <li key={item.title}><Link to={item.route}>{item.title}</Link></li>
+                        <li key={item.title}><Link to={item.route? item.route: "#"}>{item.title}</Link></li>
                     ))}
                 </ul>)
             }
+            return array;
         })
     }
     useEffect(() => {

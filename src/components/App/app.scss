@@ -29,6 +29,14 @@ body{
         font-weight: normal;
         text-transform: capitalize;
         font-family: Summer-Yesterday;
+        a{
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.2s;
+            &:Hover{
+                color: lightyellow;
+            }
+        }
     }
     button, a.btn{
         background-color: white;

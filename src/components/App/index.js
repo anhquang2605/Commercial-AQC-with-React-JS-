@@ -4,7 +4,7 @@ import Home from '../Home';
 import NavBar from '../NavBar';
 import SearchBar from '../SearchBar';
 import Logo from '../Logo';
-import { Route, Switch, useLocation, useHistory} from 'react-router-dom';
+import { Route, Switch, useLocation, useHistory, Link} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
 import SearchResult from '../SearchResult';
 import OrderDetail from '../OrderDetail';
@@ -241,7 +241,7 @@ const App = (props) =>  {
             <div className="commercial-AQC">
                 <div className="content">
                 <div className="top-header">
-                    <h1 className="site-heading">Commercial website AQC</h1> 
+                    <h1 className="site-heading"><Link to="/">Commercial website AQC</Link></h1> 
                     {(pageName.search("result")) === -1  && 
                     <SearchBar></SearchBar>}
                 </div>
@@ -315,7 +315,7 @@ const App = (props) =>  {
                     )}/>
                     <Route path ={ROUTES.SIGN_UP} component={SignUp}/>
                     <Route exact path = {ROUTES.CUSTOMER} component={CustomerService}></Route>
-                    <Route path = {ROUTES.CUSTOMER + ROUTES.HELP} component={Help}></Route>
+                    <Route path = {ROUTES.CUSTOMER + ROUTES.HELP  + "/:section?/:sub?"} component={Help}></Route>
                 </Switch>
                 </div>
                 <Footer></Footer>   

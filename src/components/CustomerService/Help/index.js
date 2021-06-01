@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import CollapseTab from './../../Plugins/CollapseTab';
 import Firebase from './../../Firebase';
 import './help.scss';
-const Help = () => {
+const Help = (props) => {
+    let {sub,section} = props.match.params;
     const db = Firebase.firestore();
     const LIST_MAIN_ITEMS = ["helps", "guides"];
     let preparedList;
@@ -54,6 +55,16 @@ const Help = () => {
             SetProcessedList(list);
         }
     },[list]);
+    useEffect(()=>{
+        if(proccessedList.length !== 0){
+            //whenever params changes or the List is ready, update the current Item
+            if(sub && section){
+                db.collection(section).doc(sub.replaceAll("_"," ")).get().then((snap)=>{
+                    setCurrentItem(snap.data());
+                })
+            }
+        }
+    },[proccessedList,props.match.params]);
     return (
         <div className="help">
             <h4>Help</h4>
