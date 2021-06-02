@@ -27,6 +27,7 @@ import CustomerService from '../CustomerService';
 import ProtectedRoute from '../Plugins/ProtectedRoute';
 import Help from '../CustomerService/Help';
 import Footer from '../Footer';
+import ContactUs from '../ContactUs';
 import { data } from 'jquery';
 /*const PageComponents = {
     Home: Home,
@@ -313,9 +314,13 @@ const App = (props) =>  {
 
                         </SignIn>
                     )}/>
-                    <Route path ={ROUTES.SIGN_UP} component={SignUp}/>
+                      <Route path ={ROUTES.SIGN_UP} component={SignUp}/>
                     <Route exact path = {ROUTES.CUSTOMER} component={CustomerService}></Route>
                     <Route path = {ROUTES.CUSTOMER + ROUTES.HELP  + "/:section?/:sub?"} component={Help}></Route>
+                    <Route path = {ROUTES.CONTACT_US} render={(props)=>(
+                        <ContactUs {...props} account={account}>
+                        </ContactUs>
+                    )}/>
                 </Switch>
                 </div>
                 <Footer></Footer>   

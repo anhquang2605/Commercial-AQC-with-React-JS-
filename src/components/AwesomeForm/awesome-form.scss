@@ -1,7 +1,7 @@
 //variables
 $border-color: purple;
 $background-input: none;
-$background-input-focus: khaki;
+$background-input-focus: lightyellow;
 $background-title: khaki;
 $title-font-color: black;
 $background-form: none;
@@ -88,6 +88,18 @@ $color-button-disabled: #777777 ;
            background: plum;
            border: none;
        }
+       textarea{
+           height: 150px;
+           width: 100%;
+           transition: all 0.2s;
+           border: 1px solid $border-color;
+           padding: 10px;
+           &:focus{
+               background-color: $background-input-focus;
+               outline: none;
+               @include css3-prefix(box-shadow, 0px 0px 3px #800080)
+           }
+       }
     }
     .error{
         font-size: 0.8em;
@@ -98,7 +110,7 @@ $color-button-disabled: #777777 ;
         &.hidden-btn{
             display:none;
         }
-        &.submit{
+        &.submit, input[type=submit]{
             background: $background-button;
             color:$font-color-button;
             padding: 10px;
