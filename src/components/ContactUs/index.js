@@ -3,6 +3,7 @@ import EmailForm from './EmailForm';
 import ContactInfo from './ContactInfo';
 import {RiProfileLine} from 'react-icons/ri';
 import {MdEmail} from 'react-icons/md';
+import './contact-us.scss';
 const ContactUs = (props) => {
 
     return (

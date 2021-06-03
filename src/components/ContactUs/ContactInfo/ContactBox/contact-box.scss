@@ -1,3 +1,21 @@
 .contact-box{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: rgb(128,0,128);
+background: linear-gradient(144deg, rgba(128,0,128,1) 69%, rgba(50,7,83,1) 100%);
+
+    border-radius: 5px;
+    color: lightyellow;
+    font-size: 0.9em;
+    .contact-bar{
+        margin-bottom: 10px;
+        width: 100%;
+        display: flex;
+        .contact-title{
+            text-transform: capitalize;
+            width: 120px;
+        }
+    }
     
 }
