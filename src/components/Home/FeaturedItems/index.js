@@ -22,7 +22,7 @@ class FeaturedItems extends React.Component{
     render() {
         return (
             <div className="FeaturedItems">
-                <div className="featured-title"><hr></hr> <div className="inner-flex-container"><AiTwotoneStar></AiTwotoneStar><h4> Featured Items </h4><AiTwotoneStar></AiTwotoneStar> </div> <hr></hr> </div>
+                <div className="featured-title"><div className="inner-flex-container"><AiTwotoneStar></AiTwotoneStar><h4> Featured Items </h4><AiTwotoneStar></AiTwotoneStar> </div> </div>
                 <div className="flex-container">
                     {this.generateItems()}
                 </div>

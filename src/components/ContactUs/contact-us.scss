@@ -1,4 +1,18 @@
 .contact-us{
     padding: 20px 10%;
-   
+   h6{
+        font-size: 1.2em;
+        text-transform: capitalize;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        font-weight: normal;
+        color: purple;
+        border-bottom: 1px solid purple;
+        svg{
+            width: 35px;
+            height: 35px;
+            margin-right: 20px;
+        }
+   }
 }

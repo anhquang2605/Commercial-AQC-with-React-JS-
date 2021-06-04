@@ -1,5 +1,5 @@
 .widget{
-    width: 250px;
+    width: 300px;
     float: left;
     box-sizing: border-box;
     padding: 10px;
@@ -8,8 +8,8 @@
     box-sizing: border-box;
     transition: all 0.2s;
     margin-bottom: 10px;
-    border: 1px solid purple;
     border-radius: 3px;
+    border: 1px solid purple;
 }
 .widget img{
     box-sizing: border-box;
@@ -19,6 +19,10 @@
     box-shadow: 5px 5px 10px grey;
     border: 2px solid purple;
  }
+ .widget:hover .price-tag{
+    background: purple;
+    color: white;
+ }
 .widget .out-of-stock{
     background-color:coral;
     position: absolute;
@@ -27,4 +31,22 @@
 } 
 .widget img{
     max-width: 100%;
+}
+.widget .widget-item-name{
+    color: purple;
+    font-size: 1.2em;
+    display: block;
+    text-transform: capitalize;
+}
+
+.widget .price-tag{
+    margin-top: 5px;
+    border: 1px solid purple;
+    padding: 5px;
+    color: purple;
+    font-weight: 600;
+    border-radius: 3px;
+    transition: all 0.3s;
+    display: inline-block;
+    width: auto;
 }

@@ -12,13 +12,17 @@
         text-transform: capitalize;
         .main-item{
             font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        li{
+            margin-bottom: 5px;
         }
         li a{
             color: lightyellow;
             text-decoration: none;
             font-size: 0.9em;
             &:hover{
-                text-transform: underline;
+                color: yellow;
             }
         }
     }

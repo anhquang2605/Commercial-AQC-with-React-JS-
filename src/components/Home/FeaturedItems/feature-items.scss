@@ -10,11 +10,8 @@
         box-sizing: border-box;
         width: 100%;
         padding: 5px 10%;
-        hr{
-            background-color: purple;
-            border: none;
-            height: 1px;
-        }
+        margin-bottom: 20px;
+        background: purple;
         .inner-flex-container{
             width: 100%;
             display: flex;
@@ -23,10 +20,10 @@
             align-items: center;
             h4{
                 box-sizing: border-box;
-                color: purple;
+                color: khaki;
                 text-align: center;
                 margin: 0 5px;
-                font-size: 1.5em;
+                font-size: 1.8em;
                 vertical-align: middle;
                 font-weight:500;
             }
