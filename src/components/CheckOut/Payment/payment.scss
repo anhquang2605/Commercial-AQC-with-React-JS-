@@ -1,15 +1,41 @@
 #payment{
+    .no-chosen-gcard{
+        background: lightyellow;
+        padding: 10px;
+        font-weight: 1.2em;
+    }
+    > div{
+        border: 1px solid purple;
+        flex-wrap: wrap;
+    }
+    .card-img, .gcard-img{
+        margin-right: 10px;
+        border: 1px solid plum;
+    }
+    button{
+        padding: 10px;
+    }
     b{
         text-transform: capitalize;
+        font-weight: 500;
+        margin-right: 10px;
     }
     table{
-        border: 1px solid black;
         border-radius: 5px;
         width: 100%;
         margin: 5px 0;
-        padding: 5px;
+        border-spacing: 0;
+        thead{
+            background: purple;
+            color: white;
+        }
         th{
             text-align: left;
+            padding: 10px;
+            font-weight: 500;
+        }
+        td{
+            padding: 5px;
         }
     }
     #chosen-card{
@@ -19,6 +45,27 @@
         box-sizing: border-box;
         width: 100%;
         transition: opacity 0.3s, visibility 0.3s;
+        display: flex;
+        flex-wrap: wrap;
+        div{
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .giftcard-payment{
+            display: flex;
+            flex-wrap: wrap;
+            .chosen-gift-card{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                .gcard-name{
+                    color: purple;
+                    font-weight: 500;
+                }
+            }
+        }
         img{
             width: 50px;
         }
@@ -30,11 +77,17 @@
             border: 0;
             overflow: hidden;
         }
+        span, span *{
+            font-size: 1.2em;
+            text-transform: uppercase;
+            b{
+                color: purple;
+            }
+        }
     }
     #change-card-field{
         opacity: 1;
         padding: 10px;
-        border: 1px solid purple;
         box-sizing: border-box;
         width: 100%;
         transition: opacity 0.3s, visibility 0.3s;
@@ -45,6 +98,13 @@
             padding: 0;
             border: 0;
             overflow: hidden;
+        }
+        h4{
+            font-size: 1.6em;
+            margin-bottom: 5px;
+        }
+        & div:first-child h4{
+            margin-top: 0;
         }
     }
 

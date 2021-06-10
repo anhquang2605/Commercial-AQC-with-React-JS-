@@ -154,7 +154,6 @@ const Payment = (props) => {
                 {/*default option for cards and gift cards */}
                 <div className="card-options">
                     <div id="chosen-card">       {/*chosen card*/}
-                             <button  className="change-card" onClick={handleChange}>Change</button>
                              {props.card && <div className="card-payment">
                                  <img className="card-img" alt={props.card.type} src={require("../../../images/Cards/" +  props.card.type + ".jpg")}></img>
                                 <span className="card-name"><b>{props.card.type} </b></span>
@@ -173,7 +172,8 @@ const Payment = (props) => {
                                 );
                                 
                             })}
-                             </div> : <div>No gift card chosen, you owned <b>{dagiftCards.length}</b> gift cards </div>}
+                             </div> : <div className="no-chosen-gcard">No gift card chosen, you owned<b>{" " + dagiftCards.length}</b>gift cards </div>}
+                             <button  className="change-card" onClick={handleChange}>Change</button>
                     </div>
                    <div id="change-card-field" className="display-none">{/*initially hidden, appear when click change button in #chosen-card*/}
                         <div className="card-container-change">{/*change field for card*/}
@@ -210,8 +210,8 @@ const Payment = (props) => {
                                     <tr>
                                         <th></th>
                                         <th>Card Name</th>
-                                        <th>Ammount / %</th>
                                         <th>Name of Card</th>
+                                        <th>Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -220,8 +220,8 @@ const Payment = (props) => {
                                             <tr key={card.id}>
                                                 <td className="checkbox-value"><input onChange={(e)=>{handleChangeGcard(card.id,e)}} checked={dagiftCards.findIndex(dacard => dacard.id === card.id) !== -1}   type="checkbox" name={"giftcard" + (parseInt(card.id) + 1)} value={card.id}></input></td>
                                                 <td className="card-name">{card.name}  </td>
-                                                <td className="card-dis">{card.type === "debit" ? "$ " + card.amount : card.amount + " %"}</td>
                                                 <td className="card-owner">{card.nameOnCard}</td>
+                                                <td className="card-dis">{card.type === "debit" ? "$ " + card.amount : card.amount + " %"}</td>
                                             </tr>
                                         );
                                         })}

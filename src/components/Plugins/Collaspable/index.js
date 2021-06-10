@@ -34,6 +34,7 @@ const Collapsable = React.forwardRef((props,ref) => {
             </div>
             <div id={idChangeDiv} className="change-collapsable display-none">
                 {props.changeChildren}
+                {props.extra? props.extra : ""}
                 <button className="close-btn" onClick={handleClose}>Commit Change (Close)</button>
             </div>
         </div>

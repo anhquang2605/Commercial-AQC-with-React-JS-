@@ -1,0 +1,54 @@
+#shipping-info{
+    .shipping-chosen{
+        padding: 10px;
+        padding-left: 0;
+        font-size: 1.2em;
+        span{
+            display: inline-block;
+            margin-right: 10px;
+            text-transform: uppercase;
+            &:first-child{
+                font-weight: 500;
+                color: purple;
+            }
+        }
+    }
+    button{
+        padding: 10px;
+    }
+    > div{
+        border: 1px solid purple;
+        border-radius: 3px;
+        padding: 10px;
+    }
+    .shipping-options{
+        display: flex;
+        flex-wrap: wrap;
+        button{
+            width: 200px;
+        }
+    }
+    table{
+        width: 100%;
+        padding: 0;
+        border-spacing: 0;
+        thead tr{
+            background: purple;
+            color: white;
+            text-align: left;
+            font-size: 1.2em;
+        }
+        th{
+            font-weight: 500;
+            padding-left: 0;
+            padding: 10px;
+        }
+        td{
+            padding: 5px;
+        }
+        tr td:nth-child(2){
+            font-weight: 500;
+            color: purple;
+        }
+    }
+}

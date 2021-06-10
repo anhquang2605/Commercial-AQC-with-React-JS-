@@ -20,20 +20,10 @@ const KartDetail = (props) => {
         <div id="kart_detail">
             <h4>Kart Detail</h4>
             {list.length > 0 ? (
-                <table width="60%">
-                    <colgroup>
-                        <col span="1"></col>
-                        <col span="1"></col>
-                        <col span="1"></col>
-                        <col span="1"></col>
-                        <col span="1"></col>
-                        <col span="1"></col>
-                        <col span="1"></col>
-                    </colgroup>
+                <table>
                     <tr>
-                        <th width="5%">No</th>
                         <th width="10%"></th>
-                        <th width="35%">Name</th>
+                        <th width="40%">Name</th>
                         <th width="5%">Quantity</th>
                         <th width="15%">Price Ea</th>
                         <th width="15%">Total</th>
@@ -42,7 +32,6 @@ const KartDetail = (props) => {
                     {list.map((item,index)=>{
                         return(
                         <tr key={index}>
-                            <td>{index + 1}</td>
                             <td><img src={require("./../../images/" + item.id + "-" +item.type+ ".jpg")}></img></td>
                             <td>{item.type + " " + item.name}</td>
                             <td><input max={ORDERS[item.id-1].quantity}  type="number" value={item.quantity} onChange={ (e) => {handleQuantityChange(e,index)}}

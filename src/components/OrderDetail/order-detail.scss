@@ -1,12 +1,24 @@
 $margin_top_bottom: 5px 0;
+$padding_whole: 10px 10%;
 #order_detail{
+    padding: $padding_whole;
+    display:flex;
     .detail-container{
         width: 50%;
-        float: right;
         .payment-proceed-btn-group{
             width: 100%;
             float: right;
             margin: $margin_top_bottom;
+            button{
+              padding: 5px;
+            }
+            button.buy-now-order-detail-btn{
+              background: khaki;
+              color: black;
+              &:hover{
+                background: rgb(255, 244, 150)
+              }
+            }
         }
         .quantity-selector-group{
             width: 100%;

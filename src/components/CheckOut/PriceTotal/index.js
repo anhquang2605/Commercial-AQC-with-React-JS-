@@ -24,9 +24,22 @@ const PriceTotal = (props) => {
             return dasum
         }
     }
+    let handleStick = (e) =>{
+        let totalPriceComp = document.getElementsByClassName("total-price")[0];
+        let compOffsetTop = totalPriceComp.offsetTop;
+        if(compOffsetTop < window.pageYOffset){
+            totalPriceComp.classList.add("sticky");
+        } else {
+            totalPriceComp.classList.remove("sticky");
+        }
+    }
     useEffect(()=>{
         setList(props.list);
         setSum(getSum());
+        window.addEventListener("scroll", handleStick);
+        return () =>{
+            window.removeEventListener("scroll",handleStick);
+        }
     },[])
 
     useEffect(()=>{

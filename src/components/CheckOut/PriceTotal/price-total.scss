@@ -1,7 +1,13 @@
 .total-price{
     border: 1px solid purple;
     border-radius: 5px;
-    padding: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    width: 350px;
+    transition: margin-top 0.1s;
+    h4{
+        margin-top: 0;
+    }
     span{
         display:block;
         &.price-row{
@@ -27,5 +33,10 @@
         padding: 10px;
         background: khaki;
         font-weight: medium;
+    }
+    &.sticky{
+        position: fixed;
+        right: 10%;
+        margin-top: 70px;
     }
 }

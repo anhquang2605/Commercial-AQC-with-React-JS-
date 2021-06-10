@@ -67,7 +67,7 @@ const OrderDetail = (props) => {
                         })
                         props.reRendering();
                     }} disabled={order.quantity <= 0}>Add to Cart</button>
-                    <button onClick={()=> {
+                    <button className="buy-now-order-detail-btn" onClick={()=> {
                         handleBuyNow({
                             name: order.name,
                             quantity: parseInt(quantityInput),

@@ -151,7 +151,6 @@ const ShippingInfo = (props) => {
                                     })}
                                     </tbody>
                                 </table>
-                                <button onClick={()=>{modalRef.current.showModal()}}>+ Add new Address</button>
                             </div>
                             <Modal ref={modalRef} extraFuncToCloseMethod name="add_shipping">{/*Provdie name to make unique ID for the modal*/}
                                 <div className="shipping-adding">
@@ -187,8 +186,8 @@ const ShippingInfo = (props) => {
                         </div>
                         )
                     }
+                extra={(<button onClick={()=>{modalRef.current.showModal()}}>+ Add new Address</button>)}
                 >
-
                 </Collapsable>
         </div>
     );

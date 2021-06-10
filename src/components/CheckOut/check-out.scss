@@ -1,11 +1,14 @@
 #check_out{
+    padding: 10px 10%;
+    display: flex;
+    justify-content: space-between;
     .left-container{
-        width: 69%;
-        float: left;
+        width: 60%;
         margin-right: 1%;
     }
-    .right-container{
-        width: 30%;
-        float:right;
+    .check-out-title{
+        margin-bottom: 10px;
+        color: purple;
+        font-size: 1.8em;
     }
 }

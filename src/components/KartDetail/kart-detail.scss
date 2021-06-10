@@ -1,17 +1,43 @@
 #kart_detail{
-    h4{
-        text-align: center;
-    }
+    padding: 10px 10%;
     table{
         margin: auto;
         border: 1px solid purple;
         border-radius: 5px;
-        padding: 10px;
+        border-spacing: 0px;
+        th{
+            font-weight:500;
+            font-size: 1.2em;
+        }
         td{
+            text-transform: capitalize;
             text-align: center;
+            padding: 10px;
             img{
-                width: 200px;
+                width: 150px;
             }
+        }
+        tr td:nth-child(2){
+            color: purple;
+            font-weight: 500;
+            font-weight: 1.1em;
+        }
+        tr{
+            padding-bottom: 20px;
+        }
+        tr:nth-child(2n+1){
+            background: lightyellow;
+        }
+        tr:first-child{
+            background: purple;
+            color: white;
+            th{
+                padding: 10px;
+            }
+        }
+        tr td:nth-child(5){
+            color: purple;
+            font-weight: bold;
         }
         input{
             width: 100%;
@@ -19,8 +45,25 @@
     }
     .check-out-btn{
         margin: 10px auto;
-        width: 10%;
+        width: 110px;
         text-align: center;
+        padding: 10px!important;
+        background: khaki;
+        font-size: 1.5em;
+        &:hover{
+            background:  rgb(255, 244, 150);
+            font-weight: 500;
+            color: purple;
+        }
+    }
+    .remove-item-btn{
+        border-color: tomato;
+        color: tomato;
+        font-weight: 500;
+        &:hover{
+            background-color: tomato;
+            color: white;
+        }
     }
     .empty-kart-detail{
         display: block;
