@@ -22,7 +22,7 @@ const Modal = React.forwardRef((props,ref) => {//expose showModal method to the 
     return (
         //initially hide the modal with hide-modal class, can be found in modal.scss in the same directory
         <div className="modal-container hide-modal" id={"modal" + (props.name? ("_"+props.name) : "") }>
-            <div className="modal">
+            <div className="modal awesome_form fix-width wide">
                 {props.hasTitle && <h5>{props.name.replaceAll('-'," ").toUpperCase()}</h5>}
                 <button className="close-btn-modal" onClick={hideModal}><AiFillCloseCircle></AiFillCloseCircle></button>
                 {props.children}

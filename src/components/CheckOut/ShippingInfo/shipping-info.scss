@@ -13,7 +13,7 @@
             }
         }
     }
-    button{
+    button:not(.close-btn-modal){
         padding: 10px;
     }
     > div{

@@ -57,6 +57,8 @@ $color-button-disabled: #777777 ;
         margin-bottom: 10px;
         transition: all 0.3s;
         height: auto;
+        align-items: center;
+        font-family: inherit;
         &.hidden-field{
             display: none;
             height: 0;
@@ -65,11 +67,25 @@ $color-button-disabled: #777777 ;
             font-size: 0.7em;
             width: auto;;
         }
+        select{
+            width: 100%;
+            padding: 10px;
+            font-style:inherit;
+            clear: both;
+            border: 1px solid purple;
+            &:focus{
+                outline: none;
+                box-shadow: purple 0 0 2px 1px;
+                background: lightyellow;
+            }
+            font-family: inherit;
+        }
         input[type='text'],input[type='email'],input[type='password']{
             padding: 10px;
             border: 1px solid $border-color;
             width: 100%;
             transition: background-color 0.5s;
+            font-family: inherit;
             &:focus{
                 background: $background-input-focus; 
                 outline: none;
@@ -87,6 +103,29 @@ $color-button-disabled: #777777 ;
        input[type=text]:disabled{
            background: plum;
            border: none;
+       }
+       input[type=number]{
+           font-family: inherit;
+           padding: 10px;
+           border: 1px solid purple;
+           &:first-child{
+             margin-left: 10px;  
+           }
+           &.one-digit{
+               width: 25px;
+           }
+           &.two-digits{
+               width: 40px;
+           }
+           &.four-digits{
+               width: 50px;
+           }
+           margin-left: 10px;
+           &:focus{
+            outline: none;
+            box-shadow: purple 0 0 4px 1px;
+            background: lightyellow;
+           }
        }
        textarea{
            height: 150px;

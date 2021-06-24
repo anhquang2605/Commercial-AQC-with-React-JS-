@@ -1,14 +1,43 @@
 #check_out{
     padding: 10px 10%;
+    padding-bottom: 40px;
     display: flex;
     justify-content: space-between;
     .left-container{
         width: 60%;
-        margin-right: 1%;
+        margin-right: 20px;
     }
     .check-out-title{
         margin-bottom: 10px;
         color: purple;
         font-size: 1.8em;
+    }
+    .awesome_form{
+        background: purple;
+       box-shadow:none;
+        button:not(.close-btn-modal):hover{
+            background: lightyellow;
+            color: purple;
+        }
+    }
+    .aform-field{
+        width: 50%;
+        padding: 5px;
+        box-sizing: border-box;
+        label{
+            font-size: 1em;
+            color: white;
+        }
+       
+/*         &:nth-child(4){
+            width: 100%;
+        } */
+    }
+    .close-btn-modal{
+        padding: 0;
+        background: none;
+        :hover{
+            background: none;
+        }
     }
 }

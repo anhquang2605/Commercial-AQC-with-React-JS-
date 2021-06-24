@@ -16,7 +16,6 @@ const ItemsSummary = (props) => {
             <table>
                 <thead>
                     <tr>
-                        <th>No</th>
                         <th></th>
                         <th>Name</th>
                         <th>Quantity</th>
@@ -27,7 +26,6 @@ const ItemsSummary = (props) => {
                     {list.length > 0 && list.map((item, index)=>{
                         return(
                             <tr key={item.id + item.type}>
-                                <td>{index + 1}</td>
                                 <td><img src={require("./../../../images/" +  item.id + "-" + item.type + ".jpg")}></img></td>
                                 <td>{item.type + " " + item.name}</td>
                                 <td>{item.quantity}</td>

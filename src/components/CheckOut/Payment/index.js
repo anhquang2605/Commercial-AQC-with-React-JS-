@@ -230,7 +230,6 @@ const Payment = (props) => {
                                             noGiftCard(e)}} checked={dagiftCards.length===0}  type="checkbox" name="giftCard"></input></td>
                                         <td className="card-name">I don't use any gift card</td>{/*if user dont want to use any gift card*/}
                                     </tr>
-                                    
                                 </tbody>
                             </table>
                         </div>
@@ -238,22 +237,21 @@ const Payment = (props) => {
                         <button className="commit-btn" onClick={handleClose}>Commit change (Close)</button>
                         </div>
                 </div>               
-                <Modal name="add_card_form" ref={modalRef}>{/*hide initially, only show when evoke showModal method of the component Modal through ref*/}
-                                <div className="add-card-form">
-                                    <span className="form-row-control">
-                                        <legend htmlFor="card owner">Full Name</legend><br></br>
+                <Modal name="adding-card" ref={modalRef}>{/*hide initially, only show when evoke showModal method of the component Modal through ref*/}
+                                    <span className="aform-field">
+                                        <label htmlFor="card owner">Full Name</label><br></br>
                                         <input type="text" onChange={handleOwnerNameChange} value={addingCard.owner} placeholder=" Enter Name on Card" required></input>
                                     </span>
-                                    <span className="form-row-control">
-                                        <legend htmlFor="card number">Card Number</legend><br></br>
+                                    <span className="aform-field">
+                                        <label htmlFor="card number">Card Number</label><br></br>
                                         <input type="text" onChange={handleCardNumberChange} value={addingCard["card number"]} placeholder="Enter Card Number" required></input>
                                     </span>
-                                    <span className="form-row-control">
-                                        <legend htmlFor="cvs">CVS</legend><br></br>
+                                    <span className="aform-field">
+                                        <label htmlFor="cvs">CVS</label><br></br>
                                         <input type="text" placeholder="Enter CVS"></input>
                                     </span>
-                                    <span className="form-row-control">
-                                        <legend htmlFor="type">Type of cards</legend><br></br>
+                                    <span className="aform-field">
+                                        <label htmlFor="type">Type of cards</label><br></br>
                                         <select required className="card-type" value={addingCard.type} onChange={handleTypeSelect} placeholder="Select card type">
                                             <option value="" disabled >Select card type</option>
                                             <option value="debit">Debit</option>
@@ -262,13 +260,12 @@ const Payment = (props) => {
                                             <option value="master">Master</option>
                                         </select>
                                     </span>
-                                    <span className="form-row-control exp-date">
-                                        <legend htmlFor="exp">Expires on (month/YYYY)</legend>
-                                        <input required type="number" value={addingCard["exp month"]} onChange={handleMonthChange} className="exp-month exp" max="12" min="1"></input>
-                                        <input required type="number" value={addingCard["exp year"]} onChange={handleYearChange} className="exp-year exp" min={fullYear}></input>{/*full year got in the begining through date obj*/}
+                                    <span className="aform-field exp-date">
+                                        <label htmlFor="exp">Expires on (month/YYYY)</label>
+                                        <input required type="number" value={addingCard["exp month"]} onChange={handleMonthChange} className="exp-month exp two-digits" max="12" min="1"></input>
+                                        <input required type="number" value={addingCard["exp year"]} onChange={handleYearChange} className="exp-year exp four-digits" min={fullYear}></input>{/*full year got in the begining through date obj*/}
                                     </span>
-                                </div>
-                                <button onClick={handleAddCard}>Add card</button>
+                                <button className="aform-button submit" onClick={handleAddCard}>Add card</button>
                     </Modal> 
         </div>
     );

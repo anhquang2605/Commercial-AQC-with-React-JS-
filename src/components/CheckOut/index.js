@@ -5,6 +5,7 @@ import ShippingInfo from './ShippingInfo';
 import PriceTotal from './PriceTotal';
 import firebase from './../Firebase/firebase.js';
 import './check-out.scss';
+import './../AwesomeForm/awesome-form.scss';
 import GIFTCARDS from '../../model/GiftCards';
 const db = firebase.firestore();
 const CheckOut = React.forwardRef((props, ref) => {
