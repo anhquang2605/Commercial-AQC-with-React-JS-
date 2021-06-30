@@ -7,15 +7,19 @@
     }
     span:not(.pages-number){
         padding: 5px;
-        border: 1px solid purple;
-        width: auto;
         float: left;
         transition: background-color 0.2s, color 0.2s;
+        width: 20px;
+        height: 20px;
+        text-align: center;
         &:hover{
             cursor: pointer;
             background-color: purple;
             color: white;
         }
+    }
+    span.next-btn, span.last-btn, span.prev-btn, span.first-btn{
+        width: auto;
     }
     span.pages-number{
         border: none;

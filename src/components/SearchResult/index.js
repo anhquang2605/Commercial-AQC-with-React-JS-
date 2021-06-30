@@ -2,6 +2,7 @@ import React from 'react';
 import SearchForm from './SearchForm';
 import Sorter from './Sorter';
 import ResultDisplay from './ResultDisplay';
+import './search_result.scss';
 class SearchResult extends React.Component{
     constructor(props){
         super(props);

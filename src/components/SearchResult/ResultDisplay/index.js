@@ -1,7 +1,7 @@
 import React from 'react';
 import Pagination from './../../Pagination';
 
-import './result-display.css';
+import './result-display.scss';
 class ResultDisplay extends React.Component{
     constructor(props){
         super(props);
@@ -78,7 +78,7 @@ class ResultDisplay extends React.Component{
     render(){
         return(
             <div id="result_display">
-                    <h4>Results: ({this.state.foundList.length})</h4>
+                    <h4>Here is what we found: ({this.state.foundList.length})</h4>
                     { this.state.foundList.length >0 ? (<Pagination  dalist={this.state.foundList}></Pagination>) : ( <div>Not found</div>)}   
             </div>
         );

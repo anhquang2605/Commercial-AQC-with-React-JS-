@@ -1,0 +1,84 @@
+#search_form{
+    width: 25%;
+    border: 1px solid purple;
+    padding: 20px;
+    overflow: auto;
+    box-sizing: border-box;
+    margin-right: 20px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: lightgrey 5px 5px 10px 2px;
+    display: flex;
+    flex-wrap: wrap;
+    .flex-item{
+        display: flex;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        margin-bottom: 5px;
+        &.half-flex{
+            width: 50%;
+        }
+        &.full-flex{
+            width: 100%;
+        }
+    }
+    button{
+        padding: 5px;
+        width: 100%;
+        margin: auto;
+        font-size: 1.1em;
+        background: khaki;
+        &:hover{
+            background: purple;
+            color: white;
+        }
+    }
+}
+
+#search_form input:not([type="checkbox"]){
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+       box-sizing: border-box;
+}
+
+#search_form input[type="text"]{
+    width: 100%;
+ 
+}
+.instock-label{
+    color: purple;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+#search_form span{
+    padding: 2px;
+    display: block;
+    width: 100%
+}
+span{
+    height: auto;
+}
+
+#search_form svg{
+    fill:crimson;
+    width: 15px;
+    height: 15px;
+}
+
+#search_form input.not-valid{
+    border-color: crimson;
+}
+#search_form .not-valid-price{
+    color: crimson;
+}
+
+#search_form .valid-hidden{
+visibility: hidden;
+}
+@media only screen and (max-width: 768px){
+    /*For mobile devices*/
+    #search_form{
+        width: 35%;
+    }
+}

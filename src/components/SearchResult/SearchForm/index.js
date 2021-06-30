@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './search-form.css';
+import './search-form.scss';
 import {BiX} from 'react-icons/bi';
 class SearchForm extends Component {
     constructor(props){
@@ -62,15 +62,14 @@ class SearchForm extends Component {
     render() {
         return (
             <div id="search_form">
+                <span className="flex-item full-flex">
                     <label htmlFor="name">Name</label>
-                    <br></br>
                     <span className="input container">
                     <input type="text" id="name" name="name" value={this.state.name} onChange={this.onChangeName}></input>
-
                     </span>
-                    <br></br>
-                    <label htmlFor="maxPrice">Max Price</label>
-                    <br></br>
+                </span>
+                <span className="flex-item half-flex">
+                <label htmlFor="maxPrice">Max Price</label>
                     <span className="input container">
                     {!this.state.validPrice && <span className="not-valid-price" >Price must be 0 or greater than the minimum price</span>}
                     <input className={this.state.validPrice? "" : "not-valid"}  type="number" id="max_price" name="maxPrice" value={this.state.maxPrice} onChange={this.onChangeMaxPrice} onKeyUp={this.checkPriceRange}></input>
@@ -78,17 +77,19 @@ class SearchForm extends Component {
                         <BiX></BiX>
                     }
                     </span>
-                    <br></br>
+                </span>
+                <span className="flex-item half-flex">
                     <label htmlFor="minPrice">Min Price</label>
-                    <br></br>
                     <span className="input container">
-                    <input type="number" id="min_price" name="minPrice" value={this.state.minPrice} onChange={this.onChangeMinPrice} onKeyUp={this.checkPriceRange}></input>
+                        <input type="number" id="min_price" name="minPrice" value={this.state.minPrice} onChange={this.onChangeMinPrice} onKeyUp={this.checkPriceRange}></input>
                     </span>
-                    <br></br>
-                    <label htmlFor="inStock">In stock?</label>
+    
+                </span>
+                <span className="flex-item full-flex">
+                    <label className="instock-label" htmlFor="inStock">In stock?</label>
                     <input type="checkbox" value={this.state.avail} onChange={this.handleInStockCheck}></input>
-                    <br></br>
-                    <button onClick={ (e) => {e.preventDefault(); this.props.onSubmitSearch(this.state.name, this.state.minPrice, this.state.maxPrice, this.state.avail)}} 
+                </span>   
+                <button onClick={ (e) => {e.preventDefault(); this.props.onSubmitSearch(this.state.name, this.state.minPrice, this.state.maxPrice, this.state.avail)}} 
                     disabled={!this.state.validPrice}>Search</button>
                     {/*to add function reference instead of calling the function directly, 
                     otherwise the setState will be called infinitely within the render methods which might cause loop and max exceed error*/}

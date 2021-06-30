@@ -3,7 +3,6 @@ import Navigator from '../Navigator';
 import Home from '../Home';
 import NavBar from '../NavBar';
 import SearchBar from '../SearchBar';
-import Logo from '../Logo';
 import { Route, Switch, useLocation, useHistory, Link} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
 import SearchResult from '../SearchResult';
@@ -13,7 +12,7 @@ import KartDetail from '../KartDetail';
 import CheckOut from '../CheckOut';
 import PlaceOrder from '../PlaceOrder';
 import ThankYou from "../ThankYou";
-import Firebase, { FirebaseContext } from './../Firebase/';
+import Firebase from './../Firebase/';
 import Shortcut from '../Account/Shortcut';
 import Orders from '../Account/Orders';
 import Account from '../Account';
@@ -28,7 +27,6 @@ import ProtectedRoute from '../Plugins/ProtectedRoute';
 import Help from '../CustomerService/Help';
 import Footer from '../Footer';
 import ContactUs from '../ContactUs';
-import { data } from 'jquery';
 /*const PageComponents = {
     Home: Home,
     Order: Order,
