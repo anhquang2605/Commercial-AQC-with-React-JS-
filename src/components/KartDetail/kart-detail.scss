@@ -66,12 +66,18 @@
         }
     }
     .empty-kart-detail{
-        display: block;
+        display: flex;
         width: 100%;
+        align-items: center;
+        justify-content: center;
+        border: 1px dashed purple;
         text-align: center;
-        font: {
-            size: 2em;
-            weight: bold;
-        }
+        width: 70%;
+        height: 400px;
+        margin: auto;
+        border-width: 5px;
+        border-radius: 10px;
+        font-size: 1.5em;
+        color: purple;
     }
 }

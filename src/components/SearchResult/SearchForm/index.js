@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './search-form.scss';
 import {BiX} from 'react-icons/bi';
+import {IoOptions} from 'react-icons/io5';
 class SearchForm extends Component {
     constructor(props){
         super(props);
@@ -62,6 +63,7 @@ class SearchForm extends Component {
     render() {
         return (
             <div id="search_form">
+                <h4><IoOptions></IoOptions>Filter</h4>
                 <span className="flex-item full-flex">
                     <label htmlFor="name">Name</label>
                     <span className="input container">

@@ -1,6 +1,7 @@
 import {React, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import ORDERS from '../../model/Orders';
+import {ReactComponent as SadBag} from './sadbag.svg';
 import './kart-detail.scss';
 const KartDetail = (props) => {
     const [list,setList] = useState(props.list);
@@ -44,7 +45,9 @@ const KartDetail = (props) => {
                         </tr>)
                     })}
                 </table>
-            ) : <span className="empty-kart-detail">No item</span>}
+            ) : <div className="empty-kart-detail">
+                <SadBag></SadBag>
+                Your bag is so empty</div>}
             {list.length > 0 && <Link className="check-out-btn btn" to="/checkout">Check out</Link>}
         </div>
     );
