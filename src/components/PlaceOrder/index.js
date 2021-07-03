@@ -1,8 +1,10 @@
-import React, { Fragment } from "react";
-import CardModal from "../Plugins/CardModal";
-import HozBox from "../Plugins/HozBox";
+import React from "react";
 import {Link} from 'react-router-dom';
 import "./place-order.scss";
+import YourOrder from './YourOrder';
+import YourPayment from "./YourPayment";
+import YourShipping from "./YourShipping";
+import YourTotal from "./YourTotal";
 class PlaceOrder extends React.Component {
     constructor(props){
         super(props);
@@ -16,41 +18,17 @@ class PlaceOrder extends React.Component {
     render() {
         return(
             <div id="place_order">
-                <CardModal name="your order">
-                    <div>
-                        {this.state.orders.length > 0 && this.state.orders.map((order)=>{
-                            const extraContent = (
-                                <Fragment>
-                                    <span className="order-quantity">Quantity: {order.quantity}</span>
-                                    <span className="order-total-price">$ {order.price * order.quantity}</span>
-                                </Fragment>
-                            );
-                            return (<HozBox key={order.id + order.type} title={order.type + " " + order.name} imgSrc={order.id + "-" + order.type + ".jpg"} extraContent={extraContent}></HozBox>)
-                        })}
-                    </div>
-                </CardModal>
-                <CardModal name="your payment">
-                    <div className="payment-sum">
-                        <span>{this.state.card.owner}</span>
-                        <span>{this.state.card["card number"]}</span>
-                    </div>
-                </CardModal>
-                <CardModal name="shipping address">
-                        <span>{this.state.shipping.name}</span>
-                        <div>
-                             {this.state.shipping.address} 
-                             {this.state.shipping.city}, 
-                             {this.state.shipping.resiState},
-                             {this.state.shipping.zip}
-                        </div>
-                </CardModal>
-                <CardModal name="your total">
-                        <span className="total">
-                            {this.state.total}
-                        </span>
-                </CardModal>
-                <Link to="/checkout">Back</Link>
+            <h4 className="flex-full">Confirm your Order</h4>
+                <div className="left-panel">
+                <YourOrder orders={this.state.orders}></YourOrder>
+                </div>
+                <div className="right-panel">
+                    <YourPayment card={this.state.card}></YourPayment>
+                    <YourShipping shipping={this.state.shipping}></YourShipping>
+                    <YourTotal total={this.state.total}></YourTotal>
+                    <Link to="/checkout">Back</Link>
                 <Link to="/thank-you">Confirm and Place orders</Link>
+                </div>
             </div>
         )
     }

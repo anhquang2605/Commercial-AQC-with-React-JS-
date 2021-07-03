@@ -1,11 +1,12 @@
 import {React, useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import ORDERS from '../../model/Orders';
-import {ReactComponent as SadBag} from './sadbag.svg';
+import SadBag from './SadBag';
 import './kart-detail.scss';
 const KartDetail = (props) => {
     const [list,setList] = useState(props.list);
     const [,setState] = useState();
+    const history = useHistory();
     let handleQuantityChange = (e, index) => {
         let val = parseInt(e.target.value);
         props.changeQuantity(index, val);
@@ -47,7 +48,11 @@ const KartDetail = (props) => {
                 </table>
             ) : <div className="empty-kart-detail">
                 <SadBag></SadBag>
-                Your bag is so empty</div>}
+                What an empty bag
+                <button className="continue-shopping-btn" onClick={(e)=>{
+                    history.push("");
+                }}>Continue Shopping</button>
+                </div>}
             {list.length > 0 && <Link className="check-out-btn btn" to="/checkout">Check out</Link>}
         </div>
     );

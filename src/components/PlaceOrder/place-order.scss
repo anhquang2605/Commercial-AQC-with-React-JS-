@@ -1,4 +1,81 @@
 #place_order{
-    width: 100%;
-    float: left;
+    display: flex;
+    padding: 20px 10%;
+    flex-wrap: wrap;
+    text-transform: capitalize;
+    flex-direction: row;
+    justify-content:space-between;
+    box-sizing: border-box;
+   .left-panel{
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: lightgrey 0 0 14px 0px;
+    margin-right: 20px;
+    border-radius: 5px;
+    width: 55%;
+   }
+    .right-panel{
+        display: flex;
+        flex-wrap: wrap;
+        width: 40%;
+    }
+    h5{
+        font-size: 1.2em;
+        font-weight: 500;
+        color: purple;
+        margin-top: 0;
+    }
+    .main-box{
+        box-sizing: border-box;
+    }
+    .sub-box{
+        padding: 20px;
+        background: lightyellow;
+        box-sizing: border-box;
+        border-bottom: 1px solid purple;
+        height: 120px;
+        &:last-child{
+            border-bottom: none;
+        }
+    }
+    .flex-full{
+        width: 100%;
+    }
+    .flex-half{
+        width: 50%;
+    }
+    .flex-third{
+        width: 33%;
+    }
+    .flex-fourth{
+        width: 25%;
+    }
+    .flex-quarter{
+        width: 75%;
+    }
+    .flex-6th{
+        width: 60%;
+    }
+    .flex-4th{
+        width: 40%;
+    }
+    a{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        padding: 10px;
+        width: 50%;
+        box-sizing:border-box;
+        text-align: center;
+        background: purple;
+        color: white;
+        border-right: 1px solid white;
+        transition: all .3s;
+        font-size: 1.2em;
+        &:hover{
+            background: khaki;
+            color: purple;
+        }
+    }
 }

@@ -1,0 +1,26 @@
+.your-order{
+    .hoz-order-box{
+        display:flex;
+        .box-content{
+            padding: 10px;
+        }
+        img{
+            width: 150px;
+        }
+        .order-total-price{
+            clear:both;
+             display: block;
+             color: purple;
+             font-weight: bold;
+        }
+        .order-name{
+            width: auto;
+            color: purple;
+            font-weight: 500;
+            font-size: 1.2em;
+        }
+        .order-quantity{
+        
+        }
+    }
+}

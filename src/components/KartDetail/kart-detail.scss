@@ -1,3 +1,5 @@
+$svg-fill: purple ;
+$svg-stroke: purple;
 #kart_detail{
     padding: 10px 10%;
     table{
@@ -70,14 +72,34 @@
         width: 100%;
         align-items: center;
         justify-content: center;
-        border: 1px dashed purple;
+        border: 2px dashed purple;
         text-align: center;
         width: 70%;
         height: 400px;
         margin: auto;
-        border-width: 5px;
         border-radius: 10px;
         font-size: 1.5em;
-        color: purple;
+        color: gray;
+        flex-direction: column;
+        svg{
+            width: 80px;
+            height: 80px;
+            fill: $svg-fill;
+            path, rect, ellipse{
+                stroke: $svg-stroke;
+            }
+        }
+        .continue-shopping-btn{
+            margin-top: 20px;
+            background: khaki;
+            padding: 5px;
+            font-size: 1em;
+            width: 250px;
+            border-radius: 3px;
+            &:hover{
+                background: purple;
+                color: white;
+            }
+        }
     }
 }
