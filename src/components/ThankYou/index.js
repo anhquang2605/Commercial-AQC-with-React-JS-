@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import {GiPartyPopper} from 'react-icons/gi';
 import "./thank-you.scss";
 class ThankYou extends Component {
     constructor(props){
@@ -33,13 +34,13 @@ class ThankYou extends Component {
     }
     render() {
         return (
-            <div>
-                Thank You 
+            <div className="thank_you">
+                <div className="thank_you_headline"><GiPartyPopper></GiPartyPopper><span>Thank You</span><GiPartyPopper></GiPartyPopper></div> 
                 <div>
-                    Here is your tracking number: 
+                    Here is the tracking number for your Orders: 
                     <span className="tracking-number">{this.state.randomizedOrderTracking}</span>
-                    <Link to="/">Continue Shopping</Link>
                 </div>
+                <Link className="continue-shop" to="/">Continue Shopping</Link>
             </div>
         );
     }

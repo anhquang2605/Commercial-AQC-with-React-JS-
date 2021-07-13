@@ -1,6 +1,11 @@
 .your-order{
     .hoz-order-box{
         display:flex;
+        border: 1px solid  lightgray;
+        border-radius: 5px;
+        width: 95%;
+        margin: auto;
+        margin-bottom: 10px;
         .box-content{
             padding: 10px;
         }

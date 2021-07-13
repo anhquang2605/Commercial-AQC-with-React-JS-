@@ -1,0 +1,64 @@
+.thank_you{
+    font-size: 1.2em;
+    display:flex;
+    justify-content: center;
+    padding: 50px 10%;
+    flex-direction: column;
+    .thank_you_headline{
+        font-family: Merriweather;
+        font-size: 6em;
+        color: purple;
+        text-align: center;;
+        margin-bottom: 10px;
+        svg {
+            color: purple;
+        }
+        svg:first-child{
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+        }
+   /*  font-family: Summer-Yesterday;
+    font-size: 10em;
+    text-align: center;
+    margin-top: 50px;
+        span{
+            padding-top: 50px;
+            padding-bottom: 20px;
+            border-radius: 5px;
+        }
+        span:first-child{
+            padding-left: 50px;
+            color: khaki;
+            background: purple;
+        }
+        span:last-child{
+            padding-right: 50px;
+            color: purple;
+            background: khaki;
+        }
+    } */
+    }
+    div{
+        text-align: center;;
+    }
+    span.tracking-number{
+        background: khaki;
+        padding: 5px;
+
+    }
+    .continue-shop{
+        text-decoration: none;
+        display: block;
+        margin: auto;
+        padding: 10px 50px;
+        border: 2px solid purple;
+        margin-top: 30px;
+        text-transform: uppercase;
+        transition: all 0.3s;
+        &:hover{
+            background: purple;
+            color: white;
+        }
+    }
+}
+    

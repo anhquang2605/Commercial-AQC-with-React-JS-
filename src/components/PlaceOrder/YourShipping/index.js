@@ -6,9 +6,9 @@ const YourShipping = (props) => {
             <h5>Shipping Info</h5>
             <span>{props.shipping.name}</span>
             <div>
-                    {props.shipping.address} 
-                    {props.shipping.city}, 
-                    {props.shipping.resiState},
+                    {props.shipping.address +" "} 
+                    {props.shipping.city +" "}, 
+                    {props.shipping.resiState +" "},
                     {props.shipping.zip}
             </div>
         </div>

@@ -5,7 +5,7 @@ const YourTotal = (props) => {
         <div className="your-total sub-box flex-full">
             <h5>Your total</h5>
             <span className="total">
-                {props.total}
+                $ {props.total}
             </span>
         </div>
     );
