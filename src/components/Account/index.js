@@ -1,54 +1,45 @@
 import React ,{useEffect, useState, useRef} from 'react';
-import Modal from './../Plugins/Modal';
 import './account.scss';
-import LinkCards from './Plugins/LinkCards';
+import Firebase from './../Firebase';
+
+import DisplayPanel from './DisplayPanel';
+import OptionPanel from './OptionPanel';
 const Account = (props) => {
-    const changePassRefModal = useRef(null);
-    const otherInfo = [{name: "Your Cards", path: "account/cards"},{name: "Gift Cards You Owned", path: "account/gcards"},{name: "Your Orders", path: "account/orders"}]
+    const db = Firebase.firestore();
+    const [optionItems, setOptionItems] = useState();
+    const [currentOption, setCurrentOption] = useState();
+    let getOptionItems = () =>{
+        db.collection("account-side-panel").get().then((response)=>{
+            let daList = [];
+            response.forEach((doc)=>{
+                daList.push(doc.data());
+            });
+            setOptionItems(daList);
+            setCurrentOption(daList[0].name);
+        })
+    }
+    let setCurrentOptionForAccount = (option) =>{
+        setCurrentOption(option);
+    }
+    useEffect(() => {
+        getOptionItems();
+        if(optionItems && currentOption === undefined){
+            setCurrentOption(optionItems[0].name);
+        }
+    }, []);
+/*     useEffect(() => {
+        if(retrievedItemFromFirestore.length !== 0){
+            setOptionItems(retrievedItemFromFirestore);
+        }
+    }, [retrievedItemFromFirestore]); */
     return (
-        <div>
+        <div className="account">
             <h4>Account Information</h4>
-            <div className="account information">
-               { props.account && <table>
-                    <tbody>
-                        <tr>
-                            <td className="title-col">User Name</td>
-                            <td className="content-col">{props.account.username}</td>
-                        </tr>
-                        <tr>
-                            <td className="title-col">Email</td>
-                            <td className="content-col">{props.account.email}</td>
-                        </tr>
-                        <tr>
-                            <td className="title-col">Phone</td>
-                            <td className="content-col">{props.account.phone}</td>
-                        </tr>
-                        <tr>
-                            <td className="title-col">Nick Name</td>
-                            <td className="content-col">{props.account.nickname}</td>
-                        </tr>
-                    </tbody>
-                </table>}
-                <button onClick={()=>{changePassRefModal.current.showModal()}}>Change Password</button>
-                <Modal hasTitle={true} ref={changePassRefModal} name="change-password">
-                <   div className="form-in-modal">
-                        <span className="form-row-control">
-                            <legend>New Password</legend>
-                            <input type="password" value=""></input>
-                        </span>
-                        <span className="form-row-control">
-                            <legend>Re enter new password </legend>
-                            <input type="password" value=""></input>
-                        </span>
-                        <div className="add-card-btn half">Confirm Change Password</div>
-                    </div>
-                   
-                </Modal>
-                <div className="other-information-access">
-                    {otherInfo && <LinkCards list={otherInfo}>
-                    </LinkCards>}
-                </div>
-            </div>
+           {optionItems ? <OptionPanel setCurrent={setCurrentOptionForAccount} list={optionItems} current={currentOption}></OptionPanel> : ""}
+            {currentOption && <DisplayPanel account = {props.account} current={currentOption}>
+
+            </DisplayPanel>}
+           
         </div>
     );
 }

@@ -172,7 +172,7 @@ const Payment = (props) => {
                                 );
                                 
                             })}
-                             </div> : <div className="no-chosen-gcard">No gift card chosen, you owned<b>{" " + dagiftCards.length}</b>gift cards </div>}
+                             </div> : <div className="no-chosen-gcard">No gift card chosen, you owned<b>{" " + userGcards.length}</b>gift cards </div>}
                              <button  className="change-card" onClick={handleChange}>Change</button>
                     </div>
                    <div id="change-card-field" className="display-none">{/*initially hidden, appear when click change button in #chosen-card*/}
@@ -210,7 +210,6 @@ const Payment = (props) => {
                                     <tr>
                                         <th></th>
                                         <th>Card Name</th>
-                                        <th>Name of Card</th>
                                         <th>Amount</th>
                                     </tr>
                                 </thead>
@@ -220,7 +219,6 @@ const Payment = (props) => {
                                             <tr key={card.id}>
                                                 <td className="checkbox-value"><input onChange={(e)=>{handleChangeGcard(card.id,e)}} checked={dagiftCards.findIndex(dacard => dacard.id === card.id) !== -1}   type="checkbox" name={"giftcard" + (parseInt(card.id) + 1)} value={card.id}></input></td>
                                                 <td className="card-name">{card.name}  </td>
-                                                <td className="card-owner">{card.nameOnCard}</td>
                                                 <td className="card-dis">{card.type === "debit" ? "$ " + card.amount : card.amount + " %"}</td>
                                             </tr>
                                         );

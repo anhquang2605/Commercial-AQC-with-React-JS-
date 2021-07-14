@@ -44,7 +44,8 @@ import ContactUs from '../ContactUs';
 }
 );*/
 const App = (props) =>  {
-        const [user, setUser] = useState("");
+        //const [user, setUser] = useState("");
+        const [user, setUser] = useState("anhquang2605");//set account here to test
         const [pageName, setPageName] = useState('');
         const [,setState] = useState();
         const location = useLocation();
@@ -55,6 +56,7 @@ const App = (props) =>  {
         const [curTotal, setCurTotal] = useState(0);
         const [account, setAccount] = useState(null);
         const history = useHistory();
+            //for testing purpose
         //the date
         let d = new Date();
         //const firebasecontext =  useContext(FirebaseContext);

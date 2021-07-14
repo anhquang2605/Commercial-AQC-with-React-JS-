@@ -9,14 +9,14 @@ import './../AwesomeForm/awesome-form.scss';
 import GIFTCARDS from '../../model/GiftCards';
 const db = firebase.firestore();
 const CheckOut = React.forwardRef((props, ref) => {
-    let [dis, setDis] = useState(0);
-    let [debitDis, setDebitDis] = useState(0);
-    let [card, setCard] = useState(props.curCard);
-    let [gcards, setGcards] = useState(props.curGCards);
-    let [shipping, setShipping] = useState(props.curShipping);
-    let [total, setTotal] = useState();
-    let [cards, setCards] = useState();
-    let [noOfCards, setNoOfCard] = useState(0);
+    const [dis, setDis] = useState(0);
+    const [debitDis, setDebitDis] = useState(0);
+    const [card, setCard] = useState(props.curCard);
+    const [gcards, setGcards] = useState(props.curGCards);
+    const [shipping, setShipping] = useState(props.curShipping);
+    const [total, setTotal] = useState();
+    const [cards, setCards] = useState();
+    const [noOfCards, setNoOfCard] = useState(0);
     let getDis = (percentage = 0) => {
         setDis(percentage)
     }  
@@ -88,24 +88,19 @@ const CheckOut = React.forwardRef((props, ref) => {
             if(props.account !== undefined && props.account !== null){
                 setCards(props.account.cards);
                 setNoOfCard(props.account.cards.length);
-                setCard(props.account.cards[card.id])
             }else {
                 fetchCardsData(card.id);
             }     
        }
-        
     }, []);
     useEffect(()=>{
         props.setCardForApp(card);
     }, [card])
-    useImperativeHandle(ref, ()=>({
-       
-    }))
     return (
         <div id="check_out">
             <div className="left-container">
                 <ShippingInfo curShipping={shipping} setShippingForApp={props.setShippingForApp}></ShippingInfo>
-                {(card && cards) ? <Payment user={props.account ? props.account.username : ""}  addCardToDb={addCardToDb} setMyCard={setMyCard} card={card} cards={cards} gcards={props.account ? props.account.gcards : GIFTCARDS} currentGCards={props.curGCards} setGCardForApp={props.setGCardForApp} getDis={getDis} getDebitDis={getDebitDis}></Payment>: <div>No payments available for this account please add via "Payments" in account information</div>}
+                {(cards && card) ? <Payment user={props.account ? props.account.username : ""}  addCardToDb={addCardToDb} setMyCard={setMyCard} card={card} cards={cards} gcards={props.account ? props.account.gcards : GIFTCARDS} currentGCards={props.curGCards} setGCardForApp={props.setGCardForApp} getDis={getDis} getDebitDis={getDebitDis}></Payment>: <div>No payments available for this account please add via "Payments" in account information</div>}
                 <ItemsSummary list={props.list}></ItemsSummary> 
             </div>
             <div className="right-container">

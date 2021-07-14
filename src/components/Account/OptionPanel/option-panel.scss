@@ -1,0 +1,34 @@
+.option-panel{
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    justify-content: stretch;
+    border-radius: 5px 5px 0 0;
+    border: 1px solid purple;
+    border-bottom: none;
+    overflow: hidden; //For border radius to be applied on the li and a
+    li{
+        display: block;
+        margin: 0;
+        flex-grow: 1;
+        a{
+            padding: 10px 20px;
+            background: lightyellow;
+            text-decoration: none;
+            display: block;
+            text-transform: uppercase;
+            text-align: center;
+            border-left: 1px solid purple;
+            font-weight: 500;
+            transition: all 0.2s;
+            &.currentOp{
+                background: purple;
+                color: white;
+            }
+        }
+        &:first-child a{
+            border-left: none;
+        }
+    }
+}

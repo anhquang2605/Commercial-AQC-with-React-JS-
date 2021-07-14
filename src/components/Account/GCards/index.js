@@ -6,7 +6,7 @@ import './gcards.scss';
 
 const GCards = (props) => {
     //List of random state to generate when add a new card, as if the information is retrieved from the bank the card from
-    const randomTypes = ["visa","master"];
+    const randomTypes = ["debit","discount"];
     const INITIALCARDFORM = {//empty object used to initialize form for adding card
         name: "Newly added gcard",
         "exp month": 0,

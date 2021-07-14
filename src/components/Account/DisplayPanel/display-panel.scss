@@ -1,0 +1,25 @@
+.display-panel{
+    .panel{
+        display: none;
+        border: 1px solid  purple;
+        padding: 20px;
+        border-radius: 0 0 5px 5px;
+        
+    }   
+    .panel.current{
+        display: flex;
+    }
+    #information{
+        flex-direction: column;
+        table{
+            border-collapse: collapse;
+            .title-col{
+                color: purple;
+                font-weight: 500;
+            }
+            td{
+                padding: 10px 0;
+            }
+        }
+    }
+}
