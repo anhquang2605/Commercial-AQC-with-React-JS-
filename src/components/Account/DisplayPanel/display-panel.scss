@@ -1,25 +1,113 @@
+$width-large-editable-field: 320px;
+$width-meidum-editable-field: 220px;
 .display-panel{
     .panel{
         display: none;
         border: 1px solid  purple;
-        padding: 20px;
+        padding: 20px 10%;
         border-radius: 0 0 5px 5px;
-        
+        .panel-title{
+            color: purple;
+            text-transform: capitalize;
+            font-size: 1.5em;
+            margin: 0;
+            margin-bottom: 0.8em;
+            font-weight: 500;
+        }
     }   
+    .sub-section{
+        margin-bottom: 20px;
+    }
     .panel.current{
         display: flex;
     }
+    & *{
+        box-sizing: border-box;
+    }
     #information{
-        flex-direction: column;
-        table{
-            border-collapse: collapse;
-            .title-col{
-                color: purple;
-                font-weight: 500;
+        //flex-direction: column;   
+        flex-wrap: wrap;
+        .operation-btn{
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            svg{
+                margin-right: 5px;
             }
-            td{
-                padding: 10px 0;
+        }
+        
+        .information-container{
+            width:50%;
+            display: flex;
+            flex-wrap: wrap;
+            .field-panel{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                >div:first-child{
+                    width: 150px;
+                    padding: 15px;
+                    color: purple;
+                }
+                margin-bottom: 5px;
             }
+            .content-col{
+                padding: 15px;
+                display: flex;
+                align-items: center;
+                position: relative;
+    
+                &.editable{
+                    padding: 0;
+                }
+                input{
+                    padding: 15px;
+                    min-width: $width-large-editable-field;
+                    font-family: 'Montserrat', sans-serif;
+                    display: block;
+                    margin-right: 5px;
+                    border: 1px solid lightgray;
+                    &:focus{
+                        outline: none;
+                        box-shadow: purple 0 0 2px 2px;
+                        margin: 1px 5px 1px 1px; 
+                        border: none;
+                    }
+                }
+                .edit-hover{
+                    padding: 15px;
+                    transition:  all 0.3s;
+                    cursor: pointer;
+                    border: 1px solid lightgray;
+                    background: lightyellow;
+                    border-radius: 5px;
+                    min-width: $width-large-editable-field;
+                }
+                .edit-hover:hover{
+                    &:after{
+                        content: " \e3c9";
+                        font-family: "Material Icons";
+                        color: purple;
+                        font-size: 1.4em;
+                        box-sizing: border-box;
+                        margin:0;
+                        padding:0;
+                        position: absolute;
+                        right: 15px;
+                    }
+                    background: lightgoldenrodyellow;
+                }
+            }
+        }
+          //shipping sub section
+        .shipping{
+            .btn-group{
+                display: flex;
+
+            }
+        }
+        .password{
+            flex-wrap: wrap;
         }
     }
 }

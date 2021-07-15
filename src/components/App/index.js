@@ -45,7 +45,7 @@ import ContactUs from '../ContactUs';
 );*/
 const App = (props) =>  {
         //const [user, setUser] = useState("");
-        const [user, setUser] = useState("anhquang2605");//set account here to test
+        const [user, setUser] = useState("hellosunshine");//set account here to test
         const [pageName, setPageName] = useState('');
         const [,setState] = useState();
         const location = useLocation();
@@ -293,7 +293,7 @@ const App = (props) =>  {
                         )}></Route>
                     {/* Account Routes  */}
                     <ProtectedRoute exact path = {ROUTES.ACCOUNT} account={account} component={
-                        <Account {...props} account={account}>
+                        <Account {...props} refetchAccount={reFetchAccount} account={account}>
 
                         </Account>
                     }>

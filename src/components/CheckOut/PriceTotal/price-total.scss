@@ -36,6 +36,13 @@
         padding: 10px;
         background: khaki;
         font-weight: medium;
+        &.disabled{
+            color: gray;
+            &:hover{
+                cursor: no-drop;
+            }
+            pointer-events: none;
+        }
     }
     &.sticky{
         position: fixed;

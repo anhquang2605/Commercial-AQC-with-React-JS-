@@ -76,7 +76,7 @@ const PriceTotal = (props) => {
                 <span className="item-label final">Total:</span>
                 <span className="item-value">$ {getSubTotal()}</span>    
             </span>
-            <Link to="/place-order" className="order-place-btn btn">Place Orders</Link>
+            <Link to="/place-order" className={"order-place-btn btn" + (props.card !== undefined ? "" : " disabled")}>Place Orders</Link>
         </div>
     );
 }

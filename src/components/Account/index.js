@@ -36,7 +36,7 @@ const Account = (props) => {
         <div className="account">
             <h4>Account Information</h4>
            {optionItems ? <OptionPanel setCurrent={setCurrentOptionForAccount} list={optionItems} current={currentOption}></OptionPanel> : ""}
-            {currentOption && <DisplayPanel account = {props.account} current={currentOption}>
+            {currentOption && <DisplayPanel reFetch={props.refetchAccount} account = {props.account} current={currentOption}>
 
             </DisplayPanel>}
            

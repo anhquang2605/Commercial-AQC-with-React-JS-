@@ -1,13 +1,15 @@
-import React, {useEffect, useState  , useRef} from 'react';
-import {IoClose, IoMdCheckmark} from 'react-icons/io5';
+import React, {useEffect, useState  , useRef, Fragment} from 'react';
+import Firebase from "./../../Firebase";
+import {FaExchangeAlt} from 'react-icons/fa';
 import LinkCards from './../Plugins/LinkCards';
 import Modal from './../../Plugins/Modal';
 import './display-panel.scss';
 const DisplayPanel = (props) => {
     const changePassRefModal = useRef(null);
     const otherInfo = [{name: "Your Cards", path: "account/cards"},{name: "Gift Cards You Owned", path: "account/gcards"},{name: "Your Orders", path: "account/orders"}]
-    const [address, setAddress] = useState({});
-    const [retrievedItemFromFirestore, setRetrievedItemFromFirestore] = useState([]);
+    const [curAddress, setCurAddress] = useState({});
+    const db = Firebase.firestore();
+    const account = db.collection("accounts").doc(props.account.username);
     let setCurrentPanel = () =>{
         let currentOtion = props.current;
         let thePanels = document.getElementsByClassName("panel");
@@ -17,41 +19,73 @@ const DisplayPanel = (props) => {
         let thePanel = document.getElementById(currentOtion);
         thePanel.classList.add("current");
     }
-    useEffect(() => {
-        let cols = document.getElementsByClassName("content-col");
-        for( var i = 0; i < cols.length; i+=1){
-            let col = cols[i];
-            col.addEventListener("click", (e) =>{
-                e.stopPropagation();
-                var text = col.innerHTML;
+    let setFieldOfAccountOnFireStore = (field, data) =>{
+        var obj = {};
+        obj[field] =  data;
+        account.update(obj);
+        props.reFetch();
+    };
+    let handleEditableSwapOfField = (e,col) =>{
+            e.stopPropagation();
+            var parent = col.parentNode;
+            col.hidden = true;
+            var dataField = parent.dataset.field;
+            if(dataField !== "username" && dataField !== "shippings"){
+                var text = col.textContent;
                 var inputElement = document.createElement("input");
                 var buttonConfirmed = document.createElement("button");
                 var buttonCancel = document.createElement("button");
+                //Setting the content the input and other buttons on the fly
                 inputElement.type = "text";
                 inputElement.className = "editable-field";
                 inputElement.value = text;
-
-                col.textContent  = '';
                 buttonCancel.textContent = "Cancel"
-                buttonCancel.addEventListener("click", (e)=>{
-                    e.preventPropagation();
-                    col.textContent = "";
-                    console.log("here");
-                    col.innerHTML = text;    
-                });
                 buttonConfirmed.textContent = "Confirmed";
-                buttonConfirmed.addEventListener("click", (e)=>{
-                    e.preventPropagation();
-                    var inputString = inputElement.value;
-                    col.innerHTML = inputString;    
+                //Add events listeners to the buttons
+                buttonCancel.addEventListener("click", (e)=>{
+                    e.stopPropagation();
+                    parent.innerHTML = "";
+                    col.hidden = false;
+                    parent.append(col);
                 });
-                col.appendChild(inputElement);
-                col.appendChild(buttonConfirmed);
-                col.appendChild(buttonCancel);
-            });
+               buttonConfirmed.addEventListener("click", (e)=>{
+                    e.stopPropagation();
+                    parent.innerHTML = "";
+                    var inputString = inputElement.value;
+                    col.hidden= false;
+                    parent.append(col);
+                    setFieldOfAccountOnFireStore(dataField, inputString);
+                    //col.innerHTML = inputString;    
+                });
+                //Add the components to the target
+                parent.appendChild(inputElement);
+                inputElement.focus();
+                parent.appendChild(buttonConfirmed);
+                parent.appendChild(buttonCancel);
+            }  
+    }
+    let handleSetcurrentAddress = () => {
+        if(props.account.shippings!==undefined && props.account.shippings.length > 0) {
+            let shippings = props.account.shippings;
+            for(let shipping of shippings){
+                if(shipping.current === true){
+                    console.log("Here");
+                    setCurAddress(shipping);
+                    return;
+                }
+            }
         }
-
-        setAddress(props.account.shippings[0]);
+    }
+    useEffect(() => {
+        //Add click event to editable component of personal information section
+        let cols = document.getElementsByClassName("edit-hover");
+        for( var i = 0; i < cols.length; i+=1){
+            let col = cols[i];
+            col.addEventListener("click", (e) => {handleEditableSwapOfField(e,col)});
+        }
+        //handle address for shipping information
+        handleSetcurrentAddress();
+        //setAddress(props.account.shippings[0]);
     },[]);
     useEffect(() => {
         if(props.current !== undefined){
@@ -59,33 +93,67 @@ const DisplayPanel = (props) => {
         }
     }, [props.current]);
     return (
+
         <div className="display-panel">
              <div className="panel" id="information">
-               { props.account && <table>
-                    <tbody>
-                        <tr>
-                            <td className="title-col">User Name</td>
-                            <td className="content-col">{props.account.username}</td>
-                        </tr>
-                        <tr>
-                            <td className="title-col">Email</td>
-                            <td className="content-col">{props.account.email}</td>
-                        </tr>
-                        <tr>
-                            <td className="title-col">Phone</td>
-                            <td className="content-col">{props.account.phone}</td>
-                        </tr>
-                        <tr>
-                            <td className="title-col">Nick Name</td>
-                            <td className="content-col">{props.account.nickname}</td>
-                        </tr>
-                        <tr>
-                            <td className="title-col">Address</td>
-                            <td className="content-col">{address ? address.address + ", " + address.city +", " + address.resiState + ", " + address.zip : <span>No shipping Address</span>}</td>
-                        </tr>
-                    </tbody>
-                </table>}
-                <button onClick={()=>{changePassRefModal.current.showModal()}}>Change Password</button>
+               { props.account && <div className="information-container sub-section">
+               <h5 className="panel-title">Personal information</h5>
+                        <div className="field-panel">
+                            <div className="title-col">User Name</div>
+                            <div className="content-col" data-field="username">{props.account.username}</div>
+                        </div>
+                        <div className="field-panel">
+                            <div className="title-col">Email</div>
+                            <div className="content-col editable" data-field="email"><div className="edit-hover">{props.account.email}</div></div>
+                        </div>
+                        <div className="field-panel">
+                            <div className="title-col">Phone</div>
+                            <div className="content-col editable" data-field="phone"><div className="edit-hover">{props.account.phone}</div></div>
+                        </div>
+                        <div className="field-panel">
+                            <div className="title-col">Nick Name</div>
+                            <div className="content-col editable" data-field="nickname"><div className="edit-hover">{props.account.nickname}</div></div>
+                        </div>
+                        </div>}
+                <div className="password sub-section information-container">
+                    <h5 className="panel-title">
+                        password
+                    </h5>
+                    <button className="change-password-btn operation-btn" onClick={()=>{changePassRefModal.current.showModal()}}><FaExchangeAlt></FaExchangeAlt>Change Password</button>
+                
+                </div>
+                <div className="shipping sub-section information-container">
+                    <h5 className="panel-title">
+                        shippings
+                    </h5>
+                    {curAddress ?
+                    //if there is current address
+                    <Fragment>
+                          <div className="field-panel">
+                            <div className="title-col">Address</div>
+                            <div className="content-col editable" data-field="address"><div className="edit-hover">{curAddress.address}</div></div>
+                        </div>
+                        <div className="field-panel">
+                            <div className="title-col">City</div>
+                            <div className="content-col editable" data-field="city"><div className="edit-hover">{curAddress.city}</div></div>
+                        </div>
+                        <div className="field-panel">
+                            <div className="title-col">State</div>
+                            <div className="content-col editable" data-field="resiState"><div className="edit-hover">{curAddress.resiState}</div></div>
+                        </div>
+                        <div className="field-panel">
+                            <div className="title-col">Zip</div>
+                            <div className="content-col editable" data-field="zip"><div className="edit-hover">{curAddress.zip}</div></div>
+                        </div>
+                        <div className="btn-group">
+                            <button className="operation-btn set-primary-btn"><span class="material-icons-outlined">grade</span>Set this address as primary</button>
+                            <button className="operation-btn delete-btn"><span class="material-icons-outlined">delete</span> Delete this address</button>
+                            <button className="operation-btn add-btn"> <span className="material-icons-outlined">add_location_alt</span>Add new address</button>
+                        </div>
+                    </Fragment>
+                    //else there is no address yet
+                    : "No shipping address, please add"}
+                </div>
                 <Modal hasTitle={true} ref={changePassRefModal} name="change-password">
                 <   div className="form-in-modal">
                         <span className="form-row-control">
@@ -105,6 +173,7 @@ const DisplayPanel = (props) => {
                     </LinkCards>}
                 </div> */}
             </div>
+
             <div className="panel" id="settings">
                 setting
             </div>
