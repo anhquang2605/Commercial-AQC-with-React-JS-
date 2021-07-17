@@ -37,9 +37,10 @@ $width-meidum-editable-field: 220px;
         }
         
         .information-container{
-            width:50%;
+            max-width:652px;
             display: flex;
             flex-wrap: wrap;
+            align-content: flex-start;
             .field-panel{
                 width: 100%;
                 display: flex;
@@ -103,11 +104,75 @@ $width-meidum-editable-field: 220px;
         .shipping{
             .btn-group{
                 display: flex;
+                button{
+                    span[class*='material']
+                    {
+                        margin-right: 5px;
+                    }
+                }
+                .set-primary-btn{
+                    > span{
+                        display: flex;
+                        align-items: center;
+                    }
+                    span[class*='material']
+                    {
+                        color: gold;
+                    }
+                    &.primary{
+                        pointer-events: none;
+                        background: purple;
+                        color: white;
+                        border: none;
+                        span[class*='material']
+                        {
+                            color: gold;
+                        }
+                    }
+                }
+                .add-btn{
+                    span
+                    {
+                        color: springgreen;
+                    } 
+                }
+                .delete-btn{
+                    span
+                    {
+                        color: tomato;
+                    } 
+                }
+            }
+            .select-list-container{
+                margin-bottom: 10px;
+                .selected{
+                    color: purple;
+                    font-weight: 500;
+                    &.select-clicked{
+                        background: purple;
+                        color: white;
 
+                    }
+                }
+                .list-dropdown{
+                    div:hover{
+                        background: lightyellow;
+                    }
+                }
             }
         }
         .password{
             flex-wrap: wrap;
+            flex-direction: column;
+            .change-password-btn{
+                max-width: 200px;
+                display:flex;
+                justify-content: center;
+                min-width: auto;
+                svg{
+                    color: skyblue;
+                }
+            }
         }
     }
 }

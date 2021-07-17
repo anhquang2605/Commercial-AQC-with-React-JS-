@@ -24,7 +24,8 @@ const Collapsable = React.forwardRef((props,ref) => {
         changeField.classList.add("display-none");
     }
     useImperativeHandle(ref, ()=>({//expose the component methods to its user, must use useRef to refer to it 
-
+        handleChange: handleChange,
+        handleClose: handleClose,
     }));
     return (
         <div className="collapsable">
