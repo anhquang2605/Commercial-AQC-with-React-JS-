@@ -27,7 +27,49 @@ const DisplayPanel = (props) => {
         props.reFetch();
     };
     const updateShippingField = (field, data) =>{
-        
+        let shippings = [...props.account.shippings];
+        let theAddress;
+        for (var item of shippings){
+            if (item.current){
+                theAddress = item;
+            }
+        }
+        ;
+        let length = shippings.length;
+        let itemPosition;
+        for (var i = 0; i < shippings.length; i +=1){
+            if (item.name === shippings[i].name){
+                itemPosition = i;
+                break;
+            }
+        }
+        account.update({
+            shippings: Firebase.firestore.FieldValue.arrayRemove(theAddress)
+        }).then(()=>{
+            theAddress[field] = data;
+            account.update({
+                shippings: Firebase.firestore.FieldValue.arrayUnion(theAddress)
+            }).then(()=>{
+                props.reFetch();
+                handleSetcurrentAddress();
+            })
+        })
+       
+       /*  if(removeAllItemsFromShippingArrayFireStore(shippings, length)=== true){
+            shippings[itemPosition] = item;
+            console.log("removed")
+            addAllItemsBackToShippingArrayFireStore(shippings)
+        } */
+
+    
+    }
+   
+    let addAllItemsBackToShippingArrayFireStore =  (thearray) => {
+        for (let item of thearray){
+            account.update({
+                shippings: Firebase.firestore.FieldValue.arrayUnion(item)
+            });
+        }
     }
     let handleEditableSwapOfField = (e,col) =>{
             e.stopPropagation();
@@ -40,20 +82,14 @@ const DisplayPanel = (props) => {
                 var inputElement = document.createElement("input");
                 var buttonConfirmed = document.createElement("button");
                 var buttonCancel = document.createElement("button");
-                //Setting the content the input and other buttons on the fly
-                inputElement.type = "text";
-                inputElement.className = "editable-field";
-                inputElement.value = text;
-                buttonCancel.textContent = "Cancel"
-                buttonConfirmed.textContent = "Confirmed";
-                //Add events listeners to the buttons
-                buttonCancel.addEventListener("click", (e)=>{
+                let handleCancel = (e, btn)=>{
                     e.stopPropagation();
                     parent.innerHTML = "";
                     col.hidden = false;
                     parent.append(col);
-                });
-               buttonConfirmed.addEventListener("click", (e)=>{
+                    btn.removeEventListener("click", handleCancel)
+                }
+                let handleConfirm = (e, btn)=>{
                     e.stopPropagation();
                     parent.innerHTML = "";
                     var inputString = inputElement.value;
@@ -61,12 +97,24 @@ const DisplayPanel = (props) => {
                     parent.append(col);
                     if(dataObject === "account"){
                         setFieldOfAccountOnFireStore(dataField, inputString);
-                    } else if(dataObject === "shipping"){
-                        updateShippingField(dataField, inputString)
                     }
-                   
+                  btn.removeEventListener("click", handleConfirm);
                     //col.innerHTML = inputString;    
+                }
+                //Setting the content the input and other buttons on the fly
+                inputElement.type = "text";
+                inputElement.className = "editable-field";
+                inputElement.value = text;
+                buttonCancel.textContent = "Cancel"
+                buttonCancel.className = "cancel-edit";
+                buttonConfirmed.textContent = "Confirmed";
+                //Add events listeners to the buttons
+                buttonCancel.addEventListener("click", (event) =>{
+                    handleCancel(event,buttonCancel)
                 });
+               buttonConfirmed.addEventListener("click", (event) => {
+                  handleConfirm(event,buttonConfirmed)
+               });
                 //Add the components to the target
                 parent.appendChild(inputElement);
                 inputElement.focus();
@@ -95,12 +143,14 @@ const DisplayPanel = (props) => {
     //handle when shipping address is change throught the custom select component
     let setOption = (address) =>{
         setCurAddress(address);
+        props.reFetch();
     }
     useEffect(() => {
         //Add click event to editable component of personal information section
         let cols = document.getElementsByClassName("edit-hover");
         for( var i = 0; i < cols.length; i+=1){
             let col = cols[i];
+
             col.addEventListener("click", (e) => {handleEditableSwapOfField(e,col)});
         }
         //handle address for shipping information
@@ -144,19 +194,19 @@ const DisplayPanel = (props) => {
                             { (props.account.shippings.length > 1) && <CustomSelect id="select-shipping" setOption={setOption} label="View different address" desiredField="address" list={props.account.shippings}></CustomSelect>}
                           <div className="field-panel">
                             <div className="title-col">Address</div>
-                            <div className="content-col editable" data-obj="shipping" data-field="address"><div className="edit-hover">{curAddress.address}</div></div>
+                            <div className="content-col" data-obj="shipping" data-field="address">{curAddress.address}</div>
                         </div>
                         <div className="field-panel">
                             <div className="title-col">City</div>
-                            <div className="content-col editable" data-obj="shipping" data-field="city"><div className="edit-hover">{curAddress.city}</div></div>
+                            <div className="content-col" data-obj="shipping" data-field="city">{curAddress.city}</div>
                         </div>
                         <div className="field-panel">
                             <div className="title-col">State</div>
-                            <div className="content-col editable" data-obj="shipping" data-field="resiState"><div className="edit-hover">{curAddress.resiState}</div></div>
+                            <div className="content-col" data-obj="shipping" data-field="resiState">{curAddress.resiState}</div>
                         </div>
                         <div className="field-panel">
                             <div className="title-col">Zip</div>
-                            <div className="content-col editable" data-obj="shipping" data-field="zip"><div className="edit-hover">{curAddress.zip}</div></div>
+                            <div className="content-col" data-obj="shipping" data-field="zip">{curAddress.zip}</div>
                         </div>
                         </Fragment>
                         : "No shipping address, please add"}
