@@ -1,3 +1,4 @@
+$close-button-fill: firebrick;
 .modal-container{
     width: 100%;
     position: fixed;
@@ -24,6 +25,17 @@
         background: white;
         min-height: 35%;
         padding: 20px;
+        &.auto-height{
+            min-height: auto;
+        }
+        h5{
+            text-transform: capitalize;
+            width: auto;
+            padding: 5px;
+            background: purple;
+            color: white;
+            border-radius: 5px;
+        }
     }
     .close-btn-modal{
         border: none;
@@ -31,12 +43,12 @@
         position: absolute;
         right: 0;
         top: 0;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         cursor: pointer;
         top: 10px;
         svg{
-            fill: tomato;
+            fill: $close-button-fill ;
             width: 100%;
             height: 100%;
             transition: fill 0.3s;
@@ -44,7 +56,7 @@
         &:hover{
             background: white;
             svg{
-                
+                fill: lighten($close-button-fill,30) 
             }
         }
     }

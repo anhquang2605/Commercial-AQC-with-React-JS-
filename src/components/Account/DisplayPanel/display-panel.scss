@@ -1,6 +1,47 @@
 $width-large-editable-field: 320px;
 $width-meidum-editable-field: 220px;
 .display-panel{
+    //form style
+    #modal_edit-address, #modal_add-new-address{
+        min-height: auto;
+        .awesome_form{
+            align-items: center;
+            button.submit{
+                margin: 0;
+            }
+        }
+    }
+    #modal_add-new-address{
+        .awesome_form{
+            .aform-field:last-of-type{
+                margin-left: auto;
+                margin-top: auto;
+                label{
+                    font-size: 1.1em;
+                    color: purple;
+                    font-weight: 600;
+                }
+                input[type=checkbox]{
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+            input.errorInput{
+                box-shadow: red 0 0 4px 1px;
+            }
+            button.not-ready{
+                pointer-events: none;
+                color: lightgray;
+            }
+            .error-message{
+                .error-field-item{
+                    text-transform: capitalize;
+                    font-weight: 600;
+                    margin: 0 5px;
+                }
+            }
+        }
+    }
     .panel{
         display: none;
         border: 1px solid  purple;
@@ -135,6 +176,11 @@ $width-meidum-editable-field: 220px;
                     {
                         color: springgreen;
                     } 
+                }
+                .edit-btn{
+                    span{
+                        color: skyblue;
+                    }
                 }
                 .delete-btn{
                     span

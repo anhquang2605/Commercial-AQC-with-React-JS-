@@ -5,10 +5,27 @@ import CustomSelect from './../../Plugins/CustomSelect';
 import LinkCards from './../Plugins/LinkCards';
 import Modal from './../../Plugins/Modal';
 import './display-panel.scss';
+import AwesomeForm from '../../AwesomeForm';
 const DisplayPanel = (props) => {
     const changePassRefModal = useRef(null);
+    const EditShippingRefModal = useRef(null);
+    const AddShippingRefModal = useRef(null);
+    const INITIAL_ADDING_FORM_OBJECT = {
+        address: "",
+        city: "",
+        current: false,
+        resiState: "",
+        zip: ""
+    }
     const otherInfo = [{name: "Your Cards", path: "account/cards"},{name: "Gift Cards You Owned", path: "account/gcards"},{name: "Your Orders", path: "account/orders"}];
+    const [addresses, setAddresses] = useState([]);
     const [curAddress, setCurAddress] = useState({});
+    const [editAddressForm, setEditAddressForm] = useState({});
+    const [beforeEditedAddress, setBeforeEditedAddress] = useState({});
+    const [addAddressForm, setAddAddressForm] = useState({...INITIAL_ADDING_FORM_OBJECT});
+    const [errorFieldsInAddingForm, setErrorFieldsInAddingForm] = useState([]);
+    const [readyToAddAddress, setReadToAddAddress] = useState(false);
+    const [repeatedAddress, setRepeatedAddress] = useState(false);
     const db = Firebase.firestore();
     const account = db.collection("accounts").doc(props.account.username);
     let setCurrentPanel = () =>{
@@ -129,6 +146,9 @@ const DisplayPanel = (props) => {
                 //for primary shipping address, get them first
                 if(shipping.current === true){
                     setCurAddress(shipping);
+                    setEditAddressForm(shipping);
+                    setBeforeEditedAddress(shipping);
+                    props.reFetch();
                     return;
                 }
             }
@@ -140,10 +160,197 @@ const DisplayPanel = (props) => {
     let handleUpdateShipping = (obj) =>{
 
     }
+    //HANDLE EDITING SHIPPING ADDRESS
+    let handleEdittingAddress = (e) =>{
+        setEditAddressForm((prevState)=>({
+            ...prevState,
+            address: e.target.value
+        }));
+    }
+    let handleEdittingCity = (e) =>{
+        setEditAddressForm((prevState)=>({
+            ...prevState,
+            city: e.target.value
+        }));
+    }
+    let handleEdittingState = (e) =>{
+        setEditAddressForm((prevState)=>({
+            ...prevState,
+            resiState: e.target.value
+        }));
+    }
+    let handleEdittingZip = (e) =>{
+        setEditAddressForm((prevState)=>({
+            ...prevState,
+            zip: e.target.value
+        }));
+    }
+    let handleConfirmEdit = (e) =>{
+        if (beforeEditedAddress !== editAddressForm){
+            account.update({
+                shippings: Firebase.firestore.FieldValue.arrayRemove(beforeEditedAddress)
+            }).then(()=>{
+                account.update({
+                    shippings: Firebase.firestore.FieldValue.arrayUnion(editAddressForm)
+                }).then(()=>{
+                    EditShippingRefModal.current.hideModal();
+                    setCurAddress(editAddressForm);
+                    setEditAddressForm(editAddressForm);
+                    setBeforeEditedAddress(editAddressForm);
+                    //props.reFetch();
+                })
+            })
+        } else {
+            EditShippingRefModal.current.hideModal();
+        }  
+    }
+      //HANDLE ADDING SHIPPING ADDRESS
+      let handleAddingAddress = (e) =>{
+        setAddAddressForm((prevState)=>({
+            ...prevState,
+            address: e.target.value
+        }));
+    }
+    let handleAddingCity = (e) =>{
+        setAddAddressForm((prevState)=>({
+            ...prevState,
+            city: e.target.value
+        }));
+    }
+    let handleAddingState = (e) =>{
+        setAddAddressForm((prevState)=>({
+            ...prevState,
+            resiState: e.target.value
+        }));
+    }
+    let handleAddingZip = (e) =>{
+        setAddAddressForm((prevState)=>({
+            ...prevState,
+            zip: e.target.value
+        }));
+    }
+    let handleAddingPrimary = (e) =>{
+        setAddAddressForm((prevState)=>({
+            ...prevState,
+            current: e.target.checked
+        }));
+    }
+    let handleConfirmAdd = (e) =>{
+        let shippingAddresses = props.account.shippings;
+        let primaryChoice = addAddressForm.current;//keep user choice here for the object comparasion later, since the current status can be different 
+        let repeated = false;
+        //but similar address, city, zip and state can be all the same cause same address to slip through validation
+        let addressFields = Object.keys(addAddressForm);
+        for(let address of shippingAddresses){
+          if(address.address === addAddressForm.address){
+              repeated = true;
+              setRepeatedAddress(true);
+          }
+        }
+        addAddressForm.current = primaryChoice;
+
+       let errorList = [];
+       for (let field of addressFields){
+           if(addAddressForm[field] === "") errorList.push(field);
+       }
+       if (errorList.length> 0){
+        setErrorFieldsInAddingForm(errorList);
+        for (let error of errorList){
+            puttingErrorOnInputFieldsInAddingForm(error);
+        }
+        return;
+       }
+       
+        //Validate 
+        if (!repeated){
+            if(addAddressForm.current === true){
+                //reset all primary to false if user want to set new address to primary
+                for(let address of shippingAddresses){
+                    address.current = false;
+                }
+            } 
+            shippingAddresses.push({...addAddressForm});
+            account.update({
+                shippings: shippingAddresses
+            }).then(()=>{
+                setCurrentAddressEveryWhere({...addAddressForm});
+                props.reFetch();
+                setAddAddressForm({...INITIAL_ADDING_FORM_OBJECT});
+                setRepeatedAddress(false);
+                AddShippingRefModal.current.hideModal();
+            })
+        } else {
+            EditShippingRefModal.current.hideModal();
+        }
+       
+    }
+    let puttingErrorOnInputFieldsInAddingForm = (errorField) =>{
+        let theForm = document.getElementById("modal_add-new-address");
+        let theFields = theForm.getElementsByClassName("aform-field");
+        for(let field of theFields){
+            if(field.classList.contains(errorField)){
+                field.getElementsByTagName("input")[0].classList.add("errorInput")
+            }
+            
+        }
+    }
+    let resetErrorInput = () =>{
+        let forms = document.getElementsByClassName("awesome_form");
+        for(let form of forms){
+            let inputs = form.getElementsByTagName("input")
+            for(let input of inputs){
+               input.classList.remove("errorInput");
+            }
+        }
+    }
+    //SET PRIMARY FOR ADDRESSES, find the one that is primary, delete it, find the one to be primary, delete it, 
+    //then add the new primary along with the old primary to the list
+    let setThisAsPrimary = (e) => {
+        let newShippings = [...props.account.shippings];
+        let shippingsFields = Object.keys(curAddress);
+        let newCurAddres = {...curAddress};
+        //look for the primary one, set primary status to false;
+        for (let shipping of newShippings){
+            if(shipping.current === true){
+                shipping.current = false;
+            }
+        }
+        //find the address to be updated
+         for (let shipping of newShippings){
+            let matches = 0;
+            for(let key of shippingsFields){
+                if(shipping[key] === curAddress[key]){
+                    matches += 1;
+                }
+            }
+            if(matches === shippingsFields.length){
+                //matchess, update the list and the item to be used later
+                shipping.current = true;
+                newCurAddres.current = true;
+            }
+        } 
+        account.update({
+            shippings: newShippings
+        }).then(()=>{
+            props.reFetch();
+            setCurrentAddressEveryWhere(newCurAddres);
+        })
+    }
+    //DELETE CURRENT ADDRESS
+    let deleteCurrentAddress = () =>{
+        if( curAddress.current === true){
+            
+        }
+    }
     //handle when shipping address is change throught the custom select component
     let setOption = (address) =>{
+        setCurrentAddressEveryWhere(address);
+    }
+    //update the current address, forms
+    let setCurrentAddressEveryWhere = (address) =>{
         setCurAddress(address);
-        props.reFetch();
+        setEditAddressForm(address);
+        setBeforeEditedAddress(address);
     }
     useEffect(() => {
         //Add click event to editable component of personal information section
@@ -213,15 +420,21 @@ const DisplayPanel = (props) => {
                         <div className="btn-group">
                             {curAddress && 
                             <Fragment>
-                            <button className={"operation-btn set-primary-btn"+ (curAddress.current? " primary" : "")}>
+                            <button onClick={setThisAsPrimary} className={"operation-btn set-primary-btn"+ (curAddress.current? " primary" : "")}>
                                 {!curAddress.current? 
                                 (<span><span class="material-icons-outlined">grade</span>Set this address as primary</span>) 
                                 : (<span><span class="material-icons">grade</span>This address is primary</span>) }
                             </button>
-                            <button className="operation-btn delete-btn"><span class="material-icons-outlined">delete</span> Delete this address</button>
+                            <button className="operation-btn edit-btn" onClick={()=>{
+                                EditShippingRefModal.current.showModal();
+                            }}><span class="material-icons-outlined">edit</span> Edit this address</button>
+                            <button onClick={deleteCurrentAddress} className="operation-btn delete-btn"><span class="material-icons-outlined">delete</span> Delete this address</button>
                             </Fragment>
                             }
-                            <button className="operation-btn add-btn"> <span className="material-icons-outlined">add_location_alt</span>Add new address</button>
+                            <button className="operation-btn add-btn" onClick={()=>{
+                                setErrorFieldsInAddingForm([]);
+                                AddShippingRefModal.current.showModal(resetErrorInput);
+                            }}> <span className="material-icons-outlined">add_location_alt</span>Add new address</button>
                         </div>
                     
                 </div>
@@ -232,6 +445,7 @@ const DisplayPanel = (props) => {
                     <button className="change-password-btn operation-btn" onClick={()=>{changePassRefModal.current.showModal()}}><FaExchangeAlt></FaExchangeAlt>Change Password</button>
                 
                 </div>
+                {/*MODALS CODES HERE*/}
                 <Modal hasTitle={true} ref={changePassRefModal} name="change-password">
                 <   div className="form-in-modal">
                         <span className="form-row-control">
@@ -244,7 +458,59 @@ const DisplayPanel = (props) => {
                         </span>
                         <div className="add-card-btn half">Confirm Change Password</div>
                     </div>
-                   
+                </Modal>
+                <Modal autoHeight={true} hasTitle={true} ref={EditShippingRefModal} name="edit-address">
+                    <AwesomeForm included={true}>
+                            <span className="address aform-field">
+                                <label>Address</label>
+                                <input type="text" required={true} onChange={handleEdittingAddress} value={editAddressForm.address}  autoComplete={false}></input>
+                            </span>
+                            <span className="city aform-field half">
+                                <label>City</label>
+                                <input type="text" required={true} onChange={handleEdittingCity} value={editAddressForm.city} autoComplete={false}></input>
+                            </span>
+                            <span className="resiState aform-field half">
+                                <label>State</label>
+                                <input type="text" required={true} onChange={handleEdittingState} value={editAddressForm.resiState} autoComplete={false}></input>
+                            </span>
+                            <span className="zip aform-field half">
+                                <label>Zip code</label>
+                                <input type="text" required={true} onChange={handleEdittingZip} value={editAddressForm.zip} autoComplete={false}>{}</input>
+                            </span>
+                            <button className="aform-button submit half" onClick={handleConfirmEdit}>Confirm</button>
+                    </AwesomeForm>
+                </Modal>
+                <Modal autoHeight={true} hasTitle={true} ref={AddShippingRefModal} name="add-new-address">
+                    <AwesomeForm included={true}>
+                            <span className={"error-repeated error-message" + (repeatedAddress? "" : " hidden-message") }>This address is repeated, please change one of the field below</span>
+                            <span className={"error-empty error-message" + (errorFieldsInAddingForm && errorFieldsInAddingForm.length > 0 ? "" : " hidden-message") }>
+                                Please fill 
+                                {
+                                    errorFieldsInAddingForm && errorFieldsInAddingForm.map((item)=>(<span className="error-field-item">{(item === "resiState" ? "state" : item)}</span>))
+                                }
+                            </span>
+                            <span className="address aform-field">
+                                <label>Address</label>
+                                <input type="text" onChange={handleAddingAddress} value={addAddressForm.address}  autoComplete={false}></input>
+                            </span>
+                            <span className="city aform-field half">
+                                <label>City</label>
+                                <input type="text" onChange={handleAddingCity} value={addAddressForm.city} autoComplete={false}></input>
+                            </span>
+                            <span className="resiState aform-field half">
+                                <label>State</label>
+                                <input type="text" onChange={handleAddingState} value={addAddressForm.resiState} autoComplete={false}></input>
+                            </span>
+                            <span className="zip aform-field half">
+                                <label>Zip code</label>
+                                <input type="text" onChange={handleAddingZip} value={addAddressForm.zip} autoComplete={false}>{}</input>
+                            </span>
+                            <span className="current aform-field fourth">
+                                <label>Set as primary?</label>
+                                <input type="checkbox" onChange={handleAddingPrimary} value={addAddressForm.current} >{}</input>
+                            </span>
+                            <button className={"aform-button submit fourth"} onClick={handleConfirmAdd}>Confirm</button>
+                    </AwesomeForm>
                 </Modal>
                {/*  <div className="other-information-access">
                     {otherInfo && <LinkCards list={otherInfo}>
@@ -253,7 +519,7 @@ const DisplayPanel = (props) => {
             </div>
 
             <div className="panel" id="settings">
-                setting
+                Place holder for setting components
             </div>
             <div className="panel" id="orders">
                 orders

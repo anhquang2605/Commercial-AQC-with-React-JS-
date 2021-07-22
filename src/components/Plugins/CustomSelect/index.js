@@ -44,6 +44,9 @@ const CustomSelect = (props) =>{
         setList(props.list);
         setSelected(props.selected? props.selected: props.list[0]);
     }, []);
+    useEffect(()=>{
+        setList(props.list);
+    },[props.list])
     return (
         <div className="custom-select">
             <div className="select-list-container">

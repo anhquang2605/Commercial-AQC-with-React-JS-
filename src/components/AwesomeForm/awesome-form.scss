@@ -11,6 +11,8 @@ $font-color-button: black;
 $font-color-button-hover: white; 
 $background-button-disabled: rgba(240,230,140,.3);
 $color-button-disabled: #777777 ;
+$half-width: 48%;
+$fourth-width: 23%;
 //mixins
 @mixin css3-prefix($prop, $value) {
     -webkit-#{$prop}: #{$value};
@@ -30,13 +32,22 @@ $color-button-disabled: #777777 ;
     &.fix-width.small{
         width: 400px;
     }
+    &.included{
+        width: 100%;
+        border: none!important;
+        box-shadow: none!important;
+        padding: 0;
+        margin: 0;
+    }
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
     width: 50%;
     margin: 5% auto;
     border: 1px solid $border-color;
     padding: 20px; 
     border-radius: 5px;
+    
     @include css3-prefix(box-shadow, 2px 2px 8px #888888);
     h5{
         font-weight: normal;
@@ -59,6 +70,12 @@ $color-button-disabled: #777777 ;
         height: auto;
         align-items: center;
         font-family: inherit;
+        &.half{
+            width: $half-width;
+        }
+        &.fourth{
+            width: $fourth-width;
+        }
         &.hidden-field{
             display: none;
             height: 0;
@@ -154,6 +171,12 @@ $color-button-disabled: #777777 ;
             color:$font-color-button;
             padding: 10px;
             margin: auto;
+            &.half{
+                width: $half-width;
+            }
+            &.fourth{
+                width: $fourth-width;
+            }
             &:hover{
                 background: $background-button-hover;
                 color: $font-color-button-hover
@@ -169,5 +192,17 @@ $color-button-disabled: #777777 ;
                 }
             }
         }
+    }
+    .error-message{
+        color: firebrick;
+        font-weight: 500;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+    }
+    .hidden-message{
+        display:none;
     }
 }

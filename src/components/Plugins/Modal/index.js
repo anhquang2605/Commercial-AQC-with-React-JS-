@@ -12,7 +12,17 @@ const Modal = React.forwardRef((props,ref) => {//expose showModal method to the 
         daModal.classList.remove("hide-modal");
     }
     useImperativeHandle(ref, () => ({
-        showModal: showModal, hideModal: hideModal
+        showModal: (callback)=>{
+            showModal();
+            if(callback){
+                callback();
+            }
+        } , hideModal: (callback)=>{
+            hideModal()
+            if(callback){
+                callback();
+            }
+        }
     }));//use ref in parent component to access to the component methods from outside
     useEffect(()=>{
         if (props.hide === false){
@@ -22,8 +32,8 @@ const Modal = React.forwardRef((props,ref) => {//expose showModal method to the 
     return (
         //initially hide the modal with hide-modal class, can be found in modal.scss in the same directory
         <div className="modal-container hide-modal" id={"modal" + (props.name? ("_"+props.name) : "") }>
-            <div className="modal awesome_form fix-width wide">
-                {props.hasTitle && <h5>{props.name.replaceAll('-'," ").toUpperCase()}</h5>}
+            <div className={"modal awesome_form fix-width wide" + ( props.autoHeight ? " auto-height" : "")} >
+                {props.hasTitle && <h5>{props.name.replaceAll('-'," ")}</h5>}
                 <button className="close-btn-modal" onClick={hideModal}><AiFillCloseCircle></AiFillCloseCircle></button>
                 {props.children}
             </div>
