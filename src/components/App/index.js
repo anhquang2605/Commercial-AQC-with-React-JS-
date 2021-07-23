@@ -44,8 +44,8 @@ import ContactUs from '../ContactUs';
 }
 );*/
 const App = (props) =>  {
-        //const [user, setUser] = useState("");
-        const [user, setUser] = useState("hellosunshine");//set account here to test
+        const [user, setUser] = useState("");
+        //const [user, setUser] = useState("hellosunshine");//set account here to test
         const [pageName, setPageName] = useState('');
         const [,setState] = useState();
         const location = useLocation();

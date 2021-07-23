@@ -4,7 +4,9 @@ import {FaMapMarkerAlt} from 'react-icons/fa';
 const Marker = (props) => {
     let makeMarkerStrikeAtPoint = () =>{
         let marker = document.getElementsByClassName('marker')[0];
-        marker.classList.add("strike");
+        if(marker){
+            marker.classList.add("strike");
+        }
     }
     useEffect(() => {
         setTimeout(() => {

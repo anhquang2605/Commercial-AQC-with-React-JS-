@@ -19,12 +19,17 @@ const CustomSelect = (props) =>{
         e.stopPropagation();
         setDropped(true);
         var dropdown = document.getElementById(id);
-        dropdown.classList.add("expanded");
+        if (dropdown){
+            dropdown.classList.add("expanded");
+        }
     }
     let closeList = () =>{
         setDropped(false);
         var dropdown = document.getElementById(id);
-        dropdown.classList.remove("expanded");
+        if(dropdown){
+            dropdown.classList.remove("expanded");
+        }
+       
     }
     let handleOutSideClick = () =>{
         const outsideClickListener = e => {

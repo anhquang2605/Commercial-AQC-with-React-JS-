@@ -3,6 +3,7 @@ import Firebase from "./../../Firebase";
 import {FaExchangeAlt} from 'react-icons/fa';
 import CustomSelect from './../../Plugins/CustomSelect';
 import LinkCards from './../Plugins/LinkCards';
+import bcrypt from 'bcryptjs';
 import Modal from './../../Plugins/Modal';
 import './display-panel.scss';
 import AwesomeForm from '../../AwesomeForm';
@@ -17,25 +18,32 @@ const DisplayPanel = (props) => {
         resiState: "",
         zip: ""
     }
+    const INITIAL_PASSWORD_CHANGE_FORM_OBJECT = {
+        password:"",
+        passwordMatch:"",
+        validPassword: false,
+        passwordMatched: false,
+        dirty: false
+    }
+    const PASSWORD_LENGTH_MINUMUM = 8;
     const otherInfo = [{name: "Your Cards", path: "account/cards"},{name: "Gift Cards You Owned", path: "account/gcards"},{name: "Your Orders", path: "account/orders"}];
-    const [addresses, setAddresses] = useState([]);
-    const [curAddress, setCurAddress] = useState({});
+    const [curAddress, setCurAddress] = useState();
     const [editAddressForm, setEditAddressForm] = useState({});
     const [beforeEditedAddress, setBeforeEditedAddress] = useState({});
     const [addAddressForm, setAddAddressForm] = useState({...INITIAL_ADDING_FORM_OBJECT});
     const [errorFieldsInAddingForm, setErrorFieldsInAddingForm] = useState([]);
-    const [readyToAddAddress, setReadToAddAddress] = useState(false);
     const [repeatedAddress, setRepeatedAddress] = useState(false);
+    const [changePasswordForm, setChangePasswordForm] = useState({...INITIAL_PASSWORD_CHANGE_FORM_OBJECT});
     const db = Firebase.firestore();
     const account = db.collection("accounts").doc(props.account.username);
     let setCurrentPanel = () =>{
         let currentOtion = props.current;
         let thePanels = document.getElementsByClassName("panel");
         for (var i = 0; i < thePanels.length; i+=1){
-            thePanels[i].classList.remove("current");
+            thePanels[i].classList.remove("current-panel");
         }
         let thePanel = document.getElementById(currentOtion);
-        thePanel.classList.add("current");
+        thePanel.classList.add("current-panel");
     }
     let setFieldOfAccountOnFireStore = (field, data) =>{
         var obj = {};
@@ -43,51 +51,6 @@ const DisplayPanel = (props) => {
         account.update(obj);
         props.reFetch();
     };
-    const updateShippingField = (field, data) =>{
-        let shippings = [...props.account.shippings];
-        let theAddress;
-        for (var item of shippings){
-            if (item.current){
-                theAddress = item;
-            }
-        }
-        ;
-        let length = shippings.length;
-        let itemPosition;
-        for (var i = 0; i < shippings.length; i +=1){
-            if (item.name === shippings[i].name){
-                itemPosition = i;
-                break;
-            }
-        }
-        account.update({
-            shippings: Firebase.firestore.FieldValue.arrayRemove(theAddress)
-        }).then(()=>{
-            theAddress[field] = data;
-            account.update({
-                shippings: Firebase.firestore.FieldValue.arrayUnion(theAddress)
-            }).then(()=>{
-                props.reFetch();
-                handleSetcurrentAddress();
-            })
-        })
-       
-       /*  if(removeAllItemsFromShippingArrayFireStore(shippings, length)=== true){
-            shippings[itemPosition] = item;
-            console.log("removed")
-            addAllItemsBackToShippingArrayFireStore(shippings)
-        } */
-
-    
-    }
-   
-    let addAllItemsBackToShippingArrayFireStore =  (thearray) => {
-        for (let item of thearray){
-            account.update({
-                shippings: Firebase.firestore.FieldValue.arrayUnion(item)
-            });
-        }
-    }
     let handleEditableSwapOfField = (e,col) =>{
             e.stopPropagation();
             var parent = col.parentNode;
@@ -140,7 +103,13 @@ const DisplayPanel = (props) => {
             }  
     }
     let handleSetcurrentAddress = () => {
-        if(props.account.shippings!==undefined && props.account.shippings.length > 0) {
+        if(props.account.shippings && props.account.shippings.length === 1) {
+            //for account that only has 1 shipping address
+            let shipping = props.account.shippings[0];
+            setCurAddress(shipping);
+            setEditAddressForm(shipping);
+            setBeforeEditedAddress(shipping);
+        } else if(props.account.shippings && props.account.shippings.length > 0){
             let shippings = props.account.shippings;
             for(let shipping of shippings){
                 //for primary shipping address, get them first
@@ -148,17 +117,9 @@ const DisplayPanel = (props) => {
                     setCurAddress(shipping);
                     setEditAddressForm(shipping);
                     setBeforeEditedAddress(shipping);
-                    props.reFetch();
-                    return;
-                }
+                } 
             }
         }
-    }
-    let handleSetPrimaryClick = () =>{
-
-    }
-    let handleUpdateShipping = (obj) =>{
-
     }
     //HANDLE EDITING SHIPPING ADDRESS
     let handleEdittingAddress = (e) =>{
@@ -338,9 +299,24 @@ const DisplayPanel = (props) => {
     }
     //DELETE CURRENT ADDRESS
     let deleteCurrentAddress = () =>{
-        if( curAddress.current === true){
-            
+        let toBeDeleted = {...curAddress};
+        let shippingList = [...props.account.shippings];
+        let remainingList = shippingList.filter( data => data.address != toBeDeleted.address);
+        let remainingIsNotEmpty = remainingList && remainingList.length > 0
+        if(toBeDeleted.current === true){   
+            if(remainingIsNotEmpty){
+                remainingList[0].current = true;
+            }
         }
+        //delete the data first
+        account.update({
+            shippings: remainingList
+        }).then(()=>{
+            props.reFetch();
+            if(remainingIsNotEmpty){
+                setCurrentAddressEveryWhere(props.account.shippings[0])
+            };
+        })
     }
     //handle when shipping address is change throught the custom select component
     let setOption = (address) =>{
@@ -351,6 +327,94 @@ const DisplayPanel = (props) => {
         setCurAddress(address);
         setEditAddressForm(address);
         setBeforeEditedAddress(address);
+    }
+    //CHANGE PASSWORD
+    let hashPasswordForAccount = (pass) =>{ //send the hash version to the server
+        const salt = bcrypt.genSaltSync(10);
+        var dahash = bcrypt.hashSync(pass,salt);
+        return dahash;
+    }
+    let handlePasswordChange = (e) =>{
+        setChangePasswordForm((prevState)=>({
+            ...prevState,
+            password: e.target.value
+        }));
+        if(changePasswordForm.dirty === false){
+            setChangePasswordForm((prevState)=>({
+                ...prevState,
+               dirty: true
+            }));
+        } else {
+            if(changePasswordForm.passwordMatch.length >0){
+                setChangePasswordForm((prevState)=>({
+                    ...prevState,
+                    passwordMatched: e.target.value === changePasswordForm.passwordMatch
+                }))
+            }
+        }
+    }
+    let handlePasswordMatchChange = (e) =>{
+       setChangePasswordForm((prevState)=>({
+            ...prevState,
+           passwordMatch: e.target.value,
+           passwordMatched: e.target.value === changePasswordForm.password
+        }))
+        if(changePasswordForm.dirty === false){
+            setChangePasswordForm((prevState)=>({
+                ...prevState,
+               dirty: true
+            }));
+        }
+    }
+    let handleMatchingPassword = () =>{
+        setChangePasswordForm((prevState)=>({
+            ...prevState,
+            passwordMatched: prevState.password === prevState.passwordMatch
+        }))
+    }
+    let handleCheckPasswordLength = () =>{
+        setChangePasswordForm((prevState)=>({
+            ...prevState,
+           validPassword: changePasswordForm.password.length >= PASSWORD_LENGTH_MINUMUM 
+        }))
+    }
+    let handleConfirmPassword = () =>{
+       account.update({
+            password: hashPasswordForAccount(changePasswordForm.password)
+        }).then(()=>{ 
+            db.collection("users").doc(props.account.username).update({
+                password: hashPasswordForAccount(changePasswordForm.password),
+            }).then(()=>{
+                let daChangePassModal = document.getElementById("modal_change-password");
+                let formContainer, okMessateContainer;
+                if(daChangePassModal){
+                    formContainer = daChangePassModal.getElementsByClassName("form-in-modal")[0];
+                    okMessateContainer = daChangePassModal.getElementsByClassName("password-change-ok-message")[0];
+                }
+                if(okMessateContainer&&formContainer){
+                    okMessateContainer.classList.remove("display-none");
+                    formContainer.classList.add("display-none");
+                }
+            }).catch((error)=>{
+                console.log(error);
+            })
+           
+       }).catch((error)=>{
+           console.log(error);
+       }) 
+    }
+    let resetChangePasswordForm = () =>{
+        let daChangePassModal = document.getElementById("modal_change-password");
+        let formContainer, okMessateContainer;
+            if(daChangePassModal){
+                formContainer = daChangePassModal.getElementsByClassName("form-in-modal")[0];
+                okMessateContainer = daChangePassModal.getElementsByClassName("password-change-ok-message")[0];
+            }
+        if (formContainer && okMessateContainer){
+            formContainer.classList.remove("display-none");
+            okMessateContainer.classList.add("display-none");
+        }
+        setChangePasswordForm({...INITIAL_PASSWORD_CHANGE_FORM_OBJECT});
     }
     useEffect(() => {
         //Add click event to editable component of personal information section
@@ -442,21 +506,27 @@ const DisplayPanel = (props) => {
                     <h5 className="panel-title">
                         password
                     </h5>
-                    <button className="change-password-btn operation-btn" onClick={()=>{changePassRefModal.current.showModal()}}><FaExchangeAlt></FaExchangeAlt>Change Password</button>
+                    <button className="change-password-btn operation-btn" onClick={()=>{changePassRefModal.current.showModal(resetChangePasswordForm)}}><FaExchangeAlt></FaExchangeAlt>Change Password</button>
                 
                 </div>
                 {/*MODALS CODES HERE*/}
                 <Modal hasTitle={true} ref={changePassRefModal} name="change-password">
-                <   div className="form-in-modal">
-                        <span className="form-row-control">
+                    <div className="form-in-modal">
+                       <span className="form-row-control">
                             <legend>New Password</legend>
-                            <input type="password" value=""></input>
+                            <input type="password" value={changePasswordForm.password} onBlur={handleCheckPasswordLength} onChange={handlePasswordChange}></input>
+                            <span className="error" hidden={changePasswordForm.validPassword && changePasswordForm.dirty}>Password should be at least 8 characters</span>
                         </span>
                         <span className="form-row-control">
                             <legend>Re enter new password </legend>
-                            <input type="password" value=""></input>
+                            <input type="password" value={changePasswordForm.passwordMatch} onChange={handlePasswordMatchChange}></input>
+                            <span className="error" hidden={changePasswordForm.passwordMatched && changePasswordForm.dirty}>Password re-entered should be match with the above</span>
                         </span>
-                        <div className="add-card-btn half">Confirm Change Password</div>
+                        <button onClick={handleConfirmPassword} className={"aform-button submit half" + (changePasswordForm.dirty && changePasswordForm.validPassword && changePasswordForm.passwordMatched ? "" : " not-ready")}>Confirm Password Change</button>
+                    </div>
+                    <div className="password-change-ok-message display-none">
+                        <div className="message"><span class="material-icons-round">done</span>Great! You are off to a new password!</div>
+                        <button onClick={()=>{changePassRefModal.current.hideModal()}}>Ok</button>
                     </div>
                 </Modal>
                 <Modal autoHeight={true} hasTitle={true} ref={EditShippingRefModal} name="edit-address">

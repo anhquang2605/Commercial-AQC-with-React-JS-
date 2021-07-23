@@ -2,12 +2,60 @@ $width-large-editable-field: 320px;
 $width-meidum-editable-field: 220px;
 .display-panel{
     //form style
-    #modal_edit-address, #modal_add-new-address{
+    #modal_edit-address, #modal_add-new-address, #modal_change-password{
         min-height: auto;
         .awesome_form{
             align-items: center;
             button.submit{
                 margin: 0;
+            }
+        }
+    }
+    #modal_change-password{
+        .modal{
+            min-height: auto!important;
+        }
+        flex-direction: column;
+        h5{
+            margin-right: auto;
+        }
+        .form-in-modal, .password-change-ok-message{
+            opacity: 1;
+            transition: all 0.5s;
+        }
+        button.submit{
+            margin: auto;
+        }
+        button.not-ready{
+            pointer-events: none;
+            color: lightgray;
+        }
+        .display-none{
+            display: hidden;
+            opacity: 0;
+            z-index: -9999;
+            height: 0;
+        }
+        .password-change-ok-message{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .message{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                span{
+                    color: green;
+                    font-size: 8em;
+                }
+                font-size: 1.5em;
+            }
+            button{
+                font-size: 1.5em;
+                padding: 10px;
+                width: 200px;
+                margin-top: 20px;
             }
         }
     }
@@ -59,7 +107,7 @@ $width-meidum-editable-field: 220px;
     .sub-section{
         margin-bottom: 20px;
     }
-    .panel.current{
+    .panel.current-panel{
         display: flex;
     }
     & *{
@@ -78,7 +126,8 @@ $width-meidum-editable-field: 220px;
         }
         
         .information-container{
-            max-width:652px;
+            max-width:50%;
+            min-width: 550px;
             display: flex;
             flex-wrap: wrap;
             align-content: flex-start;
