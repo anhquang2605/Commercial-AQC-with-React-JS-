@@ -23,7 +23,7 @@
     h5{
         font-size: 1.2em;
         font-weight: 500;
-        color: purple;
+        color: indigo;
         margin-top: 0;
     }
     .main-box{
@@ -33,7 +33,7 @@
         padding: 20px;
         background: lightyellow;
         box-sizing: border-box;
-        border-bottom: 1px solid purple;
+        border-bottom: 1px solid indigo;
         height: 120px;
         
         &:last-child{
@@ -70,14 +70,14 @@
         width: 50%;
         box-sizing:border-box;
         text-align: center;
-        background: purple;
+        background: indigo;
         color: white;
         border-right: 1px solid white;
         transition: all .3s;
         font-size: 1.2em;
         &:hover{
             background: khaki;
-            color: purple;
+            color: indigo;
         }
     }
 }

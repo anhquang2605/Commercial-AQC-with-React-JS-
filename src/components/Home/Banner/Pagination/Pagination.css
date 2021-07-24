@@ -20,7 +20,7 @@
 .Pagination a circle{
     fill: khaki;
    /* stroke-width: 1px; */
-    /* //stroke: purple; */
+    /* //stroke: indigo; */
 }
 
 .Pagination a.current svg{
@@ -28,5 +28,5 @@
     height: 15px;
 }
 .Pagination a.current svg circle{
-    fill: purple;
+    fill: indigo;
 }

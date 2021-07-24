@@ -7,11 +7,11 @@
     .thank_you_headline{
         font-family: Merriweather;
         font-size: 6em;
-        color: purple;
+        color: indigo;
         text-align: center;;
         margin-bottom: 10px;
         svg {
-            color: purple;
+            color: indigo;
         }
         svg:first-child{
             -webkit-transform: scaleX(-1);
@@ -29,11 +29,11 @@
         span:first-child{
             padding-left: 50px;
             color: khaki;
-            background: purple;
+            background: indigo;
         }
         span:last-child{
             padding-right: 50px;
-            color: purple;
+            color: indigo;
             background: khaki;
         }
     } */
@@ -51,12 +51,12 @@
         display: block;
         margin: auto;
         padding: 10px 50px;
-        border: 2px solid purple;
+        border: 2px solid indigo;
         margin-top: 30px;
         text-transform: uppercase;
         transition: all 0.3s;
         &:hover{
-            background: purple;
+            background: indigo;
             color: white;
         }
     }

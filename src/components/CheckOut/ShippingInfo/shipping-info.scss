@@ -9,7 +9,7 @@
             text-transform: uppercase;
             &:first-child{
                 font-weight: 500;
-                color: purple;
+                color: indigo;
             }
         }
     }
@@ -17,7 +17,7 @@
         padding: 10px;
     }
     > div{
-        border: 1px solid purple;
+        border: 1px solid indigo;
         border-radius: 3px;
         padding: 10px;
     }
@@ -33,7 +33,7 @@
         padding: 0;
         border-spacing: 0;
         thead tr{
-            background: purple;
+            background: indigo;
             color: white;
             text-align: left;
             font-size: 1.2em;
@@ -48,7 +48,7 @@
         }
         tr td:nth-child(2){
             font-weight: 500;
-            color: purple;
+            color: indigo;
         }
     }
 }

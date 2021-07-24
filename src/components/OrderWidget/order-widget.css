@@ -10,7 +10,7 @@
     margin-bottom: 20px;
     margin-right: 20px;
     border-radius: 3px;
-    border: 1px solid purple;
+    border: 1px solid indigo;
 }
 .widget img{
     box-sizing: border-box;
@@ -20,7 +20,7 @@
     box-shadow: 5px 5px 10px grey;
  }
  .widget:hover .price-tag{
-    background: purple;
+    background: indigo;
     color: white;
  }
 .widget .out-of-stock{
@@ -33,7 +33,7 @@
     max-width: 100%;
 }
 .widget .widget-item-name{
-    color: purple;
+    color: indigo;
     font-size: 1.2em;
     display: block;
     text-transform: capitalize;
@@ -41,9 +41,9 @@
 
 .widget .price-tag{
     margin-top: 5px;
-    border: 1px solid purple;
+    border: 1px solid indigo;
     padding: 5px;
-    color: purple;
+    color: indigo;
     font-weight: 600;
     border-radius: 3px;
     transition: all 0.3s;

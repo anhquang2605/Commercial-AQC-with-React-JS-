@@ -40,14 +40,14 @@ body{
     }
     button, a.btn{
         background-color: white;
-        border: 1px solid purple;
+        border: 1px solid indigo;
         margin-right: 5px;
         text-align: center;
         transition: color .2s, background-color .2s;
         border-radius: 2px;
         font-family: 'Montserrat', sans-serif !important;
         &:hover{
-            background-color: purple;
+            background-color: indigo;
             color: white;
             cursor: pointer;
         }
@@ -73,7 +73,7 @@ body{
         justify-content: space-between;
         align-items: stretch;
         display: flex;
-        background-color: purple;
+        background-color: indigo;
     }
 }
 

@@ -5,7 +5,7 @@
     top: 50%;
     height: 300px;
     z-index: 5000;
-    border: 1px solid purple;
+    border: 1px solid indigo;
     background-color: lightyellow;
     text-transform: capitalize;
     font-size: 0.9em;
@@ -17,7 +17,7 @@
         z-index: 5001;
         cursor: pointer;
         svg{
-            fill: purple;
+            fill: indigo;
             width: 40px;
             height: 40px;
             transition: fill 0.2s;
@@ -42,7 +42,7 @@
                 fill: khaki
             }
             span.item-no-mini-cart{
-                background-color: purple;
+                background-color: indigo;
                 color: white;
             }
         }
@@ -88,7 +88,7 @@
             width: 25px;
             height: 25px;
             fill: white;
-            background: purple;
+            background: indigo;
             border-radius: 2px;
         }
     }

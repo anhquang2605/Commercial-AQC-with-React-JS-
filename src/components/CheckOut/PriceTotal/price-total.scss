@@ -1,5 +1,5 @@
 .total-price{
-    border: 1px solid purple;
+    border: 1px solid indigo;
     border-radius: 5px;
     padding: 20px;
     margin-top: 20px;
@@ -21,7 +21,7 @@
             }
             .item-label{
                 font-weight: bold;
-                color: purple;
+                color: indigo;
                 &.final + span{
                     font-size: 1.5em;
                 }

@@ -5,7 +5,7 @@
     list-style-type: none;
     justify-content: stretch;
     border-radius: 5px 5px 0 0;
-    border: 1px solid purple;
+    border: 1px solid indigo;
     border-bottom: none;
     overflow: hidden; //For border radius to be applied on the li and a
     li{
@@ -19,11 +19,11 @@
             display: block;
             text-transform: uppercase;
             text-align: center;
-            border-left: 1px solid purple;
+            border-left: 1px solid indigo;
             font-weight: 500;
             transition: all 0.2s;
             &.currentOp{
-                background: purple;
+                background: indigo;
                 color: white;
             }
         }

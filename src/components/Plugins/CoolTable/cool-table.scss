@@ -1,0 +1,31 @@
+.cool-table{
+    display: flex;
+    flex-wrap: wrap;
+    box-shadow: lightgray 0 0 5px 1px;
+    padding: 5%;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    @for $i from 1 through 5{
+        .col-#{$i}{
+            width: 25%;
+        }
+    }
+    .row-container{
+        width: 100%;
+        .table-row{
+            img{
+                width: 100%;
+            }
+        }
+    }
+    .table-data{
+        padding: 5px;
+        text-transform: capitalize;
+    }
+    .title-item{
+        padding: 5px;
+        text-transform: uppercase;
+    }
+}

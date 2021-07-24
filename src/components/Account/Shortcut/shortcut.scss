@@ -2,7 +2,7 @@
     position: relative;
     padding: 4px;
     border-radius: 2px;
-    background-color: purple;
+    background-color: indigo;
     color: white;
     .more-detail-btn{
         width: 15px;
@@ -23,7 +23,7 @@
         opacity: 0;
         display: none;
         margin-left: -5px;
-        border: 1px solid purple;
+        border: 1px solid indigo;
         transition: all 0.2s;
         box-shadow: 2px 2px 10px  black;
         ul{
@@ -41,7 +41,7 @@
                 display: block;
                 &:hover{
                     font-weight: bold;
-                    background: purple;
+                    background: indigo;
                     color: white;
                 }
             }

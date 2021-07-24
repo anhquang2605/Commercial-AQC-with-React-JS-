@@ -16,7 +16,7 @@
         transform: translate(0);
         opacity: 1;
        svg{
-        fill: purple;
+        fill: indigo;
        }
     }
     .email-not-sent{
@@ -38,22 +38,22 @@
     }
     .phone-contact{
         text-decoration: none;
-        color: purple;
+        color: indigo;
         transition: all 0.2s;
         &:hover{
-            background: purple;
+            background: indigo;
             color:white;
         }
     }
     @keyframes colorShift {
         0% {
-            background-color: purple
+            background-color: indigo
         }
         50% {
             background-color: khaki
         }
         100% {
-            background-color: purple
+            background-color: indigo
         }
     }
     .loading{
@@ -67,7 +67,7 @@
         .expanding-circle{
             border-radius: 200px;
             transition: all 1s;
-            background: purple;
+            background: indigo;
             position: absolute;
             width: 20px;
             height: 20px;

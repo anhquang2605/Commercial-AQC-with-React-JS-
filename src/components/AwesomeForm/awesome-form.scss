@@ -1,12 +1,12 @@
 //variables
-$border-color: purple;
+$border-color: indigo;
 $background-input: none;
 $background-input-focus: lightyellow;
 $background-title: khaki;
 $title-font-color: black;
 $background-form: none;
 $background-button: khaki;
-$background-button-hover: purple;
+$background-button-hover: indigo;
 $font-color-button: black;
 $font-color-button-hover: white; 
 $background-button-disabled: rgba(240,230,140,.3);
@@ -89,10 +89,10 @@ $fourth-width: 23%;
             padding: 10px;
             font-style:inherit;
             clear: both;
-            border: 1px solid purple;
+            border: 1px solid indigo;
             &:focus{
                 outline: none;
-                box-shadow: purple 0 0 2px 1px;
+                box-shadow: indigo 0 0 2px 1px;
                 background: lightyellow;
             }
             font-family: inherit;
@@ -109,22 +109,22 @@ $fourth-width: 23%;
                 @include css3-prefix(box-shadow, 0px 0px 3px #800080)
             }
             &::selection {
-                background: purple;
+                background: indigo;
                 color: white;
             }
             &::-moz-selection {
-                background: purple;
+                background: indigo;
                 color: white;
             }
         }
        input[type=text]:disabled{
-           background: plum;
+           background: lighten(indigo,60);
            border: none;
        }
        input[type=number]{
            font-family: inherit;
            padding: 10px;
-           border: 1px solid purple;
+           border: 1px solid indigo;
            &:first-child{
              margin-left: 10px;  
            }
@@ -140,7 +140,7 @@ $fourth-width: 23%;
            margin-left: 10px;
            &:focus{
             outline: none;
-            box-shadow: purple 0 0 4px 1px;
+            box-shadow: indigo 0 0 4px 1px;
             background: lightyellow;
            }
        }

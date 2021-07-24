@@ -66,7 +66,7 @@ $width-meidum-editable-field: 220px;
                 margin-top: auto;
                 label{
                     font-size: 1.1em;
-                    color: purple;
+                    color: indigo;
                     font-weight: 600;
                 }
                 input[type=checkbox]{
@@ -92,11 +92,12 @@ $width-meidum-editable-field: 220px;
     }
     .panel{
         display: none;
-        border: 1px solid  purple;
+        border: 1px solid  indigo;
         padding: 20px 10%;
         border-radius: 0 0 5px 5px;
+        width: 100%;
         .panel-title{
-            color: purple;
+            color: indigo;
             text-transform: capitalize;
             font-size: 1.5em;
             margin: 0;
@@ -127,7 +128,7 @@ $width-meidum-editable-field: 220px;
         
         .information-container{
             max-width:50%;
-            min-width: 550px;
+            min-width: 500px;
             display: flex;
             flex-wrap: wrap;
             align-content: flex-start;
@@ -138,7 +139,7 @@ $width-meidum-editable-field: 220px;
                 >div:first-child{
                     width: 150px;
                     padding: 15px;
-                    color: purple;
+                    color: indigo;
                 }
                 margin-bottom: 5px;
             }
@@ -160,7 +161,7 @@ $width-meidum-editable-field: 220px;
                     border: 1px solid lightgray;
                     &:focus{
                         outline: none;
-                        box-shadow: purple 0 0 2px 2px;
+                        box-shadow: indigo 0 0 2px 2px;
                         margin: 1px 5px 1px 1px; 
                         border: none;
                     }
@@ -178,7 +179,7 @@ $width-meidum-editable-field: 220px;
                     &:after{
                         content: " \e3c9";
                         font-family: "Material Icons";
-                        color: purple;
+                        color: indigo;
                         font-size: 1.4em;
                         box-sizing: border-box;
                         margin:0;
@@ -211,7 +212,7 @@ $width-meidum-editable-field: 220px;
                     }
                     &.primary{
                         pointer-events: none;
-                        background: purple;
+                        background: indigo;
                         color: white;
                         border: none;
                         span[class*='material']
@@ -241,10 +242,10 @@ $width-meidum-editable-field: 220px;
             .select-list-container{
                 margin-bottom: 10px;
                 .selected{
-                    color: purple;
+                    color: indigo;
                     font-weight: 500;
                     &.select-clicked{
-                        background: purple;
+                        background: indigo;
                         color: white;
 
                     }

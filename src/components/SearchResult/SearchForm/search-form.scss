@@ -1,6 +1,6 @@
 #search_form{
     width: 25%;
-    border: 1px solid purple;
+    border: 1px solid indigo;
     padding: 20px;
     overflow: auto;
     box-sizing: border-box;
@@ -26,13 +26,13 @@
         display: flex;
         align-items: center;
         svg{
-            fill: purple;
+            fill: indigo;
             width: 25px;
             height: 25px;
         }
     }
     input[type="checkbox"]:checked{
-        background-color: purple;
+        background-color: indigo;
         color: white;
     }
     button{
@@ -42,7 +42,7 @@
         font-size: 1.1em;
         background: khaki;
         &:hover{
-            background: purple;
+            background: indigo;
             color: white;
         }
     }
@@ -60,7 +60,7 @@
  
 }
 .instock-label{
-    color: purple;
+    color: indigo;
     font-weight: 600;
     font-size: 1.2em;
 }

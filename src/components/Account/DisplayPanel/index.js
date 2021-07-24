@@ -2,6 +2,7 @@ import React, {useEffect, useState  , useRef, Fragment} from 'react';
 import Firebase from "./../../Firebase";
 import {FaExchangeAlt} from 'react-icons/fa';
 import CustomSelect from './../../Plugins/CustomSelect';
+import Orders from '../Orders';
 import LinkCards from './../Plugins/LinkCards';
 import bcrypt from 'bcryptjs';
 import Modal from './../../Plugins/Modal';
@@ -592,7 +593,11 @@ const DisplayPanel = (props) => {
                 Place holder for setting components
             </div>
             <div className="panel" id="orders">
-                orders
+                {props.account.orders ? <Orders ordersOfAccount={props.account.orders}></Orders>:
+                <div className="no-order">
+                    No Order
+                </div>
+                }
             </div>
             <div className="panel" id="payments">
                 payments

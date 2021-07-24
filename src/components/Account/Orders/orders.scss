@@ -1,4 +1,52 @@
 .account_orders{
+    width: 100%;
+    .cool-table{
+        .package-info{
+            width:100%;
+            display: flex;
+            padding: 5px;
+            margin: 0 0 10px 0;
+            flex-wrap: wrap;
+            border: 1px solid indigo ;
+            justify-content: space-between; 
+        }
+        .order-date, .order-tracking, .shipped-to{
+            font-size: 1.1em;
+            text-transform: uppercase;
+            margin-right: 30px;
+            padding: 5px;
+            border-radius: 3px;
+            > span{
+                font-weight: 600;
+            }
+        }
+        .order-tracking{
+            .tracking-id{
+                color: indigo;
+            }
+        }
+        .date-placed{
+            color: indigo;
+        } 
+        .shipped-address{
+            color: indigo;
+        }
+        .table-row{
+            .col-2{
+                color: indigo;
+                font-weight: 500;
+            }
+        }
+        .col-1{
+            width: 12.5%;
+        }
+        .col-2{
+            width: 50%;
+        }
+        .col-3{
+            width: 12.5%;
+        }
+    }
     .hoz-order-box{
         img{
             width: 20%;
@@ -17,5 +65,8 @@
         }
         overflow: auto;
         margin-bottom: 10px;
+    }
+    .order-section:nth-of-type(2){
+        margin-top: 40px;
     }
 }

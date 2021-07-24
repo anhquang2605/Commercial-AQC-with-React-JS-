@@ -44,8 +44,8 @@ import ContactUs from '../ContactUs';
 }
 );*/
 const App = (props) =>  {
-        const [user, setUser] = useState("");
-        //const [user, setUser] = useState("hellosunshine");//set account here to test
+        //const [user, setUser] = useState("");
+        const [user, setUser] = useState("anhquang2605");//set account here to test
         const [pageName, setPageName] = useState('');
         const [,setState] = useState();
         const location = useLocation();
@@ -152,17 +152,15 @@ const App = (props) =>  {
                 orderList: proccessedOrders,
                 orderDay: d.getDate(),
                 orderMonth: d.getMonth() + 1,
-                orderYear: d.getFullYear()
+                orderYear: d.getFullYear(),
+                shippedTo: curShipping,
+                status: "procesing"
             }
             db.collection("accounts").doc(account.username).update({
                 orders: Firebase.firestore.FieldValue.arrayUnion(daOrder)
             });
             //reset account so that order is updated after checking out, is there a better way?
-            db.collection("accounts").get(account.username).then((datas)=>{
-                //Set account and kart after accessing database is fine
-                var account = datas.docs[0].data();
-                setAccount(account);
-            })    
+           reFetchAccount();
         }
         let removeFromCartList = (itemIndex) => {
             if (account!= undefined){
