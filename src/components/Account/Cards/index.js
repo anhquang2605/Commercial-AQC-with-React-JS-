@@ -42,7 +42,7 @@ const Cards = (props) => {
                 title: //Title part
                 <React.Fragment>
                     <span className="card-thumb"><img alt={item.type} src={require("./../../../images/Cards/" + item.type + ".jpg")}></img></span>
-                    <span className="card-mini-info">{item.type} {item.name} {item["card number"]}</span>
+                    <span className="card-mini-info"> <span className="card-title"><span className="card-type">{item.type}</span>  {item.name}</span> <span className="card-number">{item["card number"].slice(item["card number"].length - 4)}</span></span>
                     <span>{item["exp month"]} / {item["exp year"]}</span>
                 </React.Fragment>,
                 content: //Content part
@@ -222,7 +222,7 @@ const Cards = (props) => {
         setPrepList(handlePreProcessingCardListToComponent());
     },[props.list])
     return (
-        <div className="user-cards-manament">
+        <div className="user-cards-manament payment-section">
             <h4>Payments</h4>
             <div className="title-for-card-list">
                 <span className="card-name tab-head">Your Cards</span>

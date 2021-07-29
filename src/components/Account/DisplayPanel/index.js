@@ -4,6 +4,8 @@ import {FaExchangeAlt} from 'react-icons/fa';
 import CustomSelect from './../../Plugins/CustomSelect';
 import Orders from '../Orders';
 import LinkCards from './../Plugins/LinkCards';
+import GCards from '../GCards';
+import Cards from '../Cards';
 import bcrypt from 'bcryptjs';
 import Modal from './../../Plugins/Modal';
 import './display-panel.scss';
@@ -600,7 +602,8 @@ const DisplayPanel = (props) => {
                 }
             </div>
             <div className="panel" id="payments">
-                payments
+                <Cards reFetch={props.reFetch} accountID={props.account.username} list={props.account.cards}></Cards>
+                <GCards reFetch={props.reFetch} accountID={props.account.username} list={props.account.gcards}></GCards>
             </div>
         </div>
     );

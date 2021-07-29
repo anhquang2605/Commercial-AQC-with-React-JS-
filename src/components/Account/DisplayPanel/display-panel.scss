@@ -114,6 +114,7 @@ $width-meidum-editable-field: 220px;
     & *{
         box-sizing: border-box;
     }
+    //information tab
     #information{
         //flex-direction: column;   
         flex-wrap: wrap;
@@ -270,5 +271,27 @@ $width-meidum-editable-field: 220px;
                 }
             }
         }
+    }
+    #payments{
+        justify-content: space-between;
+        .payment-section{
+            width: 46%;
+        }
+
+        .title-for-card-list > span{
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+        .collapse-tab{
+            .collapse-title{
+                align-items: center;
+            }
+            .card-mini-info{
+                display: flex;
+                text-align: center;
+                width: auto;
+            }
+        }
+            
     }
 }

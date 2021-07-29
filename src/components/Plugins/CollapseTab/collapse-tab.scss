@@ -1,5 +1,6 @@
-$tab-background: indigo;
-$tab-font-color: white;
+$tab-background: white;
+$tab-border: 1px solid indigo;
+$tab-font-color: indigo;
 $content-background: lightyellow ;
 //$content-font-color: ;
 .collapse-tabs{
@@ -11,6 +12,7 @@ $content-background: lightyellow ;
         text-transform: capitalize;
         color: $tab-font-color;
         display: flex;
+        border: $tab-border;
         justify-content: space-between;
         .hidden-arrow{
             display:none;

@@ -35,7 +35,7 @@ const GCards = (props) => {
                 title: //Title part
                 <React.Fragment>
                     <span className="card-thumb"><img alt={item.type} src={require("./../../../images/Cards/" + item.type + ".jpg")}></img></span>
-                    <span className="card-mini-info">{item.type[0].toUpperCase() + item.type.slice(1)} {item.name}</span>
+                    <span className="card-mini-info"><span className="card-type">{item.type[0].toUpperCase() + item.type.slice(1)}</span> {item.name}</span>
                     <span>{item["exp month"]} / {item["exp year"]}</span>
                 </React.Fragment>,
                 content: //Content part
@@ -216,7 +216,7 @@ const GCards = (props) => {
         setPrepList(handlePreProcessingCardListToComponent);
     },[props.list])
     return (
-        <div className="user-gcards-manament">
+        <div className="user-gcards-manament payment-section">
             <h4>Gift Cards</h4>
             <div className="title-for-card-list">
                 <span className="card-name tab-head">Your Gift Cards</span>
