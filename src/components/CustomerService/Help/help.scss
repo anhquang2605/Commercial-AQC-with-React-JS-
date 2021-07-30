@@ -7,6 +7,8 @@
             width: 25%;
             .collapse-tabs{
                 .collapse-title{
+                    background: indigo;
+                    color: white;
                     svg{
                         width: auto!important;
                     }
@@ -28,6 +30,7 @@
                     padding: 10px 0 10px 25px;
                     padding-left: 25px;
                     transition: all 0.3s;
+                    font-weight: 500;
                     &:hover{
                         cursor: pointer;
                         background: khaki;
@@ -37,7 +40,7 @@
          }
         .display-panel{
             width: 75%;
-            padding: 10px;
+            padding:50px;
             box-sizing: border-box;
             h3{
                 text-transform: capitalize;

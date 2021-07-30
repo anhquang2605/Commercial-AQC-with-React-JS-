@@ -93,7 +93,7 @@ $width-meidum-editable-field: 220px;
     .panel{
         display: none;
         border: 1px solid  indigo;
-        padding: 20px 10%;
+        padding: 40px 10%;
         border-radius: 0 0 5px 5px;
         width: 100%;
         .panel-title{
@@ -273,9 +273,18 @@ $width-meidum-editable-field: 220px;
         }
     }
     #payments{
+        flex-wrap: wrap;
         justify-content: space-between;
+        .no-card-yet{
+            border: 2px dashed indigo;
+            padding: 50px;
+            text-align: center;
+            font-size: 1.2em;
+        }
         .payment-section{
             width: 46%;
+            min-width: 480px;
+            margin-bottom: 40px;
         }
 
         .title-for-card-list > span{
@@ -289,9 +298,91 @@ $width-meidum-editable-field: 220px;
             .card-mini-info{
                 display: flex;
                 text-align: center;
+                justify-content: center;
+                align-items: center;
                 width: auto;
+                flex-wrap: wrap;
+                .card-type{
+                    background: indigo;
+                    border-radius: 3px;
+                    color: white;
+                    padding: 2px;
+                    width: 80px;
+                    margin-right: 10px;
+                }
+                .card-number{
+                    margin-left: 10px;
+                    font-weight: bold;
+                }
             }
         }
-            
+        button.add-new-card{
+            padding: 5px;
+            text-transform: uppercase;
+            display:flex;
+            align-items: center;
+            margin-bottom: 20px;
+            span{
+                color: indigo;
+            }
+            &:hover span{
+                color: white;
+            }
+        }
+        .card-edit-remove{
+            display: flex;
+
+            button{
+                display: flex;
+                align-items: center;
+               span{
+                   margin-right: 10px;
+                   font-size: 1.5em;
+               }
+               &:first-of-type span{
+                color: skyblue;
+                }
+                
+               &:last-of-type span{
+                    color: tomato;
+               }
+                padding: 5px;
+                &:hover span{
+                    color: white;
+                }
+            }
+        }
+        .remove-card{
+            .modal{
+                padding: 50px;
+                >div{
+                    width: 100%;
+                    text-align: center;
+                    font-size: 1.5em;
+                    margin-bottom:20px;
+                    b{
+                        color: indigo;
+                        text-transform: capitalize;
+                    }
+                }
+                justify-content: center;
+                align-content:center;
+                display: flex;
+                flex-wrap: wrap;
+                button:not(.close-btn-modal){
+                    font-size: 1.5em;
+                    width: 200px;
+                    padding: 10px;
+                    &:last-of-type{
+                        background:darken(tomato,30);
+                        color: white;
+                        &:hover{
+                            background: tomato;
+
+                        }
+                    }
+                }
+            }
+        }
     }
 }

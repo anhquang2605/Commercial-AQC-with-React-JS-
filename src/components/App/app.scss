@@ -19,8 +19,10 @@ body{
         flex-direction: column;
     }
     h4{
-        font-weight: normal;
         font-size: 2em;
+        text-transform: uppercase;
+        color: indigo;
+        font-weight: 500;
     }
     .site-heading{
         box-sizing: border-box;

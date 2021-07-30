@@ -296,7 +296,7 @@ const App = (props) =>  {
                         </Account>
                     }>
                     </ProtectedRoute>
-                    <ProtectedRoute path = {ROUTES.ACCOUNT + '/orders'} account={account} component ={
+                  {/*   <ProtectedRoute path = {ROUTES.ACCOUNT + '/orders'} account={account} component ={
                         account && account.orders ? <Orders {...props} ordersOfAccount={account.orders}></Orders> : <span className="no-order">No order found</span>
                     }></ProtectedRoute>
                     <ProtectedRoute path = {ROUTES.ACCOUNT + '/cards'} account={account} component ={
@@ -306,7 +306,7 @@ const App = (props) =>  {
                         }></ProtectedRoute>
                     <ProtectedRoute path = {ROUTES.ACCOUNT + '/gcards'} account={account} component ={
                         account && account.gcards? <GCards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.gcards}></GCards> : ""
-                    }></ProtectedRoute>
+                    }></ProtectedRoute> */}
                     <Route path ={ROUTES.SIGN_IN} render={(props)=>(
                             <SignIn {...props} setUserForApp = {setUserForApp}>
 

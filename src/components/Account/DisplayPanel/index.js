@@ -595,11 +595,7 @@ const DisplayPanel = (props) => {
                 Place holder for setting components
             </div>
             <div className="panel" id="orders">
-                {props.account.orders ? <Orders ordersOfAccount={props.account.orders}></Orders>:
-                <div className="no-order">
-                    No Order
-                </div>
-                }
+               <Orders ordersOfAccount={props.account.orders}></Orders>
             </div>
             <div className="panel" id="payments">
                 <Cards reFetch={props.reFetch} accountID={props.account.username} list={props.account.cards}></Cards>

@@ -50,8 +50,8 @@ const GCards = (props) => {
                     <div className="card-edit-remove">
                         <button onClick={(e)=>{
                             e.stopPropagation();
-                            handleClickEditCardButton(item,index)}} >Edit</button>
-                        <button onClick={()=>{handleClickDeleteCardButton(item)}}>Delete</button>
+                            handleClickEditCardButton(item,index)}}> <span class="material-icons">edit</span>Edit</button>
+                        <button onClick={()=>{handleClickDeleteCardButton(item)}}><span class="material-icons">delete_forever</span>Delete</button>
                     </div>
                 </React.Fragment>
             }
@@ -217,11 +217,17 @@ const GCards = (props) => {
     },[props.list])
     return (
         <div className="user-gcards-manament payment-section">
-            <h4>Gift Cards</h4>
+            <h5 className="panel-title">Gift Cards</h5>
+            <button className="add-new-card"  onClick={handleClickingAddCard}> <span class="material-icons">add</span>Add a new card</button>
+            {props.list.length > 0?
             <div className="title-for-card-list">
                 <span className="card-name tab-head">Your Gift Cards</span>
                 <span className="card-exp tab-head">Expires</span>
+            </div> : 
+            <div className="no-card-yet">
+                You have no gift card yet, try adding more
             </div>
+            }
             {prepList && <CollapseTab list={prepList}>
             </CollapseTab>}
             <Modal hasTitle={true} ref={refForAddCardModal} name="add-gift-card-for-account">
@@ -252,7 +258,7 @@ const GCards = (props) => {
                         <div className="add-card-btn half" onClick={handleAddCardToAccount}>Add Card</div>
                     </div>
             </Modal>
-            <Modal ref={refForRemoveCardModal} name="remove-gift-card-confirm">
+            <Modal ref={refForRemoveCardModal} name="remove-gift-card-confirm" className="remove-card">
                 {deletingCard !== {} && <div>Are you sure you want to remove <b>{deletingCard.name}</b> card ?</div>}
                 <button onClick={handleDeleteCard}>Confirm</button> 
                 <button onClick={refForRemoveCardModal.current.hideModal}>Cancel</button> 
@@ -271,7 +277,6 @@ const GCards = (props) => {
                         <div className="add-card-btn half" onClick={handleEditConfirmation}>Confirm edit</div>
                     </div>}
             </Modal>
-            <button onClick={handleClickingAddCard}>Add a new card</button>
         </div>
     );
 }

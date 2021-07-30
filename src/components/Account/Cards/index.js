@@ -42,7 +42,7 @@ const Cards = (props) => {
                 title: //Title part
                 <React.Fragment>
                     <span className="card-thumb"><img alt={item.type} src={require("./../../../images/Cards/" + item.type + ".jpg")}></img></span>
-                    <span className="card-mini-info"> <span className="card-title"><span className="card-type">{item.type}</span>  {item.name}</span> <span className="card-number">{item["card number"].slice(item["card number"].length - 4)}</span></span>
+                    <span className="card-mini-info"> <span className="card-title"><span className="card-type">{item.type}</span>  {item.name}</span> <span className="card-number">Ending in {item["card number"].slice(item["card number"].length - 4)}</span></span>
                     <span>{item["exp month"]} / {item["exp year"]}</span>
                 </React.Fragment>,
                 content: //Content part
@@ -55,16 +55,22 @@ const Cards = (props) => {
                         <h5>Billing Address</h5>
                         <div>
                             <span>{item["billing address"]}</span>
-                            <span>{item["billing city"]}</span>
-                            <span>{item["billing state"]}</span>
-                            <span>{item["billing zip"]}</span>
+                            <span>, {item["billing city"]}</span>
+                            <span>, {item["billing state"]}</span>
+                            <span>, {item["billing zip"]}</span>
                         </div>
                     </div>
                     <div className="card-edit-remove">
                         <button onClick={(e)=>{
                             e.stopPropagation();
-                            handleClickEditCardButton(item,index)}} >Edit</button>
-                        <button onClick={()=>{handleClickDeleteCardButton(item)}}>Delete</button>
+                            handleClickEditCardButton(item,index)}}>
+                            <span class="material-icons">edit</span>
+                            Edit
+                        </button>
+                        <button onClick={()=>{handleClickDeleteCardButton(item)}}>
+                            <span class="material-icons">delete_forever</span>
+                            Delete
+                        </button>
                     </div>
                 </React.Fragment>
             }
@@ -223,11 +229,17 @@ const Cards = (props) => {
     },[props.list])
     return (
         <div className="user-cards-manament payment-section">
-            <h4>Payments</h4>
+            <h5 className="panel-title">Payments</h5>
+            <button className="add-new-card" onClick={handleClickingAddCard}><span class="material-icons">add</span>Add a new card</button>
+            {props.list.length > 0 ?
             <div className="title-for-card-list">
                 <span className="card-name tab-head">Your Cards</span>
                 <span className="card-exp tab-head">Expires</span>
+            </div> : 
+            <div className="no-card-yet">
+                You have no card yet, try adding more
             </div>
+            }
             {prepList && <CollapseTab list={prepList}>
             </CollapseTab>}
             <Modal hasTitle={true} ref={refForAddCardModal} name="add-card-for-account">
@@ -248,8 +260,8 @@ const Cards = (props) => {
                         <div className="add-card-btn half" onClick={handleAddCardToAccount}>Add Card</div>
                     </div>
             </Modal>
-            <Modal ref={refForRemoveCardModal} name="remove-card-confirm">
-                {deletingCard !== {} && <div>Are you sure you want to remove <b>{deletingCard.type}</b> card ending in {deletingCard["card number"]} ?</div>}
+            <Modal ref={refForRemoveCardModal} name="remove-card-confirm" className="remove-card">
+                {deletingCard !== {} && <div>Are you sure you want to remove <b>{deletingCard.type}</b> card ending in {deletingCard["card number"] ? deletingCard["card number"].slice(deletingCard["card number"].length - 4) : ""} ?</div>}
                 <button onClick={handleDeleteCard}>Confirm</button> 
                 <button onClick={refForRemoveCardModal.current.hideModal}>Cancel</button> 
             </Modal>
@@ -270,7 +282,7 @@ const Cards = (props) => {
                         <div className="add-card-btn half" onClick={handleEditConfirmation}>Confirm edit</div>
                     </div>}
             </Modal>
-            <button onClick={handleClickingAddCard}>Add a new card</button>
+            
         </div>
     );
 }

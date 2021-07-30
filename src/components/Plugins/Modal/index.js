@@ -19,7 +19,7 @@ const Modal = React.forwardRef((props,ref) => {//expose showModal method to the 
             }
         } , hideModal: (callback)=>{
             hideModal()
-            if(callback){
+            if(typeof callback === "function"){
                 callback();
             }
         }
@@ -31,7 +31,7 @@ const Modal = React.forwardRef((props,ref) => {//expose showModal method to the 
     },[props.hide])
     return (
         //initially hide the modal with hide-modal class, can be found in modal.scss in the same directory
-        <div className="modal-container hide-modal" id={"modal" + (props.name? ("_"+props.name) : "") }>
+        <div className={"modal-container hide-modal "+(props.className? props.className : "")} id={"modal" + (props.name? ("_"+props.name) : "") }>
             <div className={"modal awesome_form fix-width wide" + ( props.autoHeight ? " auto-height" : "")} >
                 {props.hasTitle && <h5>{props.name.replaceAll('-'," ")}</h5>}
                 <button className="close-btn-modal" onClick={hideModal}><AiFillCloseCircle></AiFillCloseCircle></button>

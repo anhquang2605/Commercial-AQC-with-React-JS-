@@ -1,5 +1,24 @@
 .account_orders{
     width: 100%;
+    .no-order{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        svg{
+            width: 200px;
+            height: 100%;
+            g{
+                stroke: indigo;
+            }
+        }
+        .message{
+            margin-top: 30px;
+            width: 100%;
+            text-align: center;
+            font-size: 1.5em;
+        }
+    }
     .cool-table{
         .package-info{
             width:100%;

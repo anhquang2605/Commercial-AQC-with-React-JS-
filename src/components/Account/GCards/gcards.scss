@@ -5,8 +5,8 @@ $form-background: rgba($color: #fcff67, $alpha: .5);
         width: 100%;
         box-sizing: border-box;
         align-items: center;
-        & > span:last-child{
-            width: 70px;
+        &> span:nth-child(3){
+            width: 55px;
             max-width: auto;
             margin-left:auto;
         }
