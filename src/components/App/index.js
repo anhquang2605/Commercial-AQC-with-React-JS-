@@ -52,7 +52,7 @@ const App = (props) =>  {
         const [cartList, setCartList] = useState([]);
         const [curCard, setCurCard] = useState();
         const [curGCards, setCurGCards] = useState([]);
-        const [curShipping, setCurShipping] = useState({});
+        const [curShipping, setCurShipping] = useState(null);
         const [curTotal, setCurTotal] = useState(0);
         const [account, setAccount] = useState(null);
         const history = useHistory();
@@ -233,6 +233,13 @@ const App = (props) =>  {
                     var account = datas.data();
                     setAccount(account);
                     setCartList(account.kart);
+                    if(account.shippings && account.shippings.length > 0){
+                        let curShipping = account.shippings[0];
+                        for (let shipping of account.shippings){
+                            if (shipping.current === true) curShipping = shipping;
+                        }
+                        setCurShipping(curShipping);
+                    }
                 }) 
             }
         },[user])
@@ -290,7 +297,7 @@ const App = (props) =>  {
                         </ThankYou>
                         )}></Route>
                     {/* Account Routes  */}
-                    <ProtectedRoute exact path = {ROUTES.ACCOUNT} account={account} component={
+                    <ProtectedRoute path = {ROUTES.ACCOUNT + "/:subpath?"} user={user} account={account} component={
                         <Account {...props} refetchAccount={reFetchAccount} account={account}>
 
                         </Account>

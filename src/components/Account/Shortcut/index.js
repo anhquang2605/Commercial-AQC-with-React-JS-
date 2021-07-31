@@ -11,10 +11,10 @@ const Shortcut = (props) => {
             </div>
             <div className="dropdown-account-nav" id="drop-down-account-detail">
                 <ul>
-                    <li><Link to="/account">Account info</Link></li>
+                    <li><Link to="/account/information">Account info</Link></li>
                     <li><Link to="/account/orders">Your Orders</Link></li>
-                    <li><Link to="/account/cards">Your Payment</Link></li>
-                    <li><Link to="/account/gcards">Your Gift Cards</Link></li>
+                    <li><Link to="/account/payments">Your Payment</Link></li>
+                    <li><Link to="/account/payments">Your Gift Cards</Link></li>
                 </ul>
             </div>
         </div>

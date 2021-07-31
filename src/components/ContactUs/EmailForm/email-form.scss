@@ -11,7 +11,7 @@
         position:relative;
     }
     .email-sent{
-        padding: 15px;
+        padding: 40px;
         transition: transform 0.4s;
         transform: translate(0);
         opacity: 1;
@@ -79,6 +79,20 @@
                 transform: translate(-500px,-500px);
                 height: 1000px;
             }
+        }
+    }
+    #sent{
+        p{
+            width: 100%;
+            font-size: 1.5em;
+            text-align: center;
+            margin-top: 0;
+        }
+        h5{
+            margin-bottom: 10px;
+        }
+        button{
+            font-size: 1.2em;
         }
     }
 }

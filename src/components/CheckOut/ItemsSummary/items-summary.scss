@@ -11,7 +11,7 @@
         }
         td,th{
             padding: 10px;
-            text-align: center;
+            text-align: start;
         }
         td img{
             width: 80px;
@@ -19,6 +19,23 @@
         tr:not(first-child) td:nth-child(2){
             text-align: left;
             text-transform: capitalize;
+        }
+        tr td:first-child{
+            width: 10%;
+        }
+        tr td:nth-child(2){
+            color: indigo;
+            font-weight: 500;
+        }
+        tr td:nth-child(3){
+            width: 5%;
+            text-align: center;
+        }
+        tr td:nth-child(4){
+            width: 5%;
+            font-weight: 600;
+            color:green;
+
         }
     }
 }

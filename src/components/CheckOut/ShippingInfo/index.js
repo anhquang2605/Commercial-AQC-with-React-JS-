@@ -74,9 +74,25 @@ const ShippingInfo = (props) => {
             address: e.target.value
         }))
     }
-    let updateCurrentShipping = (e) =>{
-        let id = e.target.value;
-        setCurrentShipping(shippingList[id]);
+    let compareTwoShippings = (obj1,obj2) => {
+        if (obj1 === null || obj2 === null) return false;
+        const fields1 = Object.entries(obj1);
+        const fields2 = Object.entries(obj2);
+        if (fields1.length !== fields2.length){
+            return false;
+        }
+        for (let i = 0; i < fields1.length; i += 1){
+            if(fields1[i][0] !== fields2[i][0]){
+                return false;
+            }
+            if(fields1[i][1] !== fields2[i][1]){
+                return false;
+            }
+        }
+        return true;
+    }
+    let updateCurrentShipping = (ship) =>{
+        setCurrentShipping(ship);
     }
         //Submitting form values
     let setShippingAddress = () => {
@@ -91,21 +107,56 @@ const ShippingInfo = (props) => {
             });
         }
     } 
+    let setShippingIfUserPresents = (startID) =>{
+        let shippingsFromAccount = props.account.shippings;
+        if( shippingsFromAccount && shippingsFromAccount.length > 0){
+            setShippingList(shippingsFromAccount);
+            let currentShipping = shippingsFromAccount[startID];
+            if (startID === 0){
+                for (let shipping of shippingsFromAccount){
+                    if (shipping.current === true){
+                        currentShipping = shipping;
+                    }
+                } 
+            } 
+            setCurrentShipping(currentShipping);
+        }
+       
+        
+       
+    }
     //When current shipping changed, update shipping info to Check Out component
     useEffect(()=>{
         if(currentShipping !== undefined){
             props.setShippingForApp(currentShipping);
         }
-    },[currentShipping])
-    //Getting shipping datas from fire store and states data from json file from public directory
-    useEffect(() => {
-        if (props.curShipping === undefined){
-            fetchDataFromFireStore(0);
+    },[currentShipping]);
+    useEffect(()=>{
+        if(props.account !== undefined){
+            setShippingIfUserPresents(0);
+            console.log(currentShipping);
             fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
                 setAllStates(data);
             });
-        } else {     
-            fetchDataFromFireStore(props.curShipping.id);
+        }
+    },[props.account]);
+    //Getting shipping datas from fire store and states data from json file from public directory
+    useEffect(() => {
+        if (props.curShipping === null){
+            if(props.account){
+               setShippingIfUserPresents(0);
+            } else {
+                fetchDataFromFireStore(0);
+            }   
+            fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
+                setAllStates(data);
+            });
+        } else {  
+            if(props.account){
+                setCurrentShipping(props.curShipping);
+             } else {
+                 fetchDataFromFireStore(props.curShipping.id);
+             }   
             fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
                 setAllStates(data);
             });
@@ -142,8 +193,8 @@ const ShippingInfo = (props) => {
                                     <tbody>
                                     {shippingList && currentShipping && shippingList.map((ship)=>{
                                         return(
-                                       <tr key={ship.id}>
-                                           <td><input onClick={updateCurrentShipping} type="radio" name="shipping" checked={currentShipping.id === ship.id} value={ship.id}></input></td>
+                                       <tr key={ship.name}>
+                                           <td><input onClick={()=>{updateCurrentShipping(ship)}} type="radio" name="shipping" checked={compareTwoShippings(currentShipping,ship)} value={ship.id}></input></td>
                                            <td className="ship-name">{ship.name}</td>
                                            <td className="ship-address">{ship.address}</td>
                                        </tr>     

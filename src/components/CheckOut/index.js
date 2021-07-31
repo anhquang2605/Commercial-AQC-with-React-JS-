@@ -99,7 +99,7 @@ const CheckOut = React.forwardRef((props, ref) => {
     return (
         <div id="check_out">
             <div className="left-container">
-                <ShippingInfo curShipping={shipping} setShippingForApp={props.setShippingForApp}></ShippingInfo>
+                <ShippingInfo account={props.account} curShipping={shipping} setShippingForApp={props.setShippingForApp}></ShippingInfo>
                 {(cards && card) ? <Payment user={props.account ? props.account.username : ""}  addCardToDb={addCardToDb} setMyCard={setMyCard} card={card} cards={cards} gcards={props.account ? props.account.gcards : GIFTCARDS} currentGCards={props.curGCards} setGCardForApp={props.setGCardForApp} getDis={getDis} getDebitDis={getDebitDis}></Payment>: <div>No payments available for this account please add via "Payments" in account information</div>}
                 <ItemsSummary list={props.list}></ItemsSummary> 
             </div>

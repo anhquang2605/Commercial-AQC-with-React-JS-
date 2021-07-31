@@ -6,6 +6,9 @@ const OptionPanel = (props) => {
     useEffect(() => {
         setList(props.list);
     }, []);
+    useEffect(() => {
+       setCurrent(props.current)
+    }, [props.current]);
     return (
         <ul className="option-panel">
             {list.length > 0 ? list.map((item) =>
