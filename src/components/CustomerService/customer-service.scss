@@ -1,3 +1,43 @@
 .customer-service{
     padding: 10px 10%;
+    .flex-links{
+        justify-content: center;
+        .flex-link{
+            padding: 20px;
+            background: none;
+            border-color: indigo;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+            justify-content: flex-start;
+            margin-right: 50px;
+            &:hover{
+                background: indigo;
+                svg{
+                    fill: white;
+                }
+                box-shadow: lightgray 3px 3px 5px 5px;
+            }
+            &:hover .flex-link-title{
+                & svg{
+                    fill: indigo;
+                }
+                background: white;
+                color: indigo;
+            }
+            .flex-link-title{
+                background: indigo;
+                border-radius: 3px;
+                padding: 5px;
+                color: white;
+                font-size: 1.2em;
+                margin-right: auto;
+            }
+            .flex-link-des{
+                margin-top: 10px;
+                font-size: 1em;
+                text-transform: none;
+            }
+        }
+    }
 }

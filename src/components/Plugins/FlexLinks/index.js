@@ -6,6 +6,7 @@ const FlexLinks = (props) => {
         let daList = props.list.map((item)=>
         (<FlexLink   title = {item.title}
             route = {item.route}
+            description = {item.description}
             extra = {item.extra? item.extra: ""}>
         </FlexLink> 
         ));

@@ -18,7 +18,9 @@
     height: 8px;
 }
 .Pagination a circle{
-    fill: khaki;
+    fill: white;
+    stroke-width: 3px;
+    stroke: indigo;
    /* stroke-width: 1px; */
     /* //stroke: indigo; */
 }
@@ -29,4 +31,5 @@
 }
 .Pagination a.current svg circle{
     fill: indigo;
+    stroke-width: 0;
 }

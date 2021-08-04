@@ -197,6 +197,13 @@ const App = (props) =>  {
             }
         }
         //for component that add, edit and delete their data
+        let primaryAsCurrentShipping = (shippingList) => {
+            for(let shipping of shippingList){
+                if(shipping.current === true){
+                    setCurShipping(shipping);
+                }
+            }
+        };
         let reFetchAccount = () =>{
             if(user !== "" && user !== undefined){
                 db.collection("accounts").doc(user).onSnapshot((datas)=>{//use on Snap shot for real time data getting, else use get().then().
@@ -206,6 +213,7 @@ const App = (props) =>  {
                         var account = datas.data();
                         setAccount(account);
                         setCartList(account.kart);
+                        primaryAsCurrentShipping(account.shippings);
                     } else {
                         console.log("no data receive please try again");
                     }

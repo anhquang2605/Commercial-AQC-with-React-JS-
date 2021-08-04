@@ -1,7 +1,8 @@
 import {React, useState, useEffect} from 'react';
-import {BiX} from 'react-icons/bi';
+import {IoBagCheckOutline} from 'react-icons/io5';
 import {BsFillBagFill, BsArrowRightShort} from 'react-icons/bs';
 import {VscClose} from 'react-icons/vsc';
+import {FiShoppingCart} from 'react-icons/fi';
 import {Link} from 'react-router-dom';
 import $ from 'jquery';
 import './shopping-cart.scss';
@@ -78,11 +79,11 @@ const ShoppingCart = (props) => {
                 <BsArrowRightShort></BsArrowRightShort>
             </div>
             <div id="shopping_cart">
+                <h6>Your Cart</h6>
                 { list.length > 0? (
                 <table key={props.cartList}>
                     <thead>
                         <tr>
-                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -95,9 +96,7 @@ const ShoppingCart = (props) => {
                             <td><img className="kart-item-img" src={require("./../../images/" + item.id + "-" + item.type + ".jpg")}></img></td>
                             <td>{item.type + " " + item.name}</td>
                             <td>{item.quantity}</td>
-                            <td><button className="kart-remove-item-btn" alt="remove item" onClick={()=>{
-                                props.removeItem(index)                               
-                            }}><VscClose></VscClose></button></td>
+                        
                         </tr>
                         )
                     })}
@@ -105,7 +104,7 @@ const ShoppingCart = (props) => {
                 </table>
                 ) : "No item" }
             </div>
-            {(list.length>0) && <Link className="cart-check-out-btn btn" to="/checkout" onClick={()=>{}}>Check out</Link>}
+            {(list.length>0) && <div className="button-group"> <Link className="cart-check-out-btn btn" to="/checkout" onClick={()=>{}}><IoBagCheckOutline></IoBagCheckOutline>Check out</Link> <Link className="btn kart-detail-btn" to="/kart-detail"><FiShoppingCart></FiShoppingCart> View kart</Link></div>}
         </div>
     );
 }
