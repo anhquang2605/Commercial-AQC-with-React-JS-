@@ -27,6 +27,7 @@ import ProtectedRoute from '../Plugins/ProtectedRoute';
 import Help from '../CustomerService/Help';
 import Footer from '../Footer';
 import ContactUs from '../ContactUs';
+import 'overlayscrollbars/css/OverlayScrollbars.css';
 /*const PageComponents = {
     Home: Home,
     Order: Order,

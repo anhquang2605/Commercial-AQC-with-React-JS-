@@ -68,6 +68,11 @@
         padding: 10px;
         padding-top: 15px;
         box-sizing: border-box;
+        .table-container{
+            max-height: 300px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
         table{
             box-sizing: border-box;
         }
@@ -186,5 +191,11 @@
             }
         }
     }
-    
 }
+ .os-scrollbar-handle{
+    border: 1px solid indigo!important;
+    background: white!important; 
+ }
+ .os-scrollbar-handle.active{
+     background: indigo!important;
+ }

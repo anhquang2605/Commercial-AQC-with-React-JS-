@@ -18,6 +18,7 @@
 }
 .widget:hover{
     box-shadow: 5px 5px 10px grey;
+    transform: scale(1.03,1.03);
  }
  .widget:hover .price-tag{
     background: indigo;
