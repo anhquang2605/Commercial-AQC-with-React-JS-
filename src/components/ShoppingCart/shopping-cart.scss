@@ -5,7 +5,6 @@
     top: 50%;
     display:flex;
     flex-direction: column;;
-    max-height: 400px;
     min-height: 300px;
     z-index: 5000;
     border: 1px solid indigo;
@@ -15,16 +14,16 @@
     border-radius: 3px;
     h6{
         margin: 0;
-        text-transform: uppercase;
+        text-transform: capitalize;
         color: indigo;
-        font-size: 1em;
+        font-size: 1.5em;
         font-weight: bold;
         padding-bottom: 3.5px;
     
     }
     #shopping_cart_mini{
         position: absolute;
-        left: -55px;
+        left: -70px;
         top: 0px;
         z-index: 5001;
         cursor: pointer;
@@ -65,7 +64,7 @@
         border-radius: 5px;
         overflow: auto;
         z-index: 5005;
-        padding: 10px;
+        padding: 15px;
         padding-top: 15px;
         box-sizing: border-box;
         .table-container{
@@ -191,11 +190,32 @@
             }
         }
     }
+    .cart-total{
+        text-transform: capitalize;
+        padding: 10px;
+        padding-left: 0;
+        font-size: 1.4em;
+        border-top: 1px solid indigo;
+        font-weight: 500;
+        margin-top: auto;
+        b{
+           color: green;
+            padding: 2px;
+        }
+    }
+    .os-scrollbar-handle{
+        border: 1.5px solid indigo!important;
+        background: white!important; 
+        transition: box-shadow 0.2s;
+        margin-left: -3px;
+        &:hover{
+            box-shadow: lighten($color: indigo, $amount: 50) 0 0  2px 2px;
+            cursor: s-resize;
+        }
+     }
+     .os-scrollbar-handle.active{
+         box-shadow: lighten($color: indigo, $amount: 50) 0 0  2px 2px;
+            cursor: s-resize;
+     }
 }
- .os-scrollbar-handle{
-    border: 1px solid indigo!important;
-    background: white!important; 
- }
- .os-scrollbar-handle.active{
-     background: indigo!important;
- }
+

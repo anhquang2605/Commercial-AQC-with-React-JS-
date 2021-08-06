@@ -104,7 +104,7 @@ const CheckOut = React.forwardRef((props, ref) => {
                 <ItemsSummary list={props.list}></ItemsSummary> 
             </div>
             <div className="right-container">
-                <PriceTotal setTotalForCheckOut = {getTotalFromWithinPriceTotalComp} card={props.curCard} dis={dis} debit={debitDis}  list={props.list}></PriceTotal>
+                <PriceTotal osRef={props.osRef} setTotalForCheckOut = {getTotalFromWithinPriceTotalComp} card={props.curCard} dis={dis} debit={debitDis}  list={props.list}></PriceTotal>
             </div>
             
         </div>

@@ -1,34 +1,39 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import * as ROUTES from '../../Constants/Routes'
 import './navigator.scss';
-class Navigator extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            routes: ROUTES
-        }
-    }
-    componentDidMount = () => {
-        window.addEventListener("scroll", this.handleStickyScroll);
-    }
-    componentWillUnmount = () => {
-        window.removeEventListener("scroll", this.handleStickyScroll);
-    }
-    handleStickyScroll = () => {
+import OverlayScrollbars from 'overlayscrollbars';
+const Navigator = (props) =>{
+    const [datarget, setdaTarget] = useState();
+
+    let handleStickyScroll = (container) => {
         var header = document.getElementById("header");
-        var headerOffSet = header.offsetTop;
-        if(window.pageYOffset > headerOffSet){
+        var headerOffSet = parseInt(header.offsetTop) - 10;
+        var handleOffsetOfScroll = container.scroll().handleOffset.y;
+        if(headerOffSet < 0 ) headerOffSet = 0;
+        if(handleOffsetOfScroll > headerOffSet ){
             header.classList.add("sticky");
         } else {
             header.classList.remove("sticky");
+        } 
+    }
+    useEffect(() => {
+        if(props.osScrollBar !== ""){
+            let target = props.osScrollBar.osInstance();
+            target.options({
+                callbacks:{
+                    onScroll: ()=>{handleStickyScroll(target)}
+                }
+            })
+            /* props.osScrollBar.addEventListener("scroll", ()=>{
+              console.log("Here");
+          }) */
         }
-    }
-    render() {
-        return(
-            <div id="header">
-                {this.props.children}
-            </div>
-        )
-    }
+    }, []);
+    return(
+        <div id="header">
+            {props.children}
+        </div>
+    )
+
 }
 export default Navigator;

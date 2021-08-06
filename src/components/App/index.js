@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Navigator from '../Navigator';
 import Home from '../Home';
 import NavBar from '../NavBar';
@@ -28,6 +28,8 @@ import Help from '../CustomerService/Help';
 import Footer from '../Footer';
 import ContactUs from '../ContactUs';
 import 'overlayscrollbars/css/OverlayScrollbars.css';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import OverlayScrollbars from 'overlayscrollbars';
 /*const PageComponents = {
     Home: Home,
     Order: Order,
@@ -56,9 +58,12 @@ const App = (props) =>  {
         const [curShipping, setCurShipping] = useState(null);
         const [curTotal, setCurTotal] = useState(0);
         const [account, setAccount] = useState(null);
+        const [osRef , setOsRef] = useState();
+        const [refScrollForChild, setRefScrollForChild] = useState();
         const history = useHistory();
-            //for testing purpose
+               //for testing purpose
         //the date
+        const thisref = React.createRef();
         let d = new Date();
         //const firebasecontext =  useContext(FirebaseContext);
         const db = Firebase.firestore();
@@ -231,7 +236,14 @@ const App = (props) =>  {
                 }) 
             } 
             setPageName(location.pathname);
+            setRefScrollForChild(thisref.current);
         },[]);
+       /*  useEffect(()=>{
+            if (ref !== undefined && ref.current!==null){
+                setRefScrollForChild(ref);
+                console.log(ref);
+            }
+        },[ref]); */
         useEffect(()=>{//keep track of paths
             setPageName(location.pathname);
         },[location]);
@@ -251,9 +263,10 @@ const App = (props) =>  {
                     }
                 }) 
             }
-        },[user])
+        },[user]);
         return(
-            <div className="commercial-AQC">
+            <OverlayScrollbarsComponent ref={thisref}   style={{ height: '100%' }}> 
+            <div id="aqc" className="commercial-AQC">
                 <div className="content">
                 <div className="top-header">
                     <h1 className="site-heading"><Link to="/">Commercial website AQC</Link></h1> 
@@ -261,7 +274,7 @@ const App = (props) =>  {
                     <SearchBar></SearchBar>}
                 </div>
                 {(pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && 
-                <Navigator>
+                <Navigator osScrollBar = {refScrollForChild ? refScrollForChild : ""}>
                     {/* <Logo href={ROUTES.HOME} src={'logo.png'}></Logo> */}
                     <NavBar></NavBar>            
                     {(JSON.stringify(account) !== JSON.stringify({}) && account !== null && account !== undefined) && 
@@ -279,6 +292,7 @@ const App = (props) =>  {
                         render = {(props) => (
                             <CheckOut {...props}
                                     reFetch={reFetchAccount}
+                                    osRef={refScrollForChild}
                                     account={account}
                                     curGCards={curGCards}  
                                     curCard={curCard} 
@@ -288,6 +302,7 @@ const App = (props) =>  {
                                     setGCardForApp={getGCardsFromCheckout} 
                                     setTotalForApp={getTotalFromCheckout}
                                     list={cartList}>
+                                    
                             </CheckOut>)}>
                             </Route>
                     <Route path = {ROUTES.PLACE_ORDER} 
@@ -340,6 +355,7 @@ const App = (props) =>  {
                 <Footer></Footer>   
                        
             </div>
+            </OverlayScrollbarsComponent>
         )
 } 
 

@@ -10,9 +10,11 @@ body{
     font-size: 13px;
     position: relative;
     //height: 100%;//need to set this to 100% 
+  
     #root{
         height: 100vh;//to make the whole div expand to the view height
     }
+
     .commercial-AQC{//the following property is to make the footer stay at the bottom
         height: 100%;
         display: flex;

@@ -9,6 +9,10 @@
     }
     form{
         position:relative;
+        label{
+            font-weight: 500;
+            color: indigo;
+        }
     }
     .email-sent{
         padding: 40px;

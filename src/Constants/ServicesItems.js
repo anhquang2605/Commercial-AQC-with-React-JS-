@@ -9,11 +9,11 @@ const SERVICESITEMS = [
     },
     {
         title: "payments",
-        route: "account/cards",
+        route: "account/payments",
     },
     {
         title: "gift cards",
-        route: "account/gcards",
+        route: "account/payments",
     },
     {
         title: "your account",

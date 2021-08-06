@@ -95,7 +95,7 @@ const ShoppingCart = (props) => {
                 <h6>Your Cart</h6>
                 { list.length > 0? (
                 <Fragment>
-                <OverlayScrollbarsComponent  style={{ maxHeight: '300px' }}>
+                <OverlayScrollbarsComponent  style={{ maxHeight: '270px' }}>
                 <table key={props.cartList}>
                     <thead>
                         <tr>
@@ -110,7 +110,7 @@ const ShoppingCart = (props) => {
                         <tr key={index}>
                             <td><img className="kart-item-img" src={require("./../../images/" + item.id + "-" + item.type + ".jpg")}></img></td>
                             <td>{item.type + " " + item.name}</td>
-                            <td>Qty. {item.quantity}</td>
+                            <td>{item.quantity}</td>
                         
                         </tr>
                         )
@@ -118,7 +118,7 @@ const ShoppingCart = (props) => {
                     </tbody>
                 </table>
                 </OverlayScrollbarsComponent>
-                <div className="cart-total">Order Subtotal: ${total}</div>
+                <div className="cart-total">Subtotal <b>${total}</b></div>
                 </Fragment>
                 ) : "No item" }
             </div>

@@ -24,10 +24,11 @@ const PriceTotal = (props) => {
             return dasum
         }
     }
-    let handleStick = (e) =>{
+    let handleStick = (target) =>{
         let totalPriceComp = document.getElementsByClassName("total-price")[0];
         let compOffsetTop = totalPriceComp.offsetTop;
-        if(compOffsetTop < window.pageYOffset){
+        var handleOffsetOfScroll = target.scroll().handleOffset.y;
+        if(compOffsetTop < handleOffsetOfScroll){
             totalPriceComp.classList.add("sticky");
         } else {
             totalPriceComp.classList.remove("sticky");
@@ -36,10 +37,13 @@ const PriceTotal = (props) => {
     useEffect(()=>{
         setList(props.list);
         setSum(getSum());
-        window.addEventListener("scroll", handleStick);
-        return () =>{
-            window.removeEventListener("scroll",handleStick);
-        }
+        let target = props.osRef.osInstance();
+        target.options({
+            callbacks:{
+                onScroll: ()=>{handleStick(target)}
+            }
+        })
+       
     },[])
 
     useEffect(()=>{
