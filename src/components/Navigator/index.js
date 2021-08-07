@@ -7,14 +7,16 @@ const Navigator = (props) =>{
 
     let handleStickyScroll = (container) => {
         var header = document.getElementById("header");
-        var headerOffSet = parseInt(header.offsetTop) - 10;
-        var handleOffsetOfScroll = container.scroll().handleOffset.y;
-        if(headerOffSet < 0 ) headerOffSet = 0;
-        if(handleOffsetOfScroll > headerOffSet ){
-            header.classList.add("sticky");
-        } else {
-            header.classList.remove("sticky");
-        } 
+        if(header){
+            var headerOffSet = parseInt(header.offsetTop) - 10;
+            var handleOffsetOfScroll = container.scroll().handleOffset.y;
+            if(headerOffSet < 0 ) headerOffSet = 0;
+            if(handleOffsetOfScroll > headerOffSet ){
+                header.classList.add("sticky");
+            } else {
+                header.classList.remove("sticky");
+            } 
+        }
     }
     useEffect(() => {
         if(props.osScrollBar !== ""){

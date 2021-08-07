@@ -13,7 +13,8 @@ const ItemsSummary = (props) => {
     return (
         <div id="items-summary">
             <h4 className="check-out-title">Items summary</h4>
-            <table>
+            <div>            
+                <table>
                 <thead>
                     <tr>
                         <th></th>
@@ -35,6 +36,7 @@ const ItemsSummary = (props) => {
                     })}
                 </tbody>
             </table>
+            </div>
         </div>
     );
 }

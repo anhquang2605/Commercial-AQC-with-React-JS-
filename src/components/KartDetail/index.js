@@ -23,6 +23,7 @@ const KartDetail = (props) => {
             <h4>Kart Detail</h4>
             {list.length > 0 ? (
                 <table>
+                    <thead>
                     <tr>
                         <th width="10%"></th>
                         <th width="40%">Name</th>
@@ -31,6 +32,8 @@ const KartDetail = (props) => {
                         <th width="15%">Total</th>
                         <th></th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {list.map((item,index)=>{
                         return(
                         <tr key={index}>
@@ -45,6 +48,7 @@ const KartDetail = (props) => {
                             }}>Delete</button></td>
                         </tr>)
                     })}
+                    </tbody>
                 </table>
             ) : <div className="empty-kart-detail">
                 <SadBag></SadBag>

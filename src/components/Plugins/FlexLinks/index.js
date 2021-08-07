@@ -4,7 +4,7 @@ import './flex-links.scss';
 const FlexLinks = (props) => {
     let prepareItems = () => {
         let daList = props.list.map((item)=>
-        (<FlexLink   title = {item.title}
+        (<FlexLink key={item.title}   title = {item.title}
             route = {item.route}
             description = {item.description}
             extra = {item.extra? item.extra: ""}>

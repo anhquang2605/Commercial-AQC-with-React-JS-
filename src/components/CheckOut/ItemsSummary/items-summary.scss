@@ -1,10 +1,17 @@
 #items-summary{
     width: 100%;
+    &>div{
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        border: 1px solid indigo;
+    }
     table{
         width: 100%;
         border-spacing: 0;
         border-radius: 5px;
-        border: 1px solid indigo;
+        border: 1px solid lightgray;
         thead{
             background: indigo;
             color:white;
@@ -12,6 +19,9 @@
         td,th{
             padding: 10px;
             text-align: start;
+        }
+        th{
+            padding: 5px 10px;
         }
         td img{
             width: 80px;
@@ -32,7 +42,7 @@
             text-align: center;
         }
         tr td:nth-child(4){
-            width: 5%;
+            width: 70px;
             font-weight: 600;
             color:green;
 

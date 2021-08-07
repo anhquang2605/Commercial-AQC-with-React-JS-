@@ -3,8 +3,9 @@ $svg-stroke: indigo;
 #kart_detail{
     padding: 10px 10%;
     table{
+        width: 90%;
         margin: auto;
-        border: 1px solid indigo;
+        border: 1px solid #b1b1b1;
         border-radius: 5px;
         border-spacing: 0px;
         th{
@@ -27,19 +28,20 @@ $svg-stroke: indigo;
         tr{
             padding-bottom: 20px;
         }
-        tr:nth-child(2n+1){
-            background: lightyellow;
-        }
-        tr:first-child{
-            background: indigo;
-            color: white;
-            th{
-                padding: 10px;
-            }
-        }
         tr td:nth-child(5){
             color: indigo;
             font-weight: bold;
+        }
+        thead tr{
+            background: indigo!important;
+            padding: 5px 10px;
+            color: white;
+        }
+        thead th{
+            padding: 5px 10px; 
+        }
+        th:nth-of-type(2),td:nth-of-type(2){
+            text-align: left;
         }
         input{
             width: 100%;

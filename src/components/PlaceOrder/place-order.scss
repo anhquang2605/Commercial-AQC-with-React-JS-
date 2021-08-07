@@ -6,6 +6,7 @@
     flex-direction: row;
     justify-content:space-between;
     box-sizing: border-box;
+    align-items: flex-start;
    .left-panel{
     padding: 20px;
     box-sizing: border-box;
@@ -19,21 +20,25 @@
         flex-wrap: wrap;
         width: 40%;
         align-content: flex-start;
+        box-shadow: lightgrey 0 0 14px 0px;
+        height: auto;
+        border-radius: 5px;
+        box-sizing: border-box;
+        padding: 20px;
+        justify-content: space-between;
     }
     h5{
         font-size: 1.2em;
         font-weight: 500;
         color: indigo;
         margin-top: 0;
+        margin-bottom: 10px;
     }
     .main-box{
         box-sizing: border-box;
     }
     .sub-box{
-        padding: 20px;
-        background: lightyellow;
         box-sizing: border-box;
-        border-bottom: 1px solid indigo;
         height: 120px;
         
         &:last-child{
@@ -67,7 +72,7 @@
         justify-content: center;
         text-decoration: none;
         padding: 10px;
-        width: 50%;
+        width: 48%;
         box-sizing:border-box;
         text-align: center;
         background: indigo;

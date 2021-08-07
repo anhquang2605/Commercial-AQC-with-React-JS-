@@ -41,6 +41,7 @@ $fourth-width: 23%;
     }
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
     width: 50%;
     margin: 5% auto;
@@ -71,10 +72,10 @@ $fourth-width: 23%;
         align-items: center;
         font-family: inherit;
         &.half{
-            width: $half-width;
+            width: $half-width!important;
         }
         &.fourth{
-            width: $fourth-width;
+            width: $fourth-width!important;
         }
         &.hidden-field{
             display: none;

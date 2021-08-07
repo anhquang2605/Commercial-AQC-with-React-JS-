@@ -1,7 +1,7 @@
 #payment{
     .no-chosen-gcard{
         background: lightyellow;
-        padding: 10px;
+        padding: 20px;
         font-weight: 1.2em;
     }
     > div{
@@ -17,31 +17,45 @@
     }
     b{
         text-transform: capitalize;
-        font-weight: 500;
+        font-weight: 600;
         margin-right: 10px;
     }
     table{
         border-radius: 5px;
+        margin: 5px auto;
         width: 100%;
-        margin: 5px 0;
         border-spacing: 0;
+        border: 1px solid lightgray;
+        margin-bottom: 10px;
         thead{
             background: indigo;
             color: white;
         }
         th{
             text-align: left;
-            padding: 10px;
+            padding: 5px 10px;
             font-weight: 500;
+            box-sizing: border-box;
+        }
+        th:first-child{
+            border-radius: 5px 0 0 0 ;
+            width: 41px;
+        }
+        th:nth-child(3){
+            width: 40%;
+        }
+        th:last-child{
+            border-radius: 0 5px 0 0;
+            width: 100px;
         }
         td{
-            padding: 5px;
+            padding: 10px;
         }
     }
     #chosen-card{
         opacity: 1;
         visibility: initial;
-        padding: 10px;
+        padding: 20px;
         box-sizing: border-box;
         width: 100%;
         transition: opacity 0.3s, visibility 0.3s;
@@ -78,7 +92,7 @@
             overflow: hidden;
         }
         span, span *{
-            font-size: 1.2em;
+            font-size: 1em;
             text-transform: uppercase;
             b{
                 color: indigo;
@@ -87,7 +101,7 @@
     }
     #change-card-field{
         opacity: 1;
-        padding: 10px;
+        padding: 20px;
         box-sizing: border-box;
         width: 100%;
         transition: opacity 0.3s, visibility 0.3s;
@@ -100,8 +114,9 @@
             overflow: hidden;
         }
         h4{
-            font-size: 1.6em;
+            font-size: 1.4em;
             margin-bottom: 5px;
+            text-transform: capitalize;
         }
         & div:first-child h4{
             margin-top: 0;
@@ -126,6 +141,7 @@
             &:not(.exp-date){
                 flex-wrap: wrap;
             }
+        
             input, select, legend{
                 font-family: inherit;
                 font-size: inherit;

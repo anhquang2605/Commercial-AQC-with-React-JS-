@@ -35,7 +35,7 @@ const Modal = React.forwardRef((props,ref) => {//expose showModal method to the 
             <div className={"modal awesome_form fix-width wide" + ( props.autoHeight ? " auto-height" : "")} >
                 {props.hasTitle && <h5>{props.name.replaceAll('-'," ")}</h5>}
                 <button className="close-btn-modal" onClick={hideModal}><AiFillCloseCircle></AiFillCloseCircle></button>
-he                {props.children}
+            {props.children}
             </div>
             <div className="black-curtain"></div>
         </div>

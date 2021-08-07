@@ -23,7 +23,7 @@ class FeaturedItems extends React.Component{
         return (
             <div className="FeaturedItems">
                 <div className="border-container">
-                <h4 className="featured-title"> <span class="material-icons-round">favorite</span>Featured Items </h4>               
+                <h4 className="featured-title"> <span className="material-icons-round">favorite</span>Featured Items </h4>               
                 <div className="flex-container">
                     {this.generateItems()}
                 </div>

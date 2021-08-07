@@ -203,7 +203,7 @@ const ShippingInfo = (props) => {
                                     </tbody>
                                 </table>
                             </div>
-                            <Modal ref={modalRef} extraFuncToCloseMethod name="add_shipping">{/*Provdie name to make unique ID for the modal*/}
+                            <Modal hasTitle={true} ref={modalRef} extraFuncToCloseMethod name="add-shipping">{/*Provdie name to make unique ID for the modal*/}
                                     <span className="aform-field add-shipping-name">
                                         <label className="label">For (Name):</label>
                                         <input value={shippingFormValues.name} onChange={handleNameChange} type="text" placeholder="Enter Name Here"></input>
@@ -212,7 +212,7 @@ const ShippingInfo = (props) => {
                                         <label className="label">Address</label>
                                         <input value={shippingFormValues.address} onChange={handleAddressChange}  type="text" placeholder="Enter Address"></input>
                                     </span>
-                                    <span className="aform-field add-shipping-state">
+                                    <span className="aform-field half add-shipping-state">
                                         <label className="label">State</label>
                                         <select value={shippingFormValues.resiState} onChange={handleStateChange}>
                                             {allStates && allStates.map((daState)=>{
@@ -222,15 +222,15 @@ const ShippingInfo = (props) => {
                                             })}
                                         </select>
                                     </span>
-                                    <span className="aform-field add-shipping-city">
+                                    <span className="aform-field half add-shipping-city">
                                         <label className="label">City</label>
                                         <input value={shippingFormValues.city} onChange={handleCityChange} type="text" placeholder="Enter City"></input>
                                     </span>
-                                    <span className="aform-field add-shipping-zip">
+                                    <span className="aform-field half add-shipping-zip">
                                         <label className="label">Zip</label>
                                         <input value={shippingFormValues.zip} onChange={handleZipChange} type="text" placeholder="Enter zip code"></input>
                                     </span>
-                                <button className="aform-button submit" onClick={setShippingAddress}>Add the Address</button>
+                                <button className="aform-button half submit" onClick={setShippingAddress}>Add the Address</button>
                             </Modal>
                         </div>
                         )

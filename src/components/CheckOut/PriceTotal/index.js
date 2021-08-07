@@ -26,12 +26,14 @@ const PriceTotal = (props) => {
     }
     let handleStick = (target) =>{
         let totalPriceComp = document.getElementsByClassName("total-price")[0];
-        let compOffsetTop = totalPriceComp.offsetTop;
-        var handleOffsetOfScroll = target.scroll().handleOffset.y;
-        if(compOffsetTop < handleOffsetOfScroll){
-            totalPriceComp.classList.add("sticky");
-        } else {
-            totalPriceComp.classList.remove("sticky");
+        if(totalPriceComp){
+            let compOffsetTop = totalPriceComp.offsetTop;
+            var handleOffsetOfScroll = target.scroll().handleOffset.y;
+            if(compOffsetTop < handleOffsetOfScroll){
+                totalPriceComp.classList.add("sticky");
+            } else {
+                totalPriceComp.classList.remove("sticky");
+            }
         }
     }
     useEffect(()=>{

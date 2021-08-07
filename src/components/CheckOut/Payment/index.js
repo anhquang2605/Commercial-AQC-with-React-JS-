@@ -235,20 +235,20 @@ const Payment = (props) => {
                         <button className="commit-btn" onClick={handleClose}>Commit change (Close)</button>
                         </div>
                 </div>               
-                <Modal name="adding-card" ref={modalRef}>{/*hide initially, only show when evoke showModal method of the component Modal through ref*/}
+                <Modal hasTitle={true} name="adding-card" ref={modalRef}>{/*hide initially, only show when evoke showModal method of the component Modal through ref*/}
                                     <span className="aform-field">
                                         <label htmlFor="card owner">Full Name</label><br></br>
                                         <input type="text" onChange={handleOwnerNameChange} value={addingCard.owner} placeholder=" Enter Name on Card" required></input>
                                     </span>
-                                    <span className="aform-field">
+                                    <span className="aform-field half">
                                         <label htmlFor="card number">Card Number</label><br></br>
                                         <input type="text" onChange={handleCardNumberChange} value={addingCard["card number"]} placeholder="Enter Card Number" required></input>
                                     </span>
-                                    <span className="aform-field">
+                                    <span className="aform-field fourth">
                                         <label htmlFor="cvs">CVS</label><br></br>
                                         <input type="text" placeholder="Enter CVS"></input>
                                     </span>
-                                    <span className="aform-field">
+                                    <span className="aform-field fourth">
                                         <label htmlFor="type">Type of cards</label><br></br>
                                         <select required className="card-type" value={addingCard.type} onChange={handleTypeSelect} placeholder="Select card type">
                                             <option value="" disabled >Select card type</option>
@@ -258,12 +258,12 @@ const Payment = (props) => {
                                             <option value="master">Master</option>
                                         </select>
                                     </span>
-                                    <span className="aform-field exp-date">
+                                    <span className="aform-field half exp-date">
                                         <label htmlFor="exp">Expires on (month/YYYY)</label>
                                         <input required type="number" value={addingCard["exp month"]} onChange={handleMonthChange} className="exp-month exp two-digits" max="12" min="1"></input>
                                         <input required type="number" value={addingCard["exp year"]} onChange={handleYearChange} className="exp-year exp four-digits" min={fullYear}></input>{/*full year got in the begining through date obj*/}
                                     </span>
-                                <button className="aform-button submit" onClick={handleAddCard}>Add card</button>
+                                <button className="aform-button submit half" onClick={handleAddCard}>Add card</button>
                     </Modal> 
         </div>
     );
