@@ -30,6 +30,8 @@ import ContactUs from '../ContactUs';
 import 'overlayscrollbars/css/OverlayScrollbars.css';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import OverlayScrollbars from 'overlayscrollbars';
+import TRACK_ITEM, * as TRACK_ITEMS from './../../Constants/ProcessTrackerItem';
+import ProcessTracker from '../ProcessTracker';
 /*const PageComponents = {
     Home: Home,
     Order: Order,
@@ -273,6 +275,7 @@ const App = (props) =>  {
                     {(pageName.search("result")) === -1  && 
                     <SearchBar></SearchBar>}
                 </div>
+
                 {(pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && 
                 <Navigator osScrollBar = {refScrollForChild ? refScrollForChild : ""}>
                     {/* <Logo href={ROUTES.HOME} src={'logo.png'}></Logo> */}
@@ -282,6 +285,11 @@ const App = (props) =>  {
                     <SignInUpButtons user={user} removeAccount={removeAccountFromApp}></SignInUpButtons>
                 </Navigator>}
                 {((pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) && (pageName.search("/sign-up")!== 0) && (pageName.search("/sign-in")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
+                {(pageName.search("/checkout") !==-1 || pageName.search("/place-order") !==-1 || pageName.search("/thank-you") !== -1) && (
+                    <ProcessTracker page={pageName} name="check-out" list = {[...TRACK_ITEM]}>
+
+                    </ProcessTracker>
+                )}
                 <Switch location={location}>
                     <Route  exact path = {ROUTES.HOME} component = {Home}/>
                     <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
