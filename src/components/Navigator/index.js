@@ -8,6 +8,7 @@ const Navigator = (props) =>{
     let handleStickyScroll = (container) => {
         var header = document.getElementById("header");
         if(header){
+            console.log("here");
             var headerOffSet = parseInt(header.offsetTop) - 10;
             var handleOffsetOfScroll = container.scroll().handleOffset.y;
             if(headerOffSet < 0 ) headerOffSet = 0;
@@ -30,7 +31,7 @@ const Navigator = (props) =>{
               console.log("Here");
           }) */
         }
-    }, []);
+    }, [props.osScrollBar]);
     return(
         <div id="header">
             {props.children}

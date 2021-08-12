@@ -2,11 +2,37 @@
     padding: 30px 10%;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;;
+    justify-content: space-between;
     h4{
         margin-top: 0;
         color: indigo;
         font-weight: 500;
         margin-bottom: 10px;
+        width: 60%;
+    }
+    .sort-container{
+        width: 40%;
+        display: flex;
+        justify-content: flex-end;
+        align-items:center;
+        .sorter-label{
+            margin-right: 10px;
+            font-weight: 500;
+        }
+        .sorter{
+            color: indigo;
+            border-color: indigo;
+            margin-left: 5px;
+            padding: 3px 5px;
+            box-shadow: lightgray 2px 2px 2px 1px;
+            transition: all 0.3s;
+            & span{
+                font-size: 1.5em;
+            }
+            &:hover{
+                color: white;
+                background: indigo;
+            }
+        }
     }
 }

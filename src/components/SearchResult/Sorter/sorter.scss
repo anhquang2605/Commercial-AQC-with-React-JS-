@@ -1,0 +1,21 @@
+.sorter{
+    position:relative;
+    .overlay-click-catcher{
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        position: absolute;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    text-transform: capitalize;
+    border: 1px solid grey;
+    padding: 2px 5px;
+    border-radius: 20px;
+    .sorter-order{
+        display:flex;
+    }
+}

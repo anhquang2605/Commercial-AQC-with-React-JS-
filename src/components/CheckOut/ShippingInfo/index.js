@@ -165,7 +165,7 @@ const ShippingInfo = (props) => {
     }, []);
 
     return (
-        <div id="shipping-info">
+        <div id="shipping-info" className="sub-section-checkout">
                 <h4 className="check-out-title">Shipping</h4>
                 <Collapsable
                     itemName="shipping"

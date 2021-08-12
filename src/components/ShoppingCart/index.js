@@ -35,7 +35,7 @@ const ShoppingCart = (props) => {
                 $shoppingCartContainer.removeAttr("style");
             });
         });
-        $(document).on("click", (e) => {
+       /*  $(document).on("click", (e) => {
             let $cartLeftOffset = $shoppingCartContainer.offset().left;
             let documentCurWidth = document.body.clientWidth;  
             if (!$(e.target).closest("#shopping_cart_container").length && documentCurWidth - $cartLeftOffset >= 0){
@@ -48,7 +48,7 @@ const ShoppingCart = (props) => {
                     $shoppingCartContainer.removeAttr("style");
                 });
             } 
-        })
+        }) */
         $shoppingCartMini.on("click", (e) => {
             e.stopPropagation();
             $shoppingCartContainer.animate({left: $shoppingCartContainerOffSet -= (($shoppingCartContainerWidth*105)/100)},200);

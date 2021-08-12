@@ -276,7 +276,7 @@ const App = (props) =>  {
                     <SearchBar></SearchBar>}
                 </div>
 
-                {(pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && 
+                {(pageName.search("thank you") === -1 && pageName.search("place-order") === -1 && pageName.search("checkout") === -1 && pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && 
                 <Navigator osScrollBar = {refScrollForChild ? refScrollForChild : ""}>
                     {/* <Logo href={ROUTES.HOME} src={'logo.png'}></Logo> */}
                     <NavBar></NavBar>            
@@ -284,7 +284,7 @@ const App = (props) =>  {
                     <Shortcut username={account.nickname || account.username}></Shortcut>}
                     <SignInUpButtons user={user} removeAccount={removeAccountFromApp}></SignInUpButtons>
                 </Navigator>}
-                {((pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) && (pageName.search("/sign-up")!== 0) && (pageName.search("/sign-in")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
+                {((pageName.search("thank you") === -1 && pageName.search("place-order") === -1 && pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) && (pageName.search("/sign-up")!== 0) && (pageName.search("/sign-in")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
                 {(pageName.search("/checkout") !==-1 || pageName.search("/place-order") !==-1 || pageName.search("/thank-you") !== -1) && (
                     <ProcessTracker page={pageName} name="check-out" list = {[...TRACK_ITEM]}>
 

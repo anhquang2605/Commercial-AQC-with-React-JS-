@@ -1,7 +1,8 @@
 import React from 'react';
 import Pagination from './../../Pagination';
-
+import SORT_CRITERIAS from './../../../Constants/SortItemsForSearch';
 import './result-display.scss';
+import Sorter from './../Sorter';
 class ResultDisplay extends React.Component{
     constructor(props){
         super(props);
@@ -16,6 +17,12 @@ class ResultDisplay extends React.Component{
             foundList: []
         }
         this.fetchItems = this.fetchItems.bind(this);
+        this.setList = this.setList.bind(this);
+    }
+    setList(list){
+        this.setState({
+            foundList: list
+         })
     }
     getItemBasedOnSearchResult(){
         let list = this.state.list;
@@ -78,8 +85,18 @@ class ResultDisplay extends React.Component{
     render(){
         return(
             <div id="result_display">
-                    <h4>Here is what we found: ({this.state.foundList.length})</h4>
-                    { this.state.foundList.length >0 ? (<Pagination  dalist={this.state.foundList}></Pagination>) : ( <div>Not found</div>)}   
+                    <h4> we found ({this.state.foundList.length}) result(s)</h4>
+                    <div className="sort-container">
+                        <span className="sorter-label">Sort by</span>
+                        {[...SORT_CRITERIAS].map((item)=>(
+                            <Sorter list = {this.state.foundList} valueSort={item.valueSort} name={item.name} setList={this.setList}>
+
+                            </Sorter>
+                        )
+                        )}
+                    </div>
+                    { this.state.foundList.length >0 && this.state.foundList? (<Pagination
+                      dalist={this.state.foundList}></Pagination>) : ( <div>Not found</div>)}   
             </div>
         );
     }

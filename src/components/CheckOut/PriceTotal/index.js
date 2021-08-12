@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import './price-total.scss';
 const PriceTotal = (props) => {
+    const [target, setTarget] = useState(null);
     let getSum = () => {
         let initial = 0;
         var sum = list.reduce((prev,current) => {
@@ -26,9 +27,11 @@ const PriceTotal = (props) => {
     }
     let handleStick = (target) =>{
         let totalPriceComp = document.getElementsByClassName("total-price")[0];
-        if(totalPriceComp){
-            let compOffsetTop = totalPriceComp.offsetTop;
+        let checkout = document.getElementById("check_out");
+        if(totalPriceComp && checkout){
+            let compOffsetTop = checkout.getBoundingClientRect().top;
             var handleOffsetOfScroll = target.scroll().handleOffset.y;
+            console.log(compOffsetTop, handleOffsetOfScroll);
             if(compOffsetTop < handleOffsetOfScroll){
                 totalPriceComp.classList.add("sticky");
             } else {
@@ -39,15 +42,21 @@ const PriceTotal = (props) => {
     useEffect(()=>{
         setList(props.list);
         setSum(getSum());
-        let target = props.osRef.osInstance();
-        target.options({
-            callbacks:{
-                onScroll: ()=>{handleStick(target)}
-            }
-        })
-       
     },[])
-
+    useEffect(() => {
+        if(props.osRef !== "" && target === null){
+            let target = props.osRef.osInstance();
+            target.options({
+                callbacks:{
+                    onScroll: ()=>{handleStick(target)}
+                }
+            })
+            setTarget(target);
+            /* props.osScrollBar.addEventListener("scroll", ()=>{
+              console.log("Here");
+          }) */
+        }
+    }, [props.osRef]);
     useEffect(()=>{
         setList(props.list);
         setSum(getSum());

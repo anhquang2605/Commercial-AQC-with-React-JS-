@@ -1,8 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './process-tracker.scss';
+/**
+ * What to provide via props? 
+ * _ provide list(Array<Object>) of items that have 4 properties: 
+ *      name(String) which is used to display as the process name does not need to be the same with route, 
+ *      route(string) (this match with the route in app), 
+ *      done(bool) for keeping track of the progress and,
+ *      icon(html element) - (optional) for the icon inside the circle
+ * _ provide name(String) to make unique id for the component
+ * 
+ * 
+ */
 const ProcessTracker = (props) => {
     const [list, setList] = useState([]);
     const [curItem, setCurItem] = useState(null);
+    const curItemRef = useRef({});
+    curItemRef.current = curItem;//To get the state inside window event listener, when resize
+    // the window event listener create a closure so it use the intitial state the moment it attached to the function
     let handleItemsWidth = (list) => {
         let theProcess = document.getElementById("process-" + props.name);
         if(theProcess){
@@ -20,9 +34,9 @@ const ProcessTracker = (props) => {
     }
     let handleTrackerBarProgression = () => {
         let theProcess = document.getElementById("process-" + props.name);
-        if(theProcess ){
+        if(theProcess && curItemRef.current !== undefined ){
             let theProgression = theProcess.getElementsByClassName("filled-progress")[0];
-            let routeName = props.page.replace("/","");
+            let routeName = curItemRef.current.replace("/","");
             let theItem = document.getElementById(routeName + "-check");
             
             let theCheckedCircle = theItem.getElementsByClassName("checked-item")[0];
@@ -41,40 +55,39 @@ const ProcessTracker = (props) => {
     let itemMarker = () =>{
         let daList = [...list];
         let indexOfCur = findIndexInList("route",props.page.replace("/",""),daList);
-        console.log(indexOfCur);
         for(var item of daList){
             item.done = false;
         }
         for (var i = 0; i <= indexOfCur; i += 1){
             daList[i].done = true;
         }
-        console.log(daList);
         setList(daList);
+    }
+    let handleTrackerCalculation = () =>{
+        handleItemsWidth(props.list);
+        handleTrackerBarProgression();
     }
     useEffect(() => {
         if(props.list !== undefined && props.list !== null){
             setList(props.list);
         }
         window.addEventListener("resize", function(){
-            handleItemsWidth(props.list);
-            handleTrackerBarProgression();   
+              handleTrackerCalculation();
         }); 
         return () => window.removeEventListener("resize",function(){
-            handleItemsWidth(props.list);
-            handleTrackerBarProgression();   
+            handleTrackerCalculation(); 
         })
     }, []);
     
     useEffect(()=>{
-        if(curItem !== props.page)
         setCurItem(props.page);
     },[props.page])
     useEffect(()=>{
         if(curItem !== undefined && curItem !== null) 
         { 
-        itemMarker();
-        handleItemsWidth(props.list);
-        handleTrackerBarProgression();}
+            itemMarker();
+            handleTrackerCalculation();
+        }
         
     },[curItem])
     useEffect(()=>{
@@ -84,14 +97,13 @@ const ProcessTracker = (props) => {
         <div className="process-tracker" id={ props.name? "process-"+props.name : ""}>
             <div class="progress-bar">
                 <div class="filled-progress">
-
                 </div>
             </div>
             <div className="item-list">
             {list ? list.map((item)=>(
                 <div key={item.name} className={"item " + (item.done ? "item-done" : "")} id={item.route + "-check"}>
                      <div class="checked-item">
-
+                        {item.icon? item.icon : ""}
                      </div>
                     <div class="item-name">
                        {item.name}

@@ -209,7 +209,7 @@ const DisplayPanel = (props) => {
     let handleAddingName = (e) =>{
         setAddAddressForm((prevState)=>({
             ...prevState,
-            name: e.target.checked
+            name: e.target.value
         }));
     }
     let handleConfirmAdd = (e) =>{

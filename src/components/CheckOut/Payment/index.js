@@ -149,7 +149,7 @@ const Payment = (props) => {
     },[]);
 
     return (
-        <div id="payment">
+        <div id="payment" className="sub-section-checkout">
                 <h4 className="check-out-title">Payment</h4>
                 {/*default option for cards and gift cards */}
                 <div className="card-options">

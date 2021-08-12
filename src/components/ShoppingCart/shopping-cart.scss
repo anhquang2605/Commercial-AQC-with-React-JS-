@@ -86,8 +86,6 @@
             &:nth-child(2){
                 text-align: left;
                 width: 65%;
-                color: indigo;
-                font-weight: 500;
             }
             &:nth-child(3){
                 width: 10%;
@@ -195,11 +193,13 @@
         padding: 10px;
         padding-left: 0;
         font-size: 1.4em;
-        border-top: 1px solid indigo;
+        border-top: 1px solid lightgray;
         font-weight: 500;
         margin-top: auto;
+        color: green;
+        margin-top:10px;
+        text-align: center;
         b{
-           color: green;
             padding: 2px;
         }
     }

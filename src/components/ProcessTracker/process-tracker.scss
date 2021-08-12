@@ -7,7 +7,7 @@
         position: relative;
         padding: 0 10%;
         box-sizing: border-box;
-        margin: 50px 0 20px;
+        margin: 50px 0 100px;
     }
     .progress-bar{
         width: 100%;
@@ -41,10 +41,22 @@
         border-radius: 50px;
         position: relative;
         transition: background-color 0.3s, border 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & span.material-icons{
+            opacity: 0;
+            color: indigo;
+            transition: opacity 0.3s;
+        }
     }
     .item-name{
+        margin-top: 5px;
         color: lightgray;
         text-transform: capitalize;
+        font-size: 1.2em;
+        font-weight: 500;
+      
     }
     .item{
         display: flex;
@@ -54,10 +66,16 @@
         &.item-done{
             .checked-item{
                 background: white;
-                border: 2px solid indigo;
+                border: 5px solid indigo;
+                & span.material-icons{
+                    opacity: 1;
+                }
             }
             .item-name{
-                color: indigo;
+                background: indigo;
+                color: white;
+                padding: 5px;
+                border-radius: 5px;
             }
         }
     }
