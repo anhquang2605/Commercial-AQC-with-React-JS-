@@ -8,7 +8,6 @@ const Navigator = (props) =>{
     let handleStickyScroll = (container) => {
         var header = document.getElementById("header");
         if(header){
-            console.log("here");
             var headerOffSet = parseInt(header.offsetTop) - 10;
             var handleOffsetOfScroll = container.scroll().handleOffset.y;
             if(headerOffSet < 0 ) headerOffSet = 0;
@@ -22,11 +21,13 @@ const Navigator = (props) =>{
     useEffect(() => {
         if(props.osScrollBar !== ""){
             let target = props.osScrollBar.osInstance();
-            target.options({
-                callbacks:{
-                    onScroll: ()=>{handleStickyScroll(target)}
-                }
-            })
+            if(target){
+                target.options({
+                    callbacks:{
+                        onScroll: ()=>{handleStickyScroll(target)}
+                    }
+                })
+            }
             /* props.osScrollBar.addEventListener("scroll", ()=>{
               console.log("Here");
           }) */

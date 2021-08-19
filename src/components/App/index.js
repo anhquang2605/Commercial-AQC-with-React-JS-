@@ -18,6 +18,7 @@ import Orders from '../Account/Orders';
 import Account from '../Account';
 import Cards from '../Account/Cards';
 import GCards from '../Account/GCards'; 
+import AboutUs from '../AboutUs';
 import './app.scss';
 import SignInUpButtons from '../SignInUpButtons';
 import SignIn from '../Account/SignIn';
@@ -270,13 +271,13 @@ const App = (props) =>  {
             <OverlayScrollbarsComponent ref={thisref}   style={{ height: '100%' }}> 
             <div id="aqc" className="commercial-AQC">
                 <div className="content">
-                <div className="top-header">
+                {(pageName.search("about-us")) === -1  &&< div className="top-header">
                     <h1 className="site-heading"><Link to="/">Commercial website AQC</Link></h1> 
                     {(pageName.search("result")) === -1  && 
                     <SearchBar></SearchBar>}
-                </div>
+                </div>}
 
-                {(pageName.search("thank you") === -1 && pageName.search("place-order") === -1 && pageName.search("checkout") === -1 && pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && 
+                {(pageName.search("thank-you") === -1 && pageName.search("place-order") === -1 && pageName.search("checkout") === -1 && pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && 
                 <Navigator osScrollBar = {refScrollForChild ? refScrollForChild : ""}>
                     {/* <Logo href={ROUTES.HOME} src={'logo.png'}></Logo> */}
                     <NavBar></NavBar>            
@@ -284,7 +285,7 @@ const App = (props) =>  {
                     <Shortcut username={account.nickname || account.username}></Shortcut>}
                     <SignInUpButtons user={user} removeAccount={removeAccountFromApp}></SignInUpButtons>
                 </Navigator>}
-                {((pageName.search("thank you") === -1 && pageName.search("place-order") === -1 && pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) && (pageName.search("/sign-up")!== 0) && (pageName.search("/sign-in")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
+                {((pageName.search("about-us") === -1 && pageName.search("thank-you") === -1 && pageName.search("place-order") === -1 && pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) && (pageName.search("/sign-up")!== 0) && (pageName.search("/sign-in")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
                 {(pageName.search("/checkout") !==-1 || pageName.search("/place-order") !==-1 || pageName.search("/thank-you") !== -1) && (
                     <ProcessTracker page={pageName} name="check-out" list = {[...TRACK_ITEM]}>
 
@@ -358,9 +359,14 @@ const App = (props) =>  {
                         <ContactUs {...props} account={account}>
                         </ContactUs>
                     )}/>
+                    <Route path={ROUTES.ABOUT_US} render={(props)=>(
+                        <AboutUs {...props} osRef={refScrollForChild ? refScrollForChild : ""}>
+
+                        </AboutUs>
+                    )} ></Route>
                 </Switch>
                 </div>
-                <Footer></Footer>   
+                {pageName.search("about-us") === -1 && <Footer></Footer>}   
                        
             </div>
             </OverlayScrollbarsComponent>

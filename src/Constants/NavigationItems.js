@@ -14,5 +14,9 @@ export let ITEMS = [
       name: "Contact Us",
       route: "/contact-us",
       icon: <span className="material-icons-round">contact_mail</span>
-  }
+    },{
+      name: "About Us",
+      route: "/about-us",
+      icon: <span className="material-icons-round">people</span>
+    }
 ];

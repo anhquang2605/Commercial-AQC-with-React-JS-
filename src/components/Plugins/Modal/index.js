@@ -1,7 +1,8 @@
 import React, {useEffect, useState, useImperativeHandle} from 'react';
 import  {AiFillCloseCircle} from 'react-icons/ai';
 import './modal.scss';
-const Modal = React.forwardRef((props,ref) => {//expose showModal method to the user
+const Modal = React.forwardRef(
+    (props,ref) => {//expose showModal method to the user
     let [id, setid] = useState("modal" + (props.name? ("_"+props.name) : ""));
     let hideModal = () => {
         var daModal = document.getElementById(id);
