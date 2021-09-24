@@ -12,7 +12,7 @@ const ShoppingCart = (props) => {
     const [total,setTotal] = useState(0);
     let getTotal = () =>{
         let sumOfPrice = 0;
-        for (let item of list){
+        for (let item of props.cartList){
             let sum = item.quantity * item.price;
              sumOfPrice += sum;
         }
@@ -77,6 +77,7 @@ const ShoppingCart = (props) => {
     },[])
     useEffect(()=>{
         setList(props.cartList);
+        
     },[props.cartList]);
     useEffect(() => {
         getTotal();
