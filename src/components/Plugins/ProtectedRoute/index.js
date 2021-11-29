@@ -3,12 +3,11 @@ import {Redirect, Route} from 'react-router-dom';
 class ProtectedRoute extends React.Component {
     render() {
       const { component: Component, ...props } = this.props
-  
       return (
-        <Route exact= {this.props.exact}
+        <Route path={props.path} exact= {this.props.exact}
           {...props} 
           render={ () => (
-            this.props.account ? this.props.component :
+            this.props.user && this.props.account ? this.props.component :
               <Redirect to='/sign-in' />
           )} 
         />

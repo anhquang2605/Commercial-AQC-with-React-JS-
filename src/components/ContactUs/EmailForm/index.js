@@ -109,8 +109,8 @@ const EmailForm = (props) => {
                 </form>
                 <div id="sent" style={{display: "none"}} className={"email-sent awesome_form"+ (emailSent && success? "" : " hidden-ui")}>
                     <BiMailSend></BiMailSend>
-                    <h5>Awesome!</h5>
-                    <p>Your messages were sent! Thank you for the feedback, someone will answer the email soon</p>
+                    <h5>Awesome, Email Sent!</h5>
+                    <p>Thank you for the feedback, someone will answer the email soon</p>
                     <button className="aform-button submit" onClick={()=>{history.push("")}}>Continue Shopping</button> 
                     <button className="aform-button submit" onClick={resetForm}>Send Another Message</button>
                 </div>

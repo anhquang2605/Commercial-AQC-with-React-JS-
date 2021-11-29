@@ -26,7 +26,7 @@ const CoolTable = (props) => {
                             }
                             componentTotal.push(component)
                         }
-                        return <TableRow key={item.name}>{componentTotal}</TableRow>;
+                        return <TableRow key={item.name + item.type}>{componentTotal}</TableRow>;
                     })
                 }
             </div>:<div>No item yet</div>}         

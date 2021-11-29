@@ -1,8 +1,12 @@
 #result_display{
-    width: 70%;
+    width: 75%;
     box-sizing: border-box;
-    padding: 20px;
-    padding-right: 0;
+    padding: 40px;
+    box-shadow: lightgray 0 0 10px 2px;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
     .widget{
         width: 230px;
         margin: 0;

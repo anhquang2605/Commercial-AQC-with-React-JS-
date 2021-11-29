@@ -12,7 +12,7 @@ const ORDERS = [{
     name: "Super cool stuff",
     types: ["blue", "red"],
     quantity: 2,
-    featured: false,
+    featured: true,
     description: "I've rented a car in Las Vegas and have reserved a hotel in Twentynine Palms which is just north of Joshua Tree. We'll drive from Las Vegas through Mojave National Preserve and possibly do a short hike on our way down. Then spend all day on Monday at Joshua Tree. We can decide the next morning if we want to do more in Joshua Tree or Mojave before we head back.",
 },{
     id: 3,
@@ -68,7 +68,7 @@ const ORDERS = [{
     name: "Super duper coolest stuff",
     types: ["blue", "red", "silver"],
     quantity: 1,
-    featured: false,
+    featured: true,
     description: "I've rented a car in Las Vegas and have reserved a hotel in Twentynine Palms which is just north of Joshua Tree. We'll drive from Las Vegas through Mojave National Preserve and possibly do a short hike on our way down. Then spend all day on Monday at Joshua Tree. We can decide the next morning if we want to do more in Joshua Tree or Mojave before we head back.",
 },{
     id: 10,

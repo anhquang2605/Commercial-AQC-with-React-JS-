@@ -1,4 +1,5 @@
-import React ,{useEffect, useState, useRef} from 'react';
+import React ,{useEffect, useState} from 'react';
+import { useParams } from 'react-router';
 import './account.scss';
 import Firebase from './../Firebase';
 
@@ -6,6 +7,7 @@ import DisplayPanel from './DisplayPanel';
 import OptionPanel from './OptionPanel';
 const Account = (props) => {
     const db = Firebase.firestore();
+    const {subpath} = useParams();
     const [optionItems, setOptionItems] = useState();
     const [currentOption, setCurrentOption] = useState();
     let getOptionItems = () =>{
@@ -15,18 +17,29 @@ const Account = (props) => {
                 daList.push(doc.data());
             });
             setOptionItems(daList);
-            setCurrentOption(daList[0].name);
         })
     }
     let setCurrentOptionForAccount = (option) =>{
         setCurrentOption(option);
     }
     useEffect(() => {
-        getOptionItems();
-        if(optionItems && currentOption === undefined){
-            setCurrentOption(optionItems[0].name);
+        if(subpath){
+            getOptionItems();
+            setCurrentOption(subpath);
+        } else {
+            getOptionItems();
+            if(optionItems && currentOption === undefined){
+                setCurrentOption(optionItems[0].name);
+            }
         }
+        
+      
     }, []);
+    useEffect(() => {
+        if(subpath !== currentOption){
+            setCurrentOption(subpath);
+        }   
+    }, [subpath]);
 /*     useEffect(() => {
         if(retrievedItemFromFirestore.length !== 0){
             setOptionItems(retrievedItemFromFirestore);

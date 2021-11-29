@@ -1,13 +1,23 @@
-import {React, useState, useEffect} from 'react';
-import {BiX} from 'react-icons/bi';
+import {React, useState, useEffect, Fragment} from 'react';
+import {IoBagCheckOutline} from 'react-icons/io5';
 import {BsFillBagFill, BsArrowRightShort} from 'react-icons/bs';
 import {VscClose} from 'react-icons/vsc';
+import {FiShoppingCart} from 'react-icons/fi';
 import {Link} from 'react-router-dom';
 import $ from 'jquery';
 import './shopping-cart.scss';
+import {OverlayScrollbarsComponent} from 'overlayscrollbars-react';
 const ShoppingCart = (props) => {
     const [list,setList] = useState(props.cartList);
-    let [,setState] = useState();
+    const [total,setTotal] = useState(0);
+    let getTotal = () =>{
+        let sumOfPrice = 0;
+        for (let item of props.cartList){
+            let sum = item.quantity * item.price;
+             sumOfPrice += sum;
+        }
+        setTotal(sumOfPrice);
+    }
     let JQueryCode = () => {
         let $closeBtn = $('.close-btn');
         let $shoppingCartMini = $('#shopping_cart_mini');
@@ -25,7 +35,7 @@ const ShoppingCart = (props) => {
                 $shoppingCartContainer.removeAttr("style");
             });
         });
-        $(document).on("click", (e) => {
+       /*  $(document).on("click", (e) => {
             let $cartLeftOffset = $shoppingCartContainer.offset().left;
             let documentCurWidth = document.body.clientWidth;  
             if (!$(e.target).closest("#shopping_cart_container").length && documentCurWidth - $cartLeftOffset >= 0){
@@ -38,7 +48,7 @@ const ShoppingCart = (props) => {
                     $shoppingCartContainer.removeAttr("style");
                 });
             } 
-        })
+        }) */
         $shoppingCartMini.on("click", (e) => {
             e.stopPropagation();
             $shoppingCartContainer.animate({left: $shoppingCartContainerOffSet -= (($shoppingCartContainerWidth*105)/100)},200);
@@ -67,7 +77,11 @@ const ShoppingCart = (props) => {
     },[])
     useEffect(()=>{
         setList(props.cartList);
+        
     },[props.cartList]);
+    useEffect(() => {
+        getTotal();
+    }, [list]);
     return (
         <div id="shopping_cart_container">
              <div id="shopping_cart_mini">
@@ -77,12 +91,15 @@ const ShoppingCart = (props) => {
              <div className="close-btn">
                 <BsArrowRightShort></BsArrowRightShort>
             </div>
+            
             <div id="shopping_cart">
+                <h6>Your Cart</h6>
                 { list.length > 0? (
+                <Fragment>
+                <OverlayScrollbarsComponent  style={{ maxHeight: '270px' }}>
                 <table key={props.cartList}>
                     <thead>
                         <tr>
-                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -95,17 +112,19 @@ const ShoppingCart = (props) => {
                             <td><img className="kart-item-img" src={require("./../../images/" + item.id + "-" + item.type + ".jpg")}></img></td>
                             <td>{item.type + " " + item.name}</td>
                             <td>{item.quantity}</td>
-                            <td><button className="kart-remove-item-btn" alt="remove item" onClick={()=>{
-                                props.removeItem(index)                               
-                            }}><VscClose></VscClose></button></td>
+                        
                         </tr>
                         )
                     })}
                     </tbody>
                 </table>
+                </OverlayScrollbarsComponent>
+                <div className="cart-total">Subtotal <b>${total}</b></div>
+                </Fragment>
                 ) : "No item" }
             </div>
-            {(list.length>0) && <Link className="cart-check-out-btn btn" to="/checkout" onClick={()=>{}}>Check out</Link>}
+          
+            {(list.length>0) && <div className="button-group"> <Link className="cart-check-out-btn btn" to="/checkout" onClick={()=>{}}><IoBagCheckOutline></IoBagCheckOutline>Check out</Link> <Link className="btn kart-detail-btn" to="/kart-detail"><FiShoppingCart></FiShoppingCart> View kart</Link></div>}
         </div>
     );
 }

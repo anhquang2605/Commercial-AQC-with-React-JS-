@@ -2,4 +2,12 @@
     span{
         display:block;
     }
+    span:nth-child(3){
+        background: indigo;
+        color: white;
+        padding: 2px;
+        width: auto;
+        display: inline-block;
+        border-radius: 5px;
+    }
 }

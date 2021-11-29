@@ -34,17 +34,17 @@ $form-background: rgba($color: #fcff67, $alpha: .5);
             margin: auto 0;
             text-align: center;
             padding: 20px;
-            background-color: khaki;
+            background-color: indigo;
+            color: white;
             transition: background-color 0.3s;
             &:hover{
-                background-color: indigo;
-                color: white;
+                background-color: lighten(indigo,15);
                 cursor: pointer;
             }
         }
         .form-row-control{
             width: 100%;
-            border: 1px solid indigo;
+            border:1px solid #b1b1b1;
             border-radius: 5px;
             padding: 15px;
             align-self: stretch;
@@ -81,6 +81,7 @@ $form-background: rgba($color: #fcff67, $alpha: .5);
                 width: 100%;
                 font-size: 0.7em;
                 font-weight: bold;
+                color: indigo;
                 &[for=exp], &[for=type]{
                     width: auto;
                 }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body{
+            padding: 10%;
+        }
+        .progress-tracking{
+            width: 100%;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+        .progress-bar{
+            width: 100%;
+            background: #ececec;
+            height: 5px;
+            border-radius: 3px;
+            position: relative;
+            margin:auto;
+            margin-top: 20px;
+        }
+        .filled-progress{
+            position: absolute;
+            height: 100%;
+            width: 33%;
+            background: indigo;
+            background: linear-gradient(90deg, rgba(88,45,217,1) 0%, indigo 80%);
+            border-radius: 3px;
+        }
+        .item-list{
+            display: flex;
+            width: 100%;
+            top:0;
+            position: absolute;
+        }
+        .item{
+            width: 33%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .checked-item{
+            width: 50px;
+            height: 50px;
+            box-sizing: border-box;
+            background: white;
+            border: 2px solid indigo;
+            border-radius: 50px;
+            position: relative;
+        }
+        .item-name{
+            color: indigo;
+        }
+        .no-ready .checked-item{
+            background: #ececec;
+            border: none;
+
+        }
+        .no-ready .item-name{
+            color: lightgray;
+        }
+
+    </style>
+    <div class="progress-tracking">
+        <div class="progress-bar">
+            <div class="filled-progress">
+
+            </div>
+        </div>
+        <div class="item-list">
+        <div class="item">
+            <div class="checked-item">
+                Xnpm 
+            </div>
+            <div class="item-name">
+                Item name
+            </div>
+        </div>
+        <div class="item no-ready">
+            <div class="checked-item">
+
+            </div>
+            <div class="item-name">
+                Item name
+            </div>
+        </div>
+        <div class="item no-ready">
+            <div class="checked-item">
+            </div>
+            <div class="item-name">
+                Item name
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>

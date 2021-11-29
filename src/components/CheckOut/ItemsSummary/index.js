@@ -11,9 +11,10 @@ const ItemsSummary = (props) => {
     },[props.list])
    
     return (
-        <div id="items-summary">
+        <div id="items-summary" className="sub-section-checkout">
             <h4 className="check-out-title">Items summary</h4>
-            <table>
+            <div>            
+                <table>
                 <thead>
                     <tr>
                         <th></th>
@@ -35,6 +36,7 @@ const ItemsSummary = (props) => {
                     })}
                 </tbody>
             </table>
+            </div>
         </div>
     );
 }

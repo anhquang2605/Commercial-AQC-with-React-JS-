@@ -16,6 +16,7 @@ class NavBar extends React.Component{
                 {ITEMS.ITEMS.map((item)=>{
                     return (
                         <li key={item.name} value={item.route}>
+                            {item.icon && item.icon}
                             <Link to={item.route} >{item.name} </Link> 
                         </li>
                     )

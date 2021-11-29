@@ -54,9 +54,15 @@ const Pagination = (props) => {
         }
     },[props.dalist]); 
     useEffect(()=>{
-         
         setCurList(getItemsForPage(curPage*itemPerPage));
     },[curPage]);
+    useEffect(() => {
+        var totalPages = getTotalPageNumbers();
+        setCurList(getItemsForPage(0));
+        setCurPage(0);
+        setPageNumber(totalPages);
+        setPaginified(totalPages >= 2);
+    }, [props]);
     return (
         <div className="pagination">
             {paginified && <PaginationController list={curList} prev={prevPage} next={nextPage} last={lastPage} cur={curPage} lastP={getTotalPageNumbers()-1} first={firstPage} pageNo={pageNumber} handlePageChange={handlePageChange}></PaginationController>

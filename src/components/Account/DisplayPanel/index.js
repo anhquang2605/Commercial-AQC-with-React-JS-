@@ -19,7 +19,8 @@ const DisplayPanel = (props) => {
         city: "",
         current: false,
         resiState: "",
-        zip: ""
+        zip: "",
+        name: ""
     }
     const INITIAL_PASSWORD_CHANGE_FORM_OBJECT = {
         password:"",
@@ -149,6 +150,12 @@ const DisplayPanel = (props) => {
             zip: e.target.value
         }));
     }
+    let handleEdittingName = (e) =>{
+        setEditAddressForm((prevState)=>({
+            ...prevState,
+            name: e.target.value
+        }))
+    }
     let handleConfirmEdit = (e) =>{
         if (beforeEditedAddress !== editAddressForm){
             account.update({
@@ -197,6 +204,12 @@ const DisplayPanel = (props) => {
         setAddAddressForm((prevState)=>({
             ...prevState,
             current: e.target.checked
+        }));
+    }
+    let handleAddingName = (e) =>{
+        setAddAddressForm((prevState)=>({
+            ...prevState,
+            name: e.target.value
         }));
     }
     let handleConfirmAdd = (e) =>{
@@ -471,6 +484,10 @@ const DisplayPanel = (props) => {
                             <div className="content-col" data-obj="shipping" data-field="address">{curAddress.address}</div>
                         </div>
                         <div className="field-panel">
+                            <div className="title-col">To Whom:</div>
+                            <div className="content-col" data-obj="shipping" data-field="name">{curAddress.name}</div>
+                        </div>
+                        <div className="field-panel">
                             <div className="title-col">City</div>
                             <div className="content-col" data-obj="shipping" data-field="city">{curAddress.city}</div>
                         </div>
@@ -538,6 +555,10 @@ const DisplayPanel = (props) => {
                                 <label>Address</label>
                                 <input type="text" required={true} onChange={handleEdittingAddress} value={editAddressForm.address}  autoComplete={false}></input>
                             </span>
+                            <span className="address aform-field">
+                                <label>To Whom</label>
+                                <input type="text" required={true} onChange={handleEdittingName} value={editAddressForm.name}  autoComplete={false}></input>
+                            </span>
                             <span className="city aform-field half">
                                 <label>City</label>
                                 <input type="text" required={true} onChange={handleEdittingCity} value={editAddressForm.city} autoComplete={false}></input>
@@ -565,6 +586,10 @@ const DisplayPanel = (props) => {
                             <span className="address aform-field">
                                 <label>Address</label>
                                 <input type="text" onChange={handleAddingAddress} value={addAddressForm.address}  autoComplete={false}></input>
+                            </span>
+                            <span className="address aform-field">
+                                <label>Name on Address</label>
+                                <input type="text" onChange={handleAddingName} value={addAddressForm.name}  autoComplete={false}></input>
                             </span>
                             <span className="city aform-field half">
                                 <label>City</label>

@@ -1,6 +1,5 @@
 import React from 'react';
 import SearchForm from './SearchForm';
-import Sorter from './Sorter';
 import ResultDisplay from './ResultDisplay';
 import './search_result.scss';
 class SearchResult extends React.Component{
@@ -41,7 +40,6 @@ class SearchResult extends React.Component{
             <div id="search_result">
                 
                 <SearchForm onSubmitSearch={this.onSubmitSearch} name={this.state.name} type={this.state.type} spec={this.state.spec} min={this.state.min} max={this.state.max}></SearchForm>
-                <Sorter></Sorter>
                 <ResultDisplay name={this.state.name} minPrice={this.state.min} maxPrice={this.state.max} inStock={this.state.inStock}></ResultDisplay>
             </div>
         );

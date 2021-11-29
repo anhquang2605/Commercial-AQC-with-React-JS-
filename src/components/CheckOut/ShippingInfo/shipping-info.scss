@@ -1,14 +1,14 @@
 #shipping-info{
     .shipping-chosen{
-        padding: 10px;
+        padding: 20px;
         padding-left: 0;
-        font-size: 1.2em;
+        font-size: 1.1em;
         span{
             display: inline-block;
             margin-right: 10px;
             text-transform: uppercase;
             &:first-child{
-                font-weight: 500;
+                font-weight: 600;
                 color: indigo;
             }
         }
@@ -19,7 +19,7 @@
     > div{
         border: 1px solid indigo;
         border-radius: 3px;
-        padding: 10px;
+        padding: 20px;
     }
     .shipping-options{
         display: flex;
@@ -32,23 +32,34 @@
         width: 100%;
         padding: 0;
         border-spacing: 0;
+        border: 1px solid lightgray;
+        margin-bottom: 10px;
+        border-radius: 5px;
         thead tr{
             background: indigo;
             color: white;
             text-align: left;
-            font-size: 1.2em;
         }
         th{
             font-weight: 500;
             padding-left: 0;
-            padding: 10px;
+            padding: 5px 10px;
+            box-sizing: border-box;
+            &:first-child{
+                width: 41px;
+                border-radius: 5px 0 0 0;
+            }
+            &:last-child{
+                border-radius: 0 5px 0 0;
+            }
         }
         td{
-            padding: 5px;
+            padding: 10px;
         }
         tr td:nth-child(2){
             font-weight: 500;
             color: indigo;
         }
+
     }
 }

@@ -1,5 +1,5 @@
 .flex-link{
-    width: 200px;
+    width: 250px;
     border: 1px solid black;
     display: block;
     text-align: center;
@@ -18,8 +18,8 @@
     border-radius: 2px;
     svg{
         margin-right: 5px;
-        height: 40px;
-        width: 40px;
+        width: 25px;
+        height: 25px;
         transition: fill 0.3s;
     }
     &:hover{
@@ -28,5 +28,15 @@
         svg{
             fill: white;
         }
+    }
+    .flex-link-title{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9em;
+        font-weight: 500;
+    }
+    .flex-link-des{
+        font-size: 0.8em;
     }
 }

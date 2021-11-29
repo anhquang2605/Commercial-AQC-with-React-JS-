@@ -11,3 +11,4 @@ export const SIGN_IN = "/sign-in";
 export const SIGN_UP = "/sign-up";
 export const HELP = "/help";
 export const CONTACT_US = "/contact-us";
+export const ABOUT_US = "/about-us";

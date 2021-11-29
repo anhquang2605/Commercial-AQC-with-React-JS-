@@ -5,8 +5,11 @@ const FlexLink = (props) => {
 
     return (
         <Link className="flex-link" to={"/"+props.route} key={props.title}>
-            {props.extra? props.extra : ""}
-            {props.title}
+
+            <div className="flex-link-title">{props.extra? props.extra : ""}{props.title}</div>
+            {props.description && <div className="flex-link-des">
+                {props.description}
+            </div>}
         </Link>
     );
 }

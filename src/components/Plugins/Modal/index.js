@@ -1,7 +1,8 @@
 import React, {useEffect, useState, useImperativeHandle} from 'react';
 import  {AiFillCloseCircle} from 'react-icons/ai';
 import './modal.scss';
-const Modal = React.forwardRef((props,ref) => {//expose showModal method to the user
+const Modal = React.forwardRef(
+    (props,ref) => {//expose showModal method to the user
     let [id, setid] = useState("modal" + (props.name? ("_"+props.name) : ""));
     let hideModal = () => {
         var daModal = document.getElementById(id);
@@ -35,7 +36,7 @@ const Modal = React.forwardRef((props,ref) => {//expose showModal method to the 
             <div className={"modal awesome_form fix-width wide" + ( props.autoHeight ? " auto-height" : "")} >
                 {props.hasTitle && <h5>{props.name.replaceAll('-'," ")}</h5>}
                 <button className="close-btn-modal" onClick={hideModal}><AiFillCloseCircle></AiFillCloseCircle></button>
-                {props.children}
+            {props.children}
             </div>
             <div className="black-curtain"></div>
         </div>

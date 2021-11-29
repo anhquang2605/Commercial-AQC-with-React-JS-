@@ -10,15 +10,17 @@ import "./customer-service.scss";
 const CustomerService = () => {
     const [list, setList] =  useState(null);
     const SERVICESICONS = {
-        "help and guide": <GiHelp></GiHelp>, 
-        "refunds": <MdAssignmentReturn></MdAssignmentReturn> , 
-        "your account": <MdAccountBox></MdAccountBox> , 
-        "payments": <AiFillCreditCard></AiFillCreditCard>,
-        "gift cards": <FaGift></FaGift>, 
-        "orders": <RiShoppingBag2Fill></RiShoppingBag2Fill>}
+        "help and guide": {icon: <GiHelp></GiHelp>, description: "How to navigate account and others, this is where you can find Q and A and other information reagarding the service and your account"}, 
+        "refunds": {icon: <MdAssignmentReturn></MdAssignmentReturn> , description: "Want to return and get refund on a certain item? look no further"} , 
+        "your account": {icon:  <MdAccountBox></MdAccountBox> , description: "Mange your account, you can update shipping information, payments, giftcards, and other personal informations"}, 
+        "payments": {icon: <AiFillCreditCard></AiFillCreditCard>, description: "Add, delete and update cards that you owned"} ,
+        "gift cards": {icon: <FaGift></FaGift>, description: "Add, delete and update gift cards that you owned"}, 
+        "orders": {icon: <GiHelp></GiHelp>, description: "Keep track of your orders here, consist of current and from the past orders"}}
     useEffect(() => {
         let daList = SERVICEITEMS.map((item)=>{
-            item.extra = SERVICESICONS[item.title];
+            let iconItem = SERVICESICONS[item.title];
+            item.extra = iconItem.icon;
+            item.description = iconItem.description; 
             return item;
         });
         setList(daList);

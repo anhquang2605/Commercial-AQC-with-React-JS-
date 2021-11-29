@@ -14,7 +14,6 @@ const Orders = (props) => {
                 for(let item of orderPack.orderList){
                     item.status = orderPack.status;
                 }
-                console.log(orderPack.orderList);
                 if (orderPack.status === "delivered"){
                     delivered.push(orderPack);
                 } else{

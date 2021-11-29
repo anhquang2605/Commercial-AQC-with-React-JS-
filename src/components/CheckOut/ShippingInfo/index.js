@@ -74,9 +74,25 @@ const ShippingInfo = (props) => {
             address: e.target.value
         }))
     }
-    let updateCurrentShipping = (e) =>{
-        let id = e.target.value;
-        setCurrentShipping(shippingList[id]);
+    let compareTwoShippings = (obj1,obj2) => {
+        if (obj1 === null || obj2 === null) return false;
+        const fields1 = Object.entries(obj1);
+        const fields2 = Object.entries(obj2);
+        if (fields1.length !== fields2.length){
+            return false;
+        }
+        for (let i = 0; i < fields1.length; i += 1){
+            if(fields1[i][0] !== fields2[i][0]){
+                return false;
+            }
+            if(fields1[i][1] !== fields2[i][1]){
+                return false;
+            }
+        }
+        return true;
+    }
+    let updateCurrentShipping = (ship) =>{
+        setCurrentShipping(ship);
     }
         //Submitting form values
     let setShippingAddress = () => {
@@ -91,21 +107,56 @@ const ShippingInfo = (props) => {
             });
         }
     } 
+    let setShippingIfUserPresents = (startID) =>{
+        let shippingsFromAccount = props.account.shippings;
+        if( shippingsFromAccount && shippingsFromAccount.length > 0){
+            setShippingList(shippingsFromAccount);
+            let currentShipping = shippingsFromAccount[startID];
+            if (startID === 0){
+                for (let shipping of shippingsFromAccount){
+                    if (shipping.current === true){
+                        currentShipping = shipping;
+                    }
+                } 
+            } 
+            setCurrentShipping(currentShipping);
+        }
+       
+        
+       
+    }
     //When current shipping changed, update shipping info to Check Out component
     useEffect(()=>{
         if(currentShipping !== undefined){
             props.setShippingForApp(currentShipping);
         }
-    },[currentShipping])
-    //Getting shipping datas from fire store and states data from json file from public directory
-    useEffect(() => {
-        if (props.curShipping === undefined){
-            fetchDataFromFireStore(0);
+    },[currentShipping]);
+    useEffect(()=>{
+        if(props.account !== undefined){
+            setShippingIfUserPresents(0);
+            console.log(currentShipping);
             fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
                 setAllStates(data);
             });
-        } else {     
-            fetchDataFromFireStore(props.curShipping.id);
+        }
+    },[props.account]);
+    //Getting shipping datas from fire store and states data from json file from public directory
+    useEffect(() => {
+        if (props.curShipping === null){
+            if(props.account){
+               setShippingIfUserPresents(0);
+            } else {
+                fetchDataFromFireStore(0);
+            }   
+            fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
+                setAllStates(data);
+            });
+        } else {  
+            if(props.account){
+                setCurrentShipping(props.curShipping);
+             } else {
+                 fetchDataFromFireStore(props.curShipping.id);
+             }   
             fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
                 setAllStates(data);
             });
@@ -114,7 +165,7 @@ const ShippingInfo = (props) => {
     }, []);
 
     return (
-        <div id="shipping-info">
+        <div id="shipping-info" className="sub-section-checkout">
                 <h4 className="check-out-title">Shipping</h4>
                 <Collapsable
                     itemName="shipping"
@@ -142,8 +193,8 @@ const ShippingInfo = (props) => {
                                     <tbody>
                                     {shippingList && currentShipping && shippingList.map((ship)=>{
                                         return(
-                                       <tr key={ship.id}>
-                                           <td><input onClick={updateCurrentShipping} type="radio" name="shipping" checked={currentShipping.id === ship.id} value={ship.id}></input></td>
+                                       <tr key={ship.name}>
+                                           <td><input onClick={()=>{updateCurrentShipping(ship)}} type="radio" name="shipping" checked={compareTwoShippings(currentShipping,ship)} value={ship.id}></input></td>
                                            <td className="ship-name">{ship.name}</td>
                                            <td className="ship-address">{ship.address}</td>
                                        </tr>     
@@ -152,7 +203,7 @@ const ShippingInfo = (props) => {
                                     </tbody>
                                 </table>
                             </div>
-                            <Modal ref={modalRef} extraFuncToCloseMethod name="add_shipping">{/*Provdie name to make unique ID for the modal*/}
+                            <Modal hasTitle={true} ref={modalRef} extraFuncToCloseMethod name="add-shipping">{/*Provdie name to make unique ID for the modal*/}
                                     <span className="aform-field add-shipping-name">
                                         <label className="label">For (Name):</label>
                                         <input value={shippingFormValues.name} onChange={handleNameChange} type="text" placeholder="Enter Name Here"></input>
@@ -161,7 +212,7 @@ const ShippingInfo = (props) => {
                                         <label className="label">Address</label>
                                         <input value={shippingFormValues.address} onChange={handleAddressChange}  type="text" placeholder="Enter Address"></input>
                                     </span>
-                                    <span className="aform-field add-shipping-state">
+                                    <span className="aform-field half add-shipping-state">
                                         <label className="label">State</label>
                                         <select value={shippingFormValues.resiState} onChange={handleStateChange}>
                                             {allStates && allStates.map((daState)=>{
@@ -171,15 +222,15 @@ const ShippingInfo = (props) => {
                                             })}
                                         </select>
                                     </span>
-                                    <span className="aform-field add-shipping-city">
+                                    <span className="aform-field half add-shipping-city">
                                         <label className="label">City</label>
                                         <input value={shippingFormValues.city} onChange={handleCityChange} type="text" placeholder="Enter City"></input>
                                     </span>
-                                    <span className="aform-field add-shipping-zip">
+                                    <span className="aform-field half add-shipping-zip">
                                         <label className="label">Zip</label>
                                         <input value={shippingFormValues.zip} onChange={handleZipChange} type="text" placeholder="Enter zip code"></input>
                                     </span>
-                                <button className="aform-button submit" onClick={setShippingAddress}>Add the Address</button>
+                                <button className="aform-button half submit" onClick={setShippingAddress}>Add the Address</button>
                             </Modal>
                         </div>
                         )

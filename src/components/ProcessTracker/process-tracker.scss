@@ -1,0 +1,82 @@
+
+    .process-tracker{
+        width: 100%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        padding: 0 10%;
+        box-sizing: border-box;
+        margin: 50px 0 100px;
+    }
+    .progress-bar{
+        width: 100%;
+        background: #ececec;
+        height: 5px;
+        border-radius: 3px;
+        position: relative;
+        margin:auto;
+        margin-top: 20px;
+    }
+    .filled-progress{
+        position: absolute;
+        height: 100%;
+        background: indigo;
+        background: linear-gradient(90deg, rgba(88,45,217,1) 0%, indigo 80%);
+        border-radius: 3px;
+        transition: width 0.5s;
+    }
+    .item-list{
+        display: flex;
+        width: 100%;
+        top:0;
+        position: absolute;
+    }
+    .checked-item{
+        width: 50px;
+        height: 50px;
+        box-sizing: border-box;
+        background: #ececec;
+        border: none;
+        border-radius: 50px;
+        position: relative;
+        transition: background-color 0.3s, border 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & span.material-icons{
+            opacity: 0;
+            color: indigo;
+            transition: opacity 0.3s;
+        }
+    }
+    .item-name{
+        margin-top: 5px;
+        color: lightgray;
+        text-transform: capitalize;
+        font-size: 1.2em;
+        font-weight: 500;
+      
+    }
+    .item{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        &.item-done{
+            .checked-item{
+                background: white;
+                border: 5px solid indigo;
+                & span.material-icons{
+                    opacity: 1;
+                }
+            }
+            .item-name{
+                background: indigo;
+                color: white;
+                padding: 5px;
+                border-radius: 5px;
+            }
+        }
+    }
+

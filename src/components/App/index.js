@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Navigator from '../Navigator';
 import Home from '../Home';
 import NavBar from '../NavBar';
@@ -18,6 +18,7 @@ import Orders from '../Account/Orders';
 import Account from '../Account';
 import Cards from '../Account/Cards';
 import GCards from '../Account/GCards'; 
+import AboutUs from '../AboutUs';
 import './app.scss';
 import SignInUpButtons from '../SignInUpButtons';
 import SignIn from '../Account/SignIn';
@@ -27,6 +28,11 @@ import ProtectedRoute from '../Plugins/ProtectedRoute';
 import Help from '../CustomerService/Help';
 import Footer from '../Footer';
 import ContactUs from '../ContactUs';
+import 'overlayscrollbars/css/OverlayScrollbars.css';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import OverlayScrollbars from 'overlayscrollbars';
+import TRACK_ITEM, * as TRACK_ITEMS from './../../Constants/ProcessTrackerItem';
+import ProcessTracker from '../ProcessTracker';
 /*const PageComponents = {
     Home: Home,
     Order: Order,
@@ -52,12 +58,15 @@ const App = (props) =>  {
         const [cartList, setCartList] = useState([]);
         const [curCard, setCurCard] = useState();
         const [curGCards, setCurGCards] = useState([]);
-        const [curShipping, setCurShipping] = useState({});
+        const [curShipping, setCurShipping] = useState(null);
         const [curTotal, setCurTotal] = useState(0);
         const [account, setAccount] = useState(null);
+        const [osRef , setOsRef] = useState();
+        const [refScrollForChild, setRefScrollForChild] = useState();
         const history = useHistory();
-            //for testing purpose
+               //for testing purpose
         //the date
+        const thisref = React.createRef();
         let d = new Date();
         //const firebasecontext =  useContext(FirebaseContext);
         const db = Firebase.firestore();
@@ -197,6 +206,13 @@ const App = (props) =>  {
             }
         }
         //for component that add, edit and delete their data
+        let primaryAsCurrentShipping = (shippingList) => {
+            for(let shipping of shippingList){
+                if(shipping.current === true){
+                    setCurShipping(shipping);
+                }
+            }
+        };
         let reFetchAccount = () =>{
             if(user !== "" && user !== undefined){
                 db.collection("accounts").doc(user).onSnapshot((datas)=>{//use on Snap shot for real time data getting, else use get().then().
@@ -206,6 +222,7 @@ const App = (props) =>  {
                         var account = datas.data();
                         setAccount(account);
                         setCartList(account.kart);
+                        primaryAsCurrentShipping(account.shippings);
                     } else {
                         console.log("no data receive please try again");
                     }
@@ -222,7 +239,14 @@ const App = (props) =>  {
                 }) 
             } 
             setPageName(location.pathname);
+            setRefScrollForChild(thisref.current);
         },[]);
+       /*  useEffect(()=>{
+            if (ref !== undefined && ref.current!==null){
+                setRefScrollForChild(ref);
+                console.log(ref);
+            }
+        },[ref]); */
         useEffect(()=>{//keep track of paths
             setPageName(location.pathname);
         },[location]);
@@ -233,26 +257,40 @@ const App = (props) =>  {
                     var account = datas.data();
                     setAccount(account);
                     setCartList(account.kart);
+                    if(account.shippings && account.shippings.length > 0){
+                        let curShipping = account.shippings[0];
+                        for (let shipping of account.shippings){
+                            if (shipping.current === true) curShipping = shipping;
+                        }
+                        setCurShipping(curShipping);
+                    }
                 }) 
             }
-        },[user])
+        },[user]);
         return(
-            <div className="commercial-AQC">
+            <OverlayScrollbarsComponent ref={thisref}   style={{ height: '100%' }}> 
+            <div id="aqc" className="commercial-AQC">
                 <div className="content">
-                <div className="top-header">
+                {(pageName.search("about-us")) === -1  &&< div className="top-header">
                     <h1 className="site-heading"><Link to="/">Commercial website AQC</Link></h1> 
                     {(pageName.search("result")) === -1  && 
                     <SearchBar></SearchBar>}
-                </div>
-                {(pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && 
-                <Navigator>
+                </div>}
+
+                {(pageName.search("thank-you") === -1 && pageName.search("place-order") === -1 && pageName.search("checkout") === -1 && pageName.search("sign-in") === -1 && pageName.search("sign-up") === -1) && 
+                <Navigator osScrollBar = {refScrollForChild ? refScrollForChild : ""}>
                     {/* <Logo href={ROUTES.HOME} src={'logo.png'}></Logo> */}
                     <NavBar></NavBar>            
                     {(JSON.stringify(account) !== JSON.stringify({}) && account !== null && account !== undefined) && 
                     <Shortcut username={account.nickname || account.username}></Shortcut>}
                     <SignInUpButtons user={user} removeAccount={removeAccountFromApp}></SignInUpButtons>
                 </Navigator>}
-                {((pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) && (pageName.search("/sign-up")!== 0) && (pageName.search("/sign-in")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
+                {((pageName.search("about-us") === -1 && pageName.search("thank-you") === -1 && pageName.search("place-order") === -1 && pageName.search("/kart-detail")!== 0) && (pageName.search("/checkout")!== 0) && (pageName.search("/sign-up")!== 0) && (pageName.search("/sign-in")!== 0) ) && <ShoppingCart  reRendering={handleRerendering} cartList={cartList} removeItem={removeFromCartList}></ShoppingCart>}
+                {(pageName.search("/checkout") !==-1 || pageName.search("/place-order") !==-1 || pageName.search("/thank-you") !== -1) && (
+                    <ProcessTracker page={pageName} name="check-out" list = {[...TRACK_ITEM]}>
+
+                    </ProcessTracker>
+                )}
                 <Switch location={location}>
                     <Route  exact path = {ROUTES.HOME} component = {Home}/>
                     <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
@@ -263,6 +301,7 @@ const App = (props) =>  {
                         render = {(props) => (
                             <CheckOut {...props}
                                     reFetch={reFetchAccount}
+                                    osRef={refScrollForChild}
                                     account={account}
                                     curGCards={curGCards}  
                                     curCard={curCard} 
@@ -272,6 +311,7 @@ const App = (props) =>  {
                                     setGCardForApp={getGCardsFromCheckout} 
                                     setTotalForApp={getTotalFromCheckout}
                                     list={cartList}>
+                                    
                             </CheckOut>)}>
                             </Route>
                     <Route path = {ROUTES.PLACE_ORDER} 
@@ -290,7 +330,7 @@ const App = (props) =>  {
                         </ThankYou>
                         )}></Route>
                     {/* Account Routes  */}
-                    <ProtectedRoute exact path = {ROUTES.ACCOUNT} account={account} component={
+                    <ProtectedRoute path = {ROUTES.ACCOUNT + "/:subpath?"} user={user} account={account} component={
                         <Account {...props} refetchAccount={reFetchAccount} account={account}>
 
                         </Account>
@@ -319,11 +359,17 @@ const App = (props) =>  {
                         <ContactUs {...props} account={account}>
                         </ContactUs>
                     )}/>
+                    <Route path={ROUTES.ABOUT_US} render={(props)=>(
+                        <AboutUs {...props} osRef={refScrollForChild ? refScrollForChild : ""}>
+
+                        </AboutUs>
+                    )} ></Route>
                 </Switch>
                 </div>
-                <Footer></Footer>   
+                {pageName.search("about-us") === -1 && <Footer></Footer>}   
                        
             </div>
+            </OverlayScrollbarsComponent>
         )
 } 
 
