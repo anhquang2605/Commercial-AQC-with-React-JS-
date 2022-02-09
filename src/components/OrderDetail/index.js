@@ -1,13 +1,15 @@
 import {React, useEffect, useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import ImageView from './ImageView';
 import ItemDetail from './ItemDetail';
 import OrderTypeRadio from './OrderTypesRadio/OrderTypeRadio';
 import ORDERS from '../../model/Orders';
 import './order-detail.scss';
 const OrderDetail = (props) => {
-    const history = useHistory();
-    let idFromParams = props.match.params.id - 1;
+    const history = useNavigate();
+    let params = useParams();
+    let idFromParams = params.id - 1;
     let theOrder = ORDERS[idFromParams];
     let getImgSrcFromType = (type) =>{
         return order.id + "-" + type + ".jpg";

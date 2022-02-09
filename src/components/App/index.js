@@ -3,7 +3,7 @@ import Navigator from '../Navigator';
 import Home from '../Home';
 import NavBar from '../NavBar';
 import SearchBar from '../SearchBar';
-import { Route, Switch, useLocation, useHistory, Link} from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate, Link, Navigate} from 'react-router-dom';
 import * as ROUTES from '../../Constants/Routes';
 import SearchResult from '../SearchResult';
 import OrderDetail from '../OrderDetail';
@@ -24,7 +24,6 @@ import SignInUpButtons from '../SignInUpButtons';
 import SignIn from '../Account/SignIn';
 import SignUp from '../Account/SignUp'; 
 import CustomerService from '../CustomerService';
-import ProtectedRoute from '../Plugins/ProtectedRoute';
 import Help from '../CustomerService/Help';
 import Footer from '../Footer';
 import ContactUs from '../ContactUs';
@@ -43,9 +42,9 @@ import ProcessTracker from '../ProcessTracker';
 /*const  LISTOFROUTES = NAVITEMS.ITEMS.map((item)=>{
     const TagName = item.name.split(' ').join('')
     if(item.name == "Home"){
-        return <Route key={item.name} value ={item.route} exact path = {item.route} component={Home}/>
+        return <Route key={item.name} value ={item.route} exact path = {item.route} element={Home}/>
     } else {
-        return <Route key={item.name} value ={item.route} path = {item.route} component={Home}/>
+        return <Route key={item.name} value ={item.route} path = {item.route} element={Home}/>
     }
 }
 );*/
@@ -63,7 +62,7 @@ const App = (props) =>  {
         const [account, setAccount] = useState(null);
         const [osRef , setOsRef] = useState();
         const [refScrollForChild, setRefScrollForChild] = useState();
-        const history = useHistory();
+        const history = useNavigate();
                //for testing purpose
         //the date
         const thisref = React.createRef();
@@ -80,9 +79,9 @@ const App = (props) =>  {
             setUser("");
             setAccount(null);
             setCartList([]);
-            history.push("");
+            history("/");
         }
-        //Ref to Check out component
+        //Ref to Check out element
         let isInCart = (name, type) =>{
             var i = 0;
             var length = cartList.length;
@@ -182,7 +181,7 @@ const App = (props) =>  {
             if (val === 0) removeFromCartList(index);
             else  cartList[index].quantity = val;
         }
-        //Set Gcard, card, and shipping for app from within checkout component
+        //Set Gcard, card, and shipping for app from within checkout element
         let getCardFromCheckout = (obj) =>{
             setCurCard(obj);
         }
@@ -205,7 +204,7 @@ const App = (props) =>  {
                 })
             }
         }
-        //for component that add, edit and delete their data
+        //for element that add, edit and delete their data
         let primaryAsCurrentShipping = (shippingList) => {
             for(let shipping of shippingList){
                 if(shipping.current === true){
@@ -291,15 +290,15 @@ const App = (props) =>  {
 
                     </ProcessTracker>
                 )}
-                <Switch location={location}>
-                    <Route  exact path = {ROUTES.HOME} component = {Home}/>
-                    <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} component = {SearchResult}/>
-                    <Route path = {ROUTES.ORDERS + "/:id"} render={(props) => (<OrderDetail {...props} addItem={addToCartList} reRendering={handleRerendering}></OrderDetail>)}></Route>
-                    <Route path = {ROUTES.KART_DETAIL} render={(props) => (<KartDetail {...props} list={cartList} removeItem={removeFromCartList} changeQuantity={handleChangeOfQuantity} rerenderer={handleRerendering}></KartDetail>)}></Route>
+                <Routes location={location}>
+                    <Route  exact path = {ROUTES.HOME} element = {<Home/>}/>
+                    <Route  path = {ROUTES.SEARCH_RESULT+"/:name?/:type?/:spec?/:dis?"} element = {<SearchResult/>}/>
+                    <Route path = {ROUTES.ORDERS + "/:id"} element={<OrderDetail addItem={addToCartList} reRendering={handleRerendering}/>}></Route>
+                    <Route path = {ROUTES.KART_DETAIL} element={<KartDetail list={cartList} removeItem={removeFromCartList} changeQuantity={handleChangeOfQuantity} rerenderer={handleRerendering}/>}></Route>
                     <Route 
                         path = {ROUTES.CHECK_OUT} 
-                        render = {(props) => (
-                            <CheckOut {...props}
+                        element= {
+                            <CheckOut
                                     reFetch={reFetchAccount}
                                     osRef={refScrollForChild}
                                     account={account}
@@ -310,61 +309,48 @@ const App = (props) =>  {
                                     setCardForApp={getCardFromCheckout} 
                                     setGCardForApp={getGCardsFromCheckout} 
                                     setTotalForApp={getTotalFromCheckout}
-                                    list={cartList}>
-                                    
-                            </CheckOut>)}>
+                                    list={cartList}/>}>
                             </Route>
                     <Route path = {ROUTES.PLACE_ORDER} 
-                        render={(props) => (
+                        element={
                             <PlaceOrder
-                                {...props} 
                                 cartList={cartList}
                                 total={curTotal}
                                 shipping={curShipping}
                                 card={curCard}
-                                >
-                            </PlaceOrder>)}>
+                                />}>
                     </Route>
-                    <Route path = {ROUTES.THANK_YOU} render={(props)=>(
-                        <ThankYou {...props} account={account} flushCart={flushCart} addToOrderAfterCheckOut={addToOrderAfterCheckOut}>
-                        </ThankYou>
-                        )}></Route>
+                    <Route path = {ROUTES.THANK_YOU} element={
+                        <ThankYou  account={account} flushCart={flushCart} addToOrderAfterCheckOut={addToOrderAfterCheckOut}/>}></Route>
                     {/* Account Routes  */}
-                    <ProtectedRoute path = {ROUTES.ACCOUNT + "/:subpath?"} user={user} account={account} component={
-                        <Account {...props} refetchAccount={reFetchAccount} account={account}>
 
-                        </Account>
-                    }>
-                    </ProtectedRoute>
-                  {/*   <ProtectedRoute path = {ROUTES.ACCOUNT + '/orders'} account={account} component ={
+                    <Route path = {ROUTES.ACCOUNT + '/:subpath'} element={(user&&account?
+                        <Account refetchAccount={reFetchAccount} account={account}/> : <Navigate to={ROUTES.SIGN_IN}/>)}>
+                    </Route>
+                  {/*   <ProtectedRoute path = {ROUTES.ACCOUNT + '/orders'} account={account} element ={
                         account && account.orders ? <Orders {...props} ordersOfAccount={account.orders}></Orders> : <span className="no-order">No order found</span>
                     }></ProtectedRoute>
-                    <ProtectedRoute path = {ROUTES.ACCOUNT + '/cards'} account={account} component ={
+                    <ProtectedRoute path = {ROUTES.ACCOUNT + '/cards'} account={account} element ={
                         account && account.cards ? <Cards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.cards}>
                             
                         </Cards> : ""
                         }></ProtectedRoute>
-                    <ProtectedRoute path = {ROUTES.ACCOUNT + '/gcards'} account={account} component ={
+                    <ProtectedRoute path = {ROUTES.ACCOUNT + '/gcards'} account={account} element ={
                         account && account.gcards? <GCards reFetch={reFetchAccount} {...props} accountID={account.username} list={account.gcards}></GCards> : ""
                     }></ProtectedRoute> */}
-                    <Route path ={ROUTES.SIGN_IN} render={(props)=>(
-                            <SignIn {...props} setUserForApp = {setUserForApp}>
-
-                        </SignIn>
-                    )}/>
-                      <Route path ={ROUTES.SIGN_UP} component={SignUp}/>
-                    <Route exact path = {ROUTES.CUSTOMER} component={CustomerService}></Route>
-                    <Route path = {ROUTES.CUSTOMER + ROUTES.HELP  + "/:section?/:sub?"} component={Help}></Route>
-                    <Route path = {ROUTES.CONTACT_US} render={(props)=>(
-                        <ContactUs {...props} account={account}>
-                        </ContactUs>
-                    )}/>
-                    <Route path={ROUTES.ABOUT_US} render={(props)=>(
-                        <AboutUs {...props} osRef={refScrollForChild ? refScrollForChild : ""}>
-
-                        </AboutUs>
-                    )} ></Route>
-                </Switch>
+                    <Route path ={ROUTES.SIGN_IN} element={
+                            <SignIn {...props} setUserForApp = {setUserForApp}/>
+                    }/>
+                      <Route path ={ROUTES.SIGN_UP} element={<SignUp/>}/>
+                    <Route exact path = {ROUTES.CUSTOMER} element={<CustomerService/>}></Route>
+                    <Route path = {ROUTES.CUSTOMER + ROUTES.HELP} element={<Help/>}></Route>
+                    <Route path = {ROUTES.CUSTOMER + ROUTES.HELP + "/:sub/:section" } element={<Help/>}></Route>
+                    <Route path = {ROUTES.CONTACT_US} element={
+                        <ContactUs {...props} account={account}/>
+                    }/>
+                    <Route path={ROUTES.ABOUT_US} element={
+                        <AboutUs {...props} osRef={refScrollForChild ? refScrollForChild : ""}/>}></Route>
+                </Routes>
                 </div>
                 {pageName.search("about-us") === -1 && <Footer></Footer>}   
                        

@@ -67,6 +67,7 @@ const CheckOut = React.forwardRef((props, ref) => {
     }
     let setMyCard = (id) => {
         setCard(cards[id]);
+        props.setCardForApp(cards[id]);
     }
     //Get total price info from total price component
     let getTotalFromWithinPriceTotalComp = (num) => {
@@ -94,8 +95,8 @@ const CheckOut = React.forwardRef((props, ref) => {
        }
     }, []);
     useEffect(()=>{
-        props.setCardForApp(card);
-    }, [card])
+        console.log(card,cards)
+    },[card,cards])
     return (
         <div id="check_out">
             <div className="left-container">

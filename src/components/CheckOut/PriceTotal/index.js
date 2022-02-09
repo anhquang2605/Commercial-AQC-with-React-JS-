@@ -31,7 +31,6 @@ const PriceTotal = (props) => {
         if(totalPriceComp && checkout){
             let compOffsetTop = checkout.getBoundingClientRect().top;
             var handleOffsetOfScroll = target.scroll().handleOffset.y;
-            console.log(compOffsetTop, handleOffsetOfScroll);
             if(compOffsetTop < handleOffsetOfScroll){
                 totalPriceComp.classList.add("sticky");
             } else {

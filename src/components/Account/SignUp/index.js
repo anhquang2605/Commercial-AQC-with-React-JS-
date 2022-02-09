@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import AwesomeForm from '../../AwesomeForm';
 import Firebase from '../../Firebase';
 import bcrypt from 'bcryptjs';
@@ -18,7 +18,7 @@ const SignUp = () => {
     const db = Firebase.firestore();
     const USER_LENGTH_MINIMUM = 6;
     const PASSWORD_LENGTH_MINUMUM = 8;
-    const history = useHistory();
+    const history = useNavigate();
     let handleUserNameChange = (e) =>{
         setUsername(e.target.value);
     }
@@ -90,7 +90,7 @@ const SignUp = () => {
                 }
                 db.collection("users").doc(userName).set(user);
                 db.collection("accounts").doc(userName).set(account);
-                history.push("/sign-in");
+                history("/sign-in");
             }
             
         }

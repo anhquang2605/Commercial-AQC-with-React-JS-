@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import { useHistory} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import emailjs, {init} from 'emailjs-com';
 import './email-form.scss';
 import './../../AwesomeForm/awesome-form.scss';
@@ -12,7 +12,7 @@ const EmailForm = (props) => {
     const [name, setName] = useState();
     const [emailSent, setEmailSent] = useState(false);
     const [success, setSuccess] = useState(true);
-    const history = useHistory();
+    const history = useNavigate();
     let sendEmail = (e) => {
         e.preventDefault();
        // emailjs.sendForm(EMAIL_SETTINGS.id);
@@ -30,7 +30,6 @@ const EmailForm = (props) => {
         var promise = new Promise((resolve, reject)=>{
             let buttonWidth = e.target.offsetWidth;
             let buttonHeight = e.target.offsetHeight;
-            console.log(buttonHeight,buttonWidth);
             let loadingHTML = document.getElementsByClassName("loading")[0];
             let expndCirHTML =  document.getElementsByClassName("expanding-circle")[0];    
             loadingHTML.style.display = "block";
@@ -45,7 +44,6 @@ const EmailForm = (props) => {
                 (result)=>{
                 let sentHTML = document.getElementById("sent"); 
                 sentHTML.style.display = "flex";
-                console.log(result.text);
                 setTimeout(()=>{
                     setEmailSent(true);
                     setSuccess(true);
@@ -57,11 +55,8 @@ const EmailForm = (props) => {
                     setEmailSent(true);
                     setSuccess(false);
                 },1000)
-                console.log(error.text);
             });   
         });
-      
-       
     }
     let handleEmail = (e) =>{
         setEmail(e.target.value);

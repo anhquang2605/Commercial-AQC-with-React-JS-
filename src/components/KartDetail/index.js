@@ -1,12 +1,12 @@
 import {React, useEffect, useState} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import ORDERS from '../../model/Orders';
 import SadBag from './SadBag';
 import './kart-detail.scss';
 const KartDetail = (props) => {
     const [list,setList] = useState(props.list);
     const [,setState] = useState();
-    const history = useHistory();
+    const history = useNavigate();
     let handleQuantityChange = (e, index) => {
         let val = parseInt(e.target.value);
         props.changeQuantity(index, val);

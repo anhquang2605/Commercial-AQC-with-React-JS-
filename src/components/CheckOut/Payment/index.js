@@ -103,8 +103,9 @@ const Payment = (props) => {
         }
         
     }
-    let handleChangeCard = (id) => {
-        props.setMyCard(id);
+    let handleChangeCard = (event) => {
+        props.setMyCard(event.target.value);
+        
     }
     //Handle add card from modal
     let handleAddCard = () => {
@@ -147,7 +148,6 @@ const Payment = (props) => {
     useState(()=>{
         handleDiscount();
     },[]);
-
     return (
         <div id="payment" className="sub-section-checkout">
                 <h4 className="check-out-title">Payment</h4>
@@ -172,13 +172,13 @@ const Payment = (props) => {
                                 );
                                 
                             })}
-                             </div> : <div className="no-chosen-gcard">No gift card chosen, you owned<b>{" " + userGcards.length}</b>gift cards </div>}
+                             </div> : <div className="no-chosen-gcard">No gift card chosen, you owned <b>{' ' + userGcards.length + ' '}</b>gift cards </div>}
                              <button  className="change-card" onClick={handleChange}>Change</button>
                     </div>
                    <div id="change-card-field" className="display-none">{/*initially hidden, appear when click change button in #chosen-card*/}
                         <div className="card-container-change">{/*change field for card*/}
                             <h4>Cards for payment</h4>
-                            {props.cards.length !== 0? <table>
+                            {props.cards.length > 0? <table>
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -191,7 +191,7 @@ const Payment = (props) => {
                                     {props.cards  && props.cards.map((card)=>{
                                         return(
                                            <tr key={card["id"]}>
-                                               { <td className="radio-value"><input onChange={()=>{handleChangeCard(card["id"])}} defaultChecked={card["id"] === props.card["id"] } type="radio" name="card" value={card["id"]}></input></td>}
+                                               { <td className="radio-value"><input onChange={handleChangeCard} checked={card["id"] === props.card["id"] } type="radio" name="card" value={card["id"]}/></td>}
                                                 <td className="card-name"><b>{card.name} {" " + card.type}</b> ending in {card["card number"].slice(12)}</td>
                                                 <td className="card-owner">{card.owner.toUpperCase()}</td>
                                                 <td className="card-exp">{card["exp month"]}/{card["exp year"]}</td>

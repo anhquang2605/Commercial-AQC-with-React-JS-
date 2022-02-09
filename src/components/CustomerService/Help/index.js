@@ -2,14 +2,12 @@ import React, {useState, useEffect} from 'react';
 import CollapseTab from './../../Plugins/CollapseTab';
 import Firebase from './../../Firebase';
 import './help.scss';
+import { useParams } from 'react-router';
 const Help = (props) => {
-    let {sub,section} = props.match.params;
+    let {sub,section} = useParams();
     const db = Firebase.firestore();
     const LIST_MAIN_ITEMS = ["helps", "guides"];
     let preparedList;
-    let updateCurrentItem = (item) =>{
-        setCurrentItem(item);
-    }
     const [list, setList] = useState([
         {
             title: "helps",
@@ -30,7 +28,7 @@ const Help = (props) => {
                 let newArr = [...list];
                 newArr[i].content =  <ul className={LIST_MAIN_ITEMS[i] + " side-panel-items"}>{daList.map((item)=>(
                     <li key={item.title} className="help-list-item" onClick={()=>{
-                        updateCurrentItem(item);
+                        setCurrentItem(item);
                     }}>{item.title}</li>))}
                     </ul>;
                 setList(newArr);
@@ -59,12 +57,12 @@ const Help = (props) => {
         if(proccessedList.length !== 0){
             //whenever params changes or the List is ready, update the current Item
             if(sub && section){
-                db.collection(section).doc(sub.replaceAll("_"," ")).get().then((snap)=>{
+                db.collection(sub).doc(section.replaceAll("_"," ")).get().then((snap)=>{
                     setCurrentItem(snap.data());
                 })
             }
         }
-    },[proccessedList,props.match.params]);
+    },[proccessedList,sub,section]);
     return (
         <div className="help">
             <h4>Help</h4>

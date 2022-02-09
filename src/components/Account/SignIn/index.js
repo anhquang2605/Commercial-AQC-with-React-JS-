@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {useHistory, Link} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import AwesomeForm from '../../AwesomeForm';
 import bcrypt from 'bcryptjs';
 import Firebase from './../../Firebase';
 import './sign-in.scss';
 const SignIn = (props) => {
-    const history = useHistory();
+    const history = useNavigate();
     const [passwordField, setPasswordField] = useState("");
     const [usernameField, setUsernameField] = useState("");
     const [password, setPassword] = useState("");
@@ -33,10 +33,10 @@ const SignIn = (props) => {
             if(res){
                 setPasswordMatch(true);
                 props.setUserForApp(user);
-                history.push("");
+                console.log(user);
+                history("/");
             } else {
                 setPasswordMatch(false);
-                console.log("Wrong pass word or ID")
             }   
         })
     }
@@ -116,7 +116,7 @@ const SignIn = (props) => {
                         </input>
                     </span>
                     <button className={"aform-button submit"} onClick={()=>{
-                        history.push("/sign-up");
+                        history("/sign-up");
                     }}>Sign Up</button>
                     <button className={"aform-button submit"+ (readyForPassword ? " " : " hidden-btn")} onClick={()=>{setReadyForPassword(false); setUser(""); setPasswordMatch(true)}}>Change username</button>
                     <button className="aform-button submit" onClick={handleSignIn}>{!readyForPassword ? "Next" : "Sign In"}</button>

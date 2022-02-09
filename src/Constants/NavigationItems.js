@@ -1,3 +1,4 @@
+import {React} from 'react';
 export let ITEMS = [
     { name: "Home",
       route: "/",

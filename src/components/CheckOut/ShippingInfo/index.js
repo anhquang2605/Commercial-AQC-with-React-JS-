@@ -134,7 +134,6 @@ const ShippingInfo = (props) => {
     useEffect(()=>{
         if(props.account !== undefined){
             setShippingIfUserPresents(0);
-            console.log(currentShipping);
             fetch("USstates.json").then((dat)=>dat.json()).then(data=>{
                 setAllStates(data);
             });
@@ -194,7 +193,7 @@ const ShippingInfo = (props) => {
                                     {shippingList && currentShipping && shippingList.map((ship)=>{
                                         return(
                                        <tr key={ship.name}>
-                                           <td><input onClick={()=>{updateCurrentShipping(ship)}} type="radio" name="shipping" checked={compareTwoShippings(currentShipping,ship)} value={ship.id}></input></td>
+                                           <td><input onChange={()=>{updateCurrentShipping(ship)}} type="radio" name="shipping" checked={compareTwoShippings(currentShipping,ship)} value={ship.id}></input></td>
                                            <td className="ship-name">{ship.name}</td>
                                            <td className="ship-address">{ship.address}</td>
                                        </tr>     

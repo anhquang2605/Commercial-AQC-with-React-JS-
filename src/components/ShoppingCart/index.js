@@ -125,6 +125,7 @@ const ShoppingCart = (props) => {
             </div>
           
             {(list.length>0) && <div className="button-group"> <Link className="cart-check-out-btn btn" to="/checkout" onClick={()=>{}}><IoBagCheckOutline></IoBagCheckOutline>Check out</Link> <Link className="btn kart-detail-btn" to="/kart-detail"><FiShoppingCart></FiShoppingCart> View kart</Link></div>}
+
         </div>
     );
 }
