@@ -17,6 +17,7 @@
     "crypto-js": "^4.1.1",
     "emailjs-com": "^2.6.4",
     "firebase": "^9.6.6",
+    "gh-pages": "^5.0.0",
     "google-map-react": "^2.1.10",
     "jquery": "^3.6.0",
     "overlayscrollbars": "^1.13.1",
@@ -35,6 +36,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -63,7 +66,6 @@
     "react-error-overlay": "^6.0.9",
     "string-to-react": "^1.0.2"
   },
-  "optionalDependencies": {},
   "browser": {
     "crypto": false
   }
