@@ -1,15 +1,19 @@
 import React from 'react';
 import SearchForm from './SearchForm';
 import ResultDisplay from './ResultDisplay';
+import { useParams } from 'react-router-dom';
 import './search_result.scss';
+function withParams(Component){
+    return props => <Component {...props} params={useParams()} />;
+}
 class SearchResult extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            name: this.props.match.params.name,
-            type: this.props.match.params.type,
-            spec: this.props.match.params.spec,
-            dis: this.props.match.params.dis,
+            name: this.props.params.name,
+            type: this.props.params.type,
+            spec: this.props.params.spec,
+            dis: this.props.params.dis,
             max: 0,
             min: 0,
             inStock: false,
@@ -17,8 +21,8 @@ class SearchResult extends React.Component{
         this.onSubmitSearch = this.onSubmitSearch.bind(this);
     }
     static getDerivedStateFromProps(props,state){//To process props and prepair state for component before mounting for the first time
-        if(props.match.params.dis){
-            const disRange = props.match.params.dis.split("-");
+        if(props.params.dis){
+            const disRange = props.params.dis.split("-");
 
             return({
                 max: parseInt(disRange[1]),
@@ -46,4 +50,4 @@ class SearchResult extends React.Component{
     }
 }
 
-export default SearchResult;
+export default withParams(SearchResult);
