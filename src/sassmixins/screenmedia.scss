@@ -1,0 +1,48 @@
+$xsm: 374px; // For extra small 
+$sm: 576px; // For small 
+$md: 768px; // For medium 
+$lg: 992px; // For large 
+$xl: 1200px; // For extra larger 
+$xxl: 1400px; // For larger
+
+//For Extra Small
+@mixin xsm {
+    @media screen and (max-width: ($xsm)) {
+      @content;
+    }
+  }
+  
+  //For Small
+  @mixin sm {
+    @media screen and (max-width: ($sm)) {
+      @content;
+    }
+  }
+  
+  //For Medium
+  @mixin md {
+    @media screen and (max-width: ($md)) {
+      @content;
+    }
+  }
+  
+  //For large
+  @mixin lg {
+    @media screen and (max-width: ($lg)) {
+      @content;
+    }
+  }
+  
+  //For Extra Large
+  @mixin xl {
+    @media screen and (max-width: ($xl)) {
+      @content;
+    }
+  }
+  
+  //For Extra Extra Large
+  @mixin xxl {
+    @media screen and (max-width: ($xxl)) {
+      @content;
+    }
+  }
