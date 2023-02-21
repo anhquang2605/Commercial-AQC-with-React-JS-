@@ -1,0 +1,40 @@
+{
+  "files": {
+    "main.css": "/Commercial-AQC-with-React-JS-/static/css/main.0d08599f.css",
+    "main.js": "/Commercial-AQC-with-React-JS-/static/js/main.f381abb1.js",
+    "static/js/787.0d7e6990.chunk.js": "/Commercial-AQC-with-React-JS-/static/js/787.0d7e6990.chunk.js",
+    "static/media/christmas.jpg": "/Commercial-AQC-with-React-JS-/static/media/christmas.f1c7ab9b4257c286f2f8.jpg",
+    "static/media/valentine.jpg": "/Commercial-AQC-with-React-JS-/static/media/valentine.0193194919516f40821b.jpg",
+    "static/media/thanksg.jpg": "/Commercial-AQC-with-React-JS-/static/media/thanksg.7362a58f0b8486565629.jpg",
+    "static/media/logo.png": "/Commercial-AQC-with-React-JS-/static/media/logo.b2e8a67d50a87b5ac248.png",
+    "static/media/Payment Confirmation.pdf": "/Commercial-AQC-with-React-JS-/static/media/Payment Confirmation.5094b5d6b1f5eac33e4d.pdf",
+    "static/media/haloween.jpg": "/Commercial-AQC-with-React-JS-/static/media/haloween.01a6ac9e9ac1b932b218.jpg",
+    "static/media/SummerYesterday-nRn5O.ttf": "/Commercial-AQC-with-React-JS-/static/media/SummerYesterday-nRn5O.60afa326ed9dad8467f3.ttf",
+    "static/media/gc_xmas.jpg": "/Commercial-AQC-with-React-JS-/static/media/gc_xmas.c2ce5bcec9c24771a9bb.jpg",
+    "static/media/Letter - Google Docs.pdf": "/Commercial-AQC-with-React-JS-/static/media/Letter - Google Docs.9c2d2c58d99572756708.pdf",
+    "static/media/discount.jpg": "/Commercial-AQC-with-React-JS-/static/media/discount.d072a7acae25a93cc5ec.jpg",
+    "static/media/debit.jpg": "/Commercial-AQC-with-React-JS-/static/media/debit.38e8e3c11b45587ad8f3.jpg",
+    "static/media/kirby.jpg": "/Commercial-AQC-with-React-JS-/static/media/kirby.6553376ef98d8a32008a.jpg",
+    "static/media/10-red.jpg": "/Commercial-AQC-with-React-JS-/static/media/10-red.90abff3cc708e400b132.jpg",
+    "static/media/22-red.jpg": "/Commercial-AQC-with-React-JS-/static/media/22-red.ecbd48695a9cf7ce3c9c.jpg",
+    "static/media/23-red.jpg": "/Commercial-AQC-with-React-JS-/static/media/23-red.844c21fad6f7bd8ffcd9.jpg",
+    "static/media/25-red.jpg": "/Commercial-AQC-with-React-JS-/static/media/25-red.d0aa101e8db97f3ded8c.jpg",
+    "static/media/10-blue.jpg": "/Commercial-AQC-with-React-JS-/static/media/10-blue.42c1bd9109f2c39136ee.jpg",
+    "static/media/24-red.jpg": "/Commercial-AQC-with-React-JS-/static/media/24-red.23516dee004842d70a84.jpg",
+    "static/media/8-red.jpg": "/Commercial-AQC-with-React-JS-/static/media/8-red.6adb99701300ffa1e3e9.jpg",
+    "static/media/8-blue.jpg": "/Commercial-AQC-with-React-JS-/static/media/8-blue.418f96e55208fd818709.jpg",
+    "static/media/8-green.jpg": "/Commercial-AQC-with-React-JS-/static/media/8-green.8db52988a31258f25d42.jpg",
+    "static/media/12-red.jpg": "/Commercial-AQC-with-React-JS-/static/media/12-red.662c7613fc8f915debdd.jpg",
+    "static/media/2-blue.jpg": "/Commercial-AQC-with-React-JS-/static/media/2-blue.2f7c809a0430dab45462.jpg",
+    "static/media/11-pink.jpg": "/Commercial-AQC-with-React-JS-/static/media/11-pink.d4b8b1c8a9ae87bb17ff.jpg",
+    "static/media/16-red.jpg": "/Commercial-AQC-with-React-JS-/static/media/16-red.5b9d9929baf69d0fad5d.jpg",
+    "index.html": "/Commercial-AQC-with-React-JS-/index.html",
+    "main.0d08599f.css.map": "/Commercial-AQC-with-React-JS-/static/css/main.0d08599f.css.map",
+    "main.f381abb1.js.map": "/Commercial-AQC-with-React-JS-/static/js/main.f381abb1.js.map",
+    "787.0d7e6990.chunk.js.map": "/Commercial-AQC-with-React-JS-/static/js/787.0d7e6990.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0d08599f.css",
+    "static/js/main.f381abb1.js"
+  ]
+}
